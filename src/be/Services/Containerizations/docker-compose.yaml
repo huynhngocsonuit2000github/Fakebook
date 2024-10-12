@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  user-compose-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: user-compose-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=admin1234$
+    ports:
+      - "2433:1433"
+    networks:
+      - docker_compose_network
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  user-compose-user-service:
+    image: fakebook.userservice:v001
+    container_name: user-compose-user-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=user-compose-sqlserver,1433;Database=UserDatabase;User Id=sa;Password=admin1234$;
+    ports:
+      - "6000:80"
+    depends_on:
+      - user-compose-sqlserver
+    networks:
+      - docker_compose_network
+
+networks:
+  docker_compose_network:
+    driver: bridge
+
+volumes:
+  mssql-data:

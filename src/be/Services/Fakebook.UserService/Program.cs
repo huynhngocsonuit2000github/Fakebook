@@ -13,6 +13,7 @@ using Fakebook.DataAccessLayer.Implementaions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -51,11 +52,15 @@ builder.Services.AddAuthorization();
 // Register your TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+// Database Setup - checking
+var environment = builder.Environment.EnvironmentName;
+Console.WriteLine($"Environment: {environment}");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"Connection String Used: {connectionString}");
 
 // Database Setup
 builder.Services.AddDbContext<ServiceContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+    options.UseSqlServer(connectionString));
 
 
 builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
@@ -76,14 +81,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsStaging() || app.Environment.IsProduction())
+// Apply pending migrations to ensure the data is setup
+using (var scope = app.Services.CreateScope())
 {
-    // TO BE USED
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<ServiceContext>();
-        dbContext.Database.Migrate(); // Apply pending migrations
-    }
+    var dbContext = scope.ServiceProvider.GetRequiredService<ServiceContext>();
+    dbContext.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

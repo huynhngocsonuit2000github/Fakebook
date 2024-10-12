@@ -6,4 +6,8 @@
 --     ('4', 'Bob', 'Brown', 'bob.brown', 'bob.brown@example.com', 'hashed_password_4', 'Howdy! I am Bob.', NULL, 'Admin', 'Admin', GETDATE(), GETDATE(), 0),
 --     ('5', 'Charlie', 'Davis', 'charlie.davis', 'charlie.davis@example.com', 'hashed_password_5', 'Hello! I am Charlie.', NULL, 'Admin', 'Admin', GETDATE(), GETDATE(), 0);
 
-SELECT * FROM USERS WHERE Username='ustest3';
+-- SELECT * FROM USERS WHERE Username='ustest3' AND [PasswordHash]='pwtest3';
+
+SELECT * FROM USERS;
+
+
