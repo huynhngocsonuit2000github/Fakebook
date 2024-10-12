@@ -1,0 +1,2 @@
+- ASP.NET core: Create global error handling
+- 
