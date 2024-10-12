@@ -1,7 +1,15 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using UserService.Authentication.Models;
 using UserService.Entity;
-using UserService.Models.Users;
+using UserService.Dtos.Users;
 using UserService.Services;
+using System.Text.Json;
 namespace UserService.Controllers
 {
     [ApiController]
@@ -9,12 +17,17 @@ namespace UserService.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserUservice _userUservice;
+        private readonly ITokenService _tokenService;
+        private readonly JwtSettings _jwtSettings;
 
-        public UserController(IUserUservice userUservice)
+        public UserController(IUserUservice userUservice, ITokenService tokenService, IOptions<JwtSettings> jwtSettings)
         {
             _userUservice = userUservice;
+            _tokenService = tokenService;
+            _jwtSettings = jwtSettings.Value;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsersAsync()
         {
@@ -31,6 +44,7 @@ namespace UserService.Controllers
             return Ok(userId);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserAsync(string id)
         {
@@ -44,6 +58,29 @@ namespace UserService.Controllers
             var userModel = GetUserModel.FromEntity(user);
 
             return Ok(userModel);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequest login)
+        {
+            var user = await _userUservice.GetUserByUsernameAsync(login.Username);
+
+            if (user is null || !string.Equals(login.Password, user.PasswordHash, StringComparison.OrdinalIgnoreCase))
+            {
+                return Unauthorized("Invalid credential");
+            }
+
+            var token = _tokenService.GenerateToken(user);
+            return Ok(token);
+        }
+
+        [Authorize]
+        [HttpPatch("update")]
+        public async Task<IActionResult> UpdateAsync(UpdateUserRequest user)
+        {
+            await _userUservice.UpdateAsync(user);
+
+            return NoContent();
         }
     }
 }

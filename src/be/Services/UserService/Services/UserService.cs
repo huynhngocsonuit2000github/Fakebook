@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using UserService.Data;
+using UserService.Dtos.Users;
 using UserService.Entity;
 using UserService.Repositories;
 
@@ -21,14 +22,14 @@ namespace UserService.Services
         {
             using var unitOfWork = _unitOfWork;
 
-            var duplicatedEmail = await  _userRepository.FindFirstAsync(e => e.Email.ToLower() == user.Email.ToLower());
+            var duplicatedEmail = await _userRepository.FindFirstAsync(e => e.Email.ToLower() == user.Email.ToLower());
             if (duplicatedEmail is not null)
             {
                 throw new Exception($"Duplicate email: {duplicatedEmail.Email}");
             }
 
-            var duplicatedUserName = await  _userRepository.FindFirstAsync(e => e.Username.ToLower() == user.Username.ToLower());
-            if(duplicatedUserName is not null)
+            var duplicatedUserName = await _userRepository.FindFirstAsync(e => e.Username.ToLower() == user.Username.ToLower());
+            if (duplicatedUserName is not null)
             {
                 throw new Exception($"Duplicate username: {duplicatedUserName.Username}");
             }
@@ -47,6 +48,27 @@ namespace UserService.Services
         public async Task<User> GetUserByIdAsync(string id)
         {
             return await _userRepository.GetByIdAsync(id);
+        }
+
+        public async Task<User?> GetUserByUsernameAsync(string username)
+        {
+            return await _userRepository.FindFirstAsync(u => u.Username == username);
+        }
+
+        public async Task UpdateAsync(UpdateUserRequest userRequest)
+        {
+            var existingUser = await _userRepository.GetByIdAsync(userRequest.UserId);
+            if (existingUser is null) throw new Exception("The user is not exists");
+
+            var authenticatedUser = await _userRepository.GetAuthenticatedUserAsync();
+            if (authenticatedUser is null) throw new Exception("Authenticated user is invalid");
+
+            existingUser.Firstname = userRequest.Firstname ?? existingUser.Firstname;
+            existingUser.Lastname = userRequest.Lastname ?? existingUser.Lastname;
+            existingUser.LastModifiedBy = authenticatedUser.Id;
+            existingUser.LastModifiedDate = DateTime.Now;
+
+            await _unitOfWork.CompleteAsync();
         }
     }
 }

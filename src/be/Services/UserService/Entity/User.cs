@@ -9,5 +9,9 @@ namespace UserService.Entity
         public string PasswordHash { get; set; } = null!;
         public string? Bio { get; set; } = null!;
         public string? ProfilePictureUrl { get; set; } = null!;
+        public bool IsActive { get; set; } = true;
+        
+
+        public virtual IEnumerable<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }
