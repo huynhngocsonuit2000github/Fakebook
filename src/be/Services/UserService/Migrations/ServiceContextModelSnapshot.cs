@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserService.Data;
+using Fakebook.UserService.Data;
 
 #nullable disable
 
-namespace UserService.Migrations
+namespace Fakebook.UserService.Migrations
 {
     [DbContext(typeof(ServiceContext))]
     partial class ServiceContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace UserService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("UserService.Entity.Permission", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.Permission", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -56,7 +56,7 @@ namespace UserService.Migrations
                     b.ToTable("Permissions");
                 });
 
-            modelBuilder.Entity("UserService.Entity.Role", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.Role", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -90,7 +90,7 @@ namespace UserService.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("UserService.Entity.RolePermission", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.RolePermission", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -129,7 +129,7 @@ namespace UserService.Migrations
                     b.ToTable("RolePermissions");
                 });
 
-            modelBuilder.Entity("UserService.Entity.User", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -185,7 +185,7 @@ namespace UserService.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UserService.Entity.UserRole", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.UserRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -224,15 +224,15 @@ namespace UserService.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("UserService.Entity.RolePermission", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.RolePermission", b =>
                 {
-                    b.HasOne("UserService.Entity.Permission", "Permission")
+                    b.HasOne("Fakebook.UserService.Entity.Permission", "Permission")
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserService.Entity.Role", "Role")
+                    b.HasOne("Fakebook.UserService.Entity.Role", "Role")
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,15 +243,15 @@ namespace UserService.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("UserService.Entity.UserRole", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.UserRole", b =>
                 {
-                    b.HasOne("UserService.Entity.Role", "Role")
+                    b.HasOne("Fakebook.UserService.Entity.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserService.Entity.User", "User")
+                    b.HasOne("Fakebook.UserService.Entity.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -262,19 +262,19 @@ namespace UserService.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("UserService.Entity.Permission", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
                 });
 
-            modelBuilder.Entity("UserService.Entity.Role", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.Role", b =>
                 {
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("UserService.Entity.User", b =>
+            modelBuilder.Entity("Fakebook.UserService.Entity.User", b =>
                 {
                     b.Navigation("UserRoles");
                 });

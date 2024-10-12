@@ -1,13 +1,13 @@
-using System.Threading.Tasks;
-using UserService.Data;
+using Fakebook.DataAccessLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace UserService.Repositories
+namespace Fakebook.DataAccessLayer.Implementaions
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ServiceContext _context;
+        private readonly DbContext _context;
 
-        public UnitOfWork(ServiceContext context)
+        public UnitOfWork(DbContext context)
         {
             _context = context;
         }

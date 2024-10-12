@@ -1,11 +1,7 @@
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using UserService.Data;
-using UserService.Entity;
-using UserService.Dtos.Users;
+using Fakebook.UserService.Entity;
+using Fakebook.UserService.Dtos.Users;
 
-namespace UserService.Services
+namespace Fakebook.UserService.Services
 {
     public interface IUserUservice
     {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace UserService.Migrations
+namespace Fakebook.UserService.Migrations
 {
     public partial class InitialDatabase : Migration
     {

@@ -1,6 +1,6 @@
-using UserService.Entity;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Services
+namespace Fakebook.UserService.Services
 {
     public interface ITokenService
     {

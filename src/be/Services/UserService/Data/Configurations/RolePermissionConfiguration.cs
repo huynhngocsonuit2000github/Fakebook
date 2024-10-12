@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UserService.Entity;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Configurations
+namespace Fakebook.UserService.Configurations
 {
     public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
     {

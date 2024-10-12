@@ -1,8 +1,7 @@
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using UserService.Entity;
+using Fakebook.DataAccessLayer.Entity;
 
-namespace UserService.Repositories
+namespace Fakebook.DataAccessLayer.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {

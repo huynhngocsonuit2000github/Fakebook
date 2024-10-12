@@ -1,6 +1,6 @@
-using UserService.Entity;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Models.Users
+namespace Fakebook.UserService.Models.Users
 {
     public class AuthenticatedUserModel
     {

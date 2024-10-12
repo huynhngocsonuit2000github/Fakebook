@@ -1,13 +1,15 @@
-using UserService.Data;
+using Fakebook.UserService.Data;
 using Microsoft.EntityFrameworkCore;
-using UserService.Repositories;
-using UserService.Services;
-using UserService.Authentication.Models;
+using Fakebook.UserService.Repositories;
+using Fakebook.UserService.Services;
+using Fakebook.UserService.Authentication.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using UserService.HttpRequestHandling;
-using UserService.Middlewares;
+using Fakebook.UserService.HttpRequestHandling;
+using Fakebook.UserService.Middlewares;
+using Fakebook.DataAccessLayer.Interfaces;
+using Fakebook.DataAccessLayer.Implementaions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,13 +58,13 @@ builder.Services.AddDbContext<ServiceContext>(options =>
 
 
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserUservice, UserUservice>();
 
 
 builder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor
-builder.Services.AddScoped<IUserContextService, UserContextService>(); 
+builder.Services.AddScoped<IUserContextService, UserContextService>();
 
 
 var app = builder.Build();

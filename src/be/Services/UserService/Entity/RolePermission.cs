@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Fakebook.DataAccessLayer.Entity;
 
-namespace UserService.Entity
+namespace Fakebook.UserService.Entity
 {
     public class RolePermission : BaseEntity
     {

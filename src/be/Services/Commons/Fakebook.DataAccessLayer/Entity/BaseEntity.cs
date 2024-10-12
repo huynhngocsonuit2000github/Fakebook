@@ -1,4 +1,4 @@
-namespace UserService.Entity
+namespace Fakebook.DataAccessLayer.Entity
 {
     public abstract class BaseEntity
     {

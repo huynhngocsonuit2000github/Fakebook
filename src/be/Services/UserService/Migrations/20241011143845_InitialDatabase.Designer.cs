@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserService.Data;
+using Fakebook.UserService.Data;
 
 #nullable disable
 
-namespace UserService.Migrations
+namespace Fakebook.UserService.Migrations
 {
     [DbContext(typeof(ServiceContext))]
     [Migration("20241011143845_InitialDatabase")]
@@ -24,7 +24,7 @@ namespace UserService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("UserService.Models.User", b =>
+            modelBuilder.Entity("Fakebook.UserService.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");

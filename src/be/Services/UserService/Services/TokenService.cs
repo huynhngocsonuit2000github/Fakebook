@@ -1,13 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using UserService.Authentication.Models;
-using UserService.Entity;
+using Fakebook.UserService.Authentication.Models;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Services
+namespace Fakebook.UserService.Services
 {
     public class TokenService : ITokenService
     {

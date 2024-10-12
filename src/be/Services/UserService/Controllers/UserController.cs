@@ -1,16 +1,10 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using UserService.Authentication.Models;
-using UserService.Entity;
-using UserService.Dtos.Users;
-using UserService.Services;
-using System.Text.Json;
-namespace UserService.Controllers
+using Fakebook.UserService.Authentication.Models;
+using Fakebook.UserService.Dtos.Users;
+using Fakebook.UserService.Services;
+namespace Fakebook.UserService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

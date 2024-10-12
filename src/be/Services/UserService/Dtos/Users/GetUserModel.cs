@@ -1,6 +1,6 @@
-using UserService.Entity;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Dtos.Users
+namespace Fakebook.UserService.Dtos.Users
 {
     public class GetUserModel
     {

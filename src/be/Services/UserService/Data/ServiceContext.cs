@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using UserService.Configurations;
-using UserService.Entity;
+using Fakebook.UserService.Configurations;
+using Fakebook.UserService.Entity;
 
-namespace UserService.Data
+namespace Fakebook.UserService.Data
 {
     public class ServiceContext : DbContext
     {

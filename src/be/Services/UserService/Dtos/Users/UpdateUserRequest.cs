@@ -1,4 +1,4 @@
-namespace UserService.Dtos.Users
+namespace Fakebook.UserService.Dtos.Users
 {
     public class UpdateUserRequest
     {

@@ -1,4 +1,4 @@
-namespace UserService.HttpRequestHandling
+namespace Fakebook.UserService.HttpRequestHandling
 {
     public class UserContextService : IUserContextService
     {
@@ -16,7 +16,7 @@ namespace UserService.HttpRequestHandling
             {
                 return context.Items["UserContext"] as UserContext;
             }
-            
+
             return null;
         }
     }

@@ -1,16 +1,16 @@
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using UserService.Data;
-using UserService.Entity;
+using Fakebook.DataAccessLayer.Entity;
+using Fakebook.DataAccessLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace UserService.Repositories
+namespace Fakebook.DataAccessLayer.Implementaions
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected readonly ServiceContext _context;
+        protected readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public BaseRepository(ServiceContext context)
+        public BaseRepository(DbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

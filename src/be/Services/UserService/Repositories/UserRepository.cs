@@ -1,11 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using UserService.Data;
-using UserService.Entity;
-using UserService.HttpRequestHandling;
-using UserService.Models.Users;
+using Fakebook.DataAccessLayer.Implementaions;
+using Fakebook.UserService.Data;
+using Fakebook.UserService.Entity;
+using Fakebook.UserService.HttpRequestHandling;
+using Fakebook.UserService.Models.Users;
 
-namespace UserService.Repositories
+namespace Fakebook.UserService.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {

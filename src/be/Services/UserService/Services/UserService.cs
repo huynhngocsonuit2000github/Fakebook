@@ -1,11 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using UserService.Data;
-using UserService.Dtos.Users;
-using UserService.Entity;
-using UserService.Repositories;
+using Fakebook.DataAccessLayer.Interfaces;
+using Fakebook.UserService.Dtos.Users;
+using Fakebook.UserService.Entity;
+using Fakebook.UserService.Repositories;
 
-namespace UserService.Services
+namespace Fakebook.UserService.Services
 {
     public class UserUservice : IUserUservice
     {

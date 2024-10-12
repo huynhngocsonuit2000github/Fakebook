@@ -1,4 +1,6 @@
-namespace UserService.Entity
+using Fakebook.DataAccessLayer.Entity;
+
+namespace Fakebook.UserService.Entity
 {
     public class Permission : BaseEntity
     {

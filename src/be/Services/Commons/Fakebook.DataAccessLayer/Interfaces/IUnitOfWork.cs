@@ -1,7 +1,4 @@
-using System;
-using System.Threading.Tasks;
-
-namespace UserService.Repositories
+namespace Fakebook.DataAccessLayer.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

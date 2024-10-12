@@ -1,7 +1,6 @@
-using System.Security.Claims;
-using UserService.HttpRequestHandling;
+using Fakebook.UserService.HttpRequestHandling;
 
-namespace UserService.Middlewares
+namespace Fakebook.UserService.Middlewares
 {
     public class UserContextMiddleware
     {

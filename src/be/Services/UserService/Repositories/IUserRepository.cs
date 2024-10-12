@@ -1,8 +1,8 @@
-using UserService.Data;
-using UserService.Entity;
-using UserService.Models.Users;
+using Fakebook.DataAccessLayer.Interfaces;
+using Fakebook.UserService.Entity;
+using Fakebook.UserService.Models.Users;
 
-namespace UserService.Repositories
+namespace Fakebook.UserService.Repositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {
