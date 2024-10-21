@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-user-deployment-user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-user-deployment-user-service
+  template:
+    metadata:
+      labels:
+        app: staging-user-deployment-user-service
+    spec:
+      containers:
+        - name: userservice
+          image: huynhngocsonuit2000docker/fakebook-userservice:v002
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=staging-user-service-sqlserver,1433;Database=UserDatabase;User Id=sa;Password=$Password;Trusted_Connection=False;TrustServerCertificate=True;"
+            - name: ConnectionStringsCredential__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: staging-user-secret-credential
+                  key: SA_PASSWORD
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-user-service-user-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 31000  # Expose on NodePort
+  selector:
+    app: staging-user-deployment-user-service

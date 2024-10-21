@@ -55,7 +55,16 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 // Database Setup - checking
 var environment = builder.Environment.EnvironmentName;
 Console.WriteLine($"Environment: {environment}");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Retrieve the connection string and the password separately
+var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+var password = builder.Configuration.GetSection("ConnectionStringsCredential")["DefaultConnection"];
+Console.WriteLine($"Password: {password}");
+
+// Replace the $Password placeholder in the connection string with the actual password
+var connectionString = connectionStringTemplate.Replace("$Password", password);
+Console.WriteLine($"Connection string: {connectionString}");
+
+// Print the connection string to verify the password injection
 Console.WriteLine($"Connection String Used: {connectionString}");
 
 // Database Setup

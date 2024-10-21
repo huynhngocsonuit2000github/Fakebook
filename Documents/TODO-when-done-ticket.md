@@ -1,7 +1,7 @@
 - [New-docker-image] 
     - If there is any new version of Image
     ==>> Should update confluence
-    <!-- Services / <Containerization> - section 1, 3 -->
+    <!-- Services / <Containerization> - section 1 iamge version, 3 history -->
     <!-- https://huynhngocsonuit2000.atlassian.net/wiki/x/CIAT -->
 
 - [Doing-Code]      [package-nuget-tool]
@@ -20,5 +20,5 @@
     - whenever I create or update a new docker [container], [Network].... anything is resource
     - Any new connection string, or new necessary resource information need to stored like [Port], [Servicename], [Network], [Password]
     ==>> Should update the document for Environment, to avoid conflicting between container
-    <!-- Environment section 2, 3, 4 -->
+    <!-- Environment section 2 expose service URL, 3 running localhost container, 4 running staging-->
     <!-- https://huynhngocsonuit2000.atlassian.net/wiki/spaces/~7120204a859d49d075451890027b2fb599f886/pages/688173/Environments -->

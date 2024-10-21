@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["./be/Fakebook.sln", "./"]
+COPY ["./be/Services/Fakebook.sln", "./be/Services/"]
 
 COPY ["./be/Services/Commons/Fakebook.DataAccessLayer/Fakebook.DataAccessLayer.csproj", "./be/Services/Commons/Fakebook.DataAccessLayer/"]
 COPY ["./be/Services/Fakebook.UserService/Fakebook.UserService.csproj", "./be/Services/Fakebook.UserService/"]

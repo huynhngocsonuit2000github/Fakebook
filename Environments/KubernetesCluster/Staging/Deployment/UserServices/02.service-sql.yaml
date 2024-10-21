@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-user-deployment-sqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-user-deployment-sqlserver
+  template:
+    metadata:
+      labels:
+        app: staging-user-deployment-sqlserver
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+        - name: mssql-server
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: staging-user-secret-credential
+                  key: SA_PASSWORD
+          resources:
+            requests:
+              memory: "2048Mi"  # Set to 2 GB to meet the SQL Server requirement
+              cpu: "500m"        # Adjust CPU as necessary
+            limits:
+              memory: "4096Mi"   # Optional: Set a higher limit if you want to allow more usage
+              cpu: "1"
+
+---
+# SQL Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-user-service-sqlserver
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1433
+      targetPort: 1433
+  selector:
+    app: staging-user-deployment-sqlserver
