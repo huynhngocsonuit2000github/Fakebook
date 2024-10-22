@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${SQL_DEPLOYMENT_NAME}
+spec:
+  replicas: ${SQL_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${SQL_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${SQL_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${SQL_CONTAINER_NAME}
+          image: ${SQL_IMAGE}
+          ports:
+            - containerPort: ${SQL_PORT}
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${SQL_SECRET_NAME}
+                  key: ${SQL_SECRET_PASSWORD_KEY}
+          resources:
+            requests:
+              memory: "${SQL_MEMORY_REQUEST}"  # Set to 2 GB to meet the SQL Server requirement
+              cpu: "${SQL_CPU_REQUEST}"        # Adjust CPU as necessary
+            limits:
+              memory: "${SQL_MEMORY_LIMIT}"   # Optional: Set a higher limit if you want to allow more usage
+              cpu: "${SQL_CPU_LIMIT}"
+
+---
+# SQL Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${SQL_SERVICE_NAME}
+spec:
+  type: ClusterIP
+  ports:
+    - port: ${SQL_PORT}
+      targetPort: ${SQL_PORT}
+  selector:
+    app: ${SQL_DEPLOYMENT_NAME}

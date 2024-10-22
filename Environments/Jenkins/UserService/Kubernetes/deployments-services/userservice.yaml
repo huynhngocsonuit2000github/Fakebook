@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${USER_DEPLOYMENT_NAME}
+spec:
+  replicas: ${USER_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${USER_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${USER_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${USER_CONTAINER_NAME}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          ports:
+            - containerPort: ${USER_PORT}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "${USER_ENVIRONMENT}"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=${SQL_SERVICE_NAME},${SQL_PORT};Database=${USER_DATABASE};User Id=sa;Password=$Password;Trusted_Connection=False;TrustServerCertificate=True;"
+            - name: ConnectionStringsCredential__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: ${USER_SECRET_NAME}
+                  key: ${USER_SECRET_PASSWORD_KEY}
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${USER_SERVICE_NAME}
+spec:
+  type: NodePort
+  ports:
+    - port: ${USER_PORT}
+      targetPort: ${USER_PORT}
+      nodePort: ${USER_NODE_PORT}
+  selector:
+    app: ${USER_DEPLOYMENT_NAME}
