@@ -1,0 +1,3 @@
+return [
+    NAMESPACE: 'staging-environment'
+]

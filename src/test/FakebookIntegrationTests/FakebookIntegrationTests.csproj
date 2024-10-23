@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.0" />
-    <PackageReference Include="FluentAssertions" Version="6.12.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.10" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="System.Net.Http.Json" Version="8.0.1" />
-    <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
-  </ItemGroup>
+  </PropertyGroup><ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="3.1.0" /> <!-- Updated for .NET 6 -->
+    <PackageReference Include="FluentAssertions" Version="6.12.1" /> <!-- Remains the same -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.10" /> <!-- Changed to version 6 -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" /> <!-- Ensure compatibility with .NET 6 -->
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.0" /> <!-- Changed to version 6 -->
+    <PackageReference Include="xunit" Version="2.4.1" /> <!-- Ensure compatibility with .NET 6 -->
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" /> <!-- Ensure compatibility with .NET 6 -->
+</ItemGroup>
+
 
   <ItemGroup>
     <Using Include="Xunit" />

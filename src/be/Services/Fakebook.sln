@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "be", "be", "{81366A39-9B15-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{FC934E26-8FF9-4920-983B-4A6644FEC282}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.UserService", "src\be\Services\Fakebook.UserService\Fakebook.UserService.csproj", "{274A1353-6C76-4723-9E83-7D3F56D645E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.UserService", ".\Fakebook.UserService\Fakebook.UserService.csproj", "{274A1353-6C76-4723-9E83-7D3F56D645E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{4DA33BB4-0B3E-458C-8849-383E2705C685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.DataAccessLayer", "src\be\Services\Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj", "{1876177B-ECDD-4BF4-A38A-3433C283602F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.DataAccessLayer", ".\Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj", "{1876177B-ECDD-4BF4-A38A-3433C283602F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

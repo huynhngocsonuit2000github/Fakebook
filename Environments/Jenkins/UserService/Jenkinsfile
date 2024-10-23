@@ -1,11 +1,40 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['staging', 'production'],
+            description: 'Choose the environment for deployment'
+        )
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
                 // Checkout code from the Git repository
                 checkout scm
+            }
+        }
+
+        stage('Restore NuGet Packages') {
+            when {
+                expression { env.ENVIRONMENT == 'production' }
+            }
+            steps {
+                script {
+                    sh 'dotnet restore src/test/FakebookIntegrationTests/FakebookIntegrationTests.sln'
+                }
+            }
+        }
+        
+        stage('Integration Test') {
+            when {
+                expression { env.ENVIRONMENT == 'production' }
+            }
+            steps {
+                echo 'Running unit tests...'
+                sh 'dotnet test src/test/FakebookIntegrationTests/FakebookIntegrationTests.sln --configuration Release --no-restore --verbosity normal'
             }
         }
 
@@ -25,12 +54,14 @@ pipeline {
                 script {
                     // Load service-specific configuration from config.groovy
                     def config = evaluate(readFile('Environments/Jenkins/global-config.groovy'))
+                    def envConfig = evaluate(readFile("Environments/Jenkins/${params.ENVIRONMENT}-config.groovy"))
 
                     // Set environment variables from the configuration
                     env.KUBECONFIG = config.KUBECONFIG
                     env.KUBE_CONTEXT = config.KUBE_CONTEXT
                     env.DOCKER_CREDENTIAL_ID = config.DOCKER_CREDENTIAL_ID
-                    env.NAMESPACE = config.NAMESPACE
+
+                    env.NAMESPACE = envConfig.NAMESPACE
                 }
             }
         }
@@ -39,7 +70,7 @@ pipeline {
             steps {
                 script {
                     // Load service-specific configuration from config.groovy
-                    def config = evaluate(readFile('./Environments/Jenkins/UserService/config.groovy'))
+                    def config = evaluate(readFile("./Environments/Jenkins/UserService/${params.ENVIRONMENT}-config.groovy"))
 
                     // Set environment variables from the configuration
                     env.IMAGE_NAME = config.IMAGE_NAME
@@ -130,10 +161,10 @@ pipeline {
         }
     }
 
-    // post {
-    //     always {
-    //         // Clean up the workspace after the job is completed
-    //         cleanWs()
-    //     }
-    // }
+    post {
+        always {
+            // Clean up the workspace after the job is completed
+            cleanWs()
+        }
+    }
 }

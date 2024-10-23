@@ -1,8 +1,10 @@
 using System.Net.Http.Json;
 using FluentAssertions;
 using System.Net.Http.Headers;
-using FakebookIntegrationTests.Models.UserService.UserController;
 using Microsoft.Extensions.Configuration;
+using Xunit;
+using FakebookIntegrationTests.Extensions;
+using FakebookIntegrationTests.Models.UserService.UserController;
 
 namespace FakebookIntegrationTests.UserService
 {
@@ -10,7 +12,7 @@ namespace FakebookIntegrationTests.UserService
     {
         private readonly HttpClient _client;
         private string _jwtToken = null!;
-        private string _userId = "e89aa050-bbcd-42c4-b2b5-15ecb10bfcab";
+        private string _userId = "c47b9e93-4b85-472a-acc3-dacf248fcc25";
 
         public UserControllerIntegrationTests()
         {
@@ -24,9 +26,8 @@ namespace FakebookIntegrationTests.UserService
             // Get base URL from configuration
             var baseUrl = configuration["UserService:BaseUrl"] ?? throw new ArgumentNullException("Environment BaseURL");
 
-            _client = new HttpClient { BaseAddress = new System.Uri(baseUrl) };
+            _client = new HttpClient { BaseAddress = new Uri(baseUrl) };
         }
-
 
         private async Task<string> GetJwtTokenAsync()
         {
@@ -37,8 +38,8 @@ namespace FakebookIntegrationTests.UserService
 
             var loginRequest = new
             {
-                Username = "ustest2",
-                Password = "pwtest2"
+                Username = "ustest1",
+                Password = "pwtest1"
             };
 
             var response = await _client.PostAsJsonAsync("/user/login", loginRequest);
@@ -73,7 +74,6 @@ namespace FakebookIntegrationTests.UserService
             _userId.Length.Should().Be(36);
         }
 
-
         [Fact]
         public async Task GetAllUsersAsync_ReturnsOkResponse_WhenAuthorized()
         {
@@ -86,7 +86,6 @@ namespace FakebookIntegrationTests.UserService
 
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-
         }
 
         [Fact]
@@ -126,7 +125,7 @@ namespace FakebookIntegrationTests.UserService
             var guid = Guid.NewGuid().ToString();
             var updateUserRequest = new
             {
-                UserId = "e89aa050-bbcd-42c4-b2b5-15ecb10bfcab",
+                UserId = _userId,
                 Firstname = "new firstname " + guid,
                 Lastname = "new lastname " + guid,
             };

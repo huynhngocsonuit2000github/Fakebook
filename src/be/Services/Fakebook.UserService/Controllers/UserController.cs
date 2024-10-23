@@ -21,6 +21,12 @@ namespace Fakebook.UserService.Controllers
             _jwtSettings = jwtSettings.Value;
         }
 
+        [HttpGet("test")]
+        public async Task<IActionResult> TestAsync(string name, string old)
+        {
+            return Ok("Very good day! " + name + ", I am " + old + " years old");
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsersAsync()
