@@ -1,6 +1,8 @@
 import React from 'react';
-import { Navigate, Route, RouteProps } from 'react-router-dom';
-import { AuthUser } from '../../models/AuthUser';
+import { Navigate } from 'react-router-dom';
+import { AccountState } from '../../store/account/types';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
 
 interface PrivateRouteProps {
     requiredPermissions?: string[];
@@ -8,14 +10,10 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ requiredPermissions, element }) => {
+    const account: AccountState = useSelector((state: AppState) => state.account);
+    const { authUser: auth } = account;
 
-    // get from redux in the future
-    const auth: AuthUser = {
-        isAuthenticated: false,
-        userPermissions: ['admin_create', 'admin_read', 'member_read']
-    };
-
-    if (!auth.isAuthenticated) {
+    if (!auth?.isAuthenticated) {
         return <Navigate to="/login" />;
     }
 

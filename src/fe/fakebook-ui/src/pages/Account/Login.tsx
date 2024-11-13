@@ -2,13 +2,23 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 import logo from './../../styles/template/images/logo-64x64.png'
 import authFingerprint from './../../styles/template/images/icons/auth-fingerprint.png'
 import { Modal } from '../../components/Modal/Modal';
+import { AccountState } from '../../store/account/types';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
+import { Navigate } from 'react-router';
 
 export const Login = () => {
     const [isFingerprintOpen, setIsFingerprintOpen] = useState<boolean>(false);
+    const account: AccountState = useSelector((state: AppState) => state.account);
+    const { authUser: auth } = account;
 
     const closeFingerprintModal = () => {
         setIsFingerprintOpen(false);
         // do sth
+    }
+
+    if (auth?.isAuthenticated) {
+        return <Navigate to="/" />;
     }
 
     return (

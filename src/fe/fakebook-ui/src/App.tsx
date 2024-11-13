@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import { Login } from './pages/Account/Login';
 
 import './styles/template/css/index.css'
@@ -13,13 +12,11 @@ import { Friends } from './pages/Member/Friends';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 function App() {
-
-
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/login" element={false ? <p>asdas</p> : <Login />}></Route>
+          <Route path="/login" element={<Login />}></Route>
 
           <Route path="/admin" element={<PrivateRoute requiredPermissions={['admin_read']} element={<AdminLayout />} />}>
             <Route index element={<Dashboard />} />
