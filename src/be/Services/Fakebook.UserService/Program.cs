@@ -80,6 +80,18 @@ builder.Services.AddScoped<IUserUservice, UserUservice>();
 builder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 
+// Update Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+        });
+});
+
 
 var app = builder.Build();
 
@@ -98,6 +110,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseMiddleware<UserContextMiddleware>();

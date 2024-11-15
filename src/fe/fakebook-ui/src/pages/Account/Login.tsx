@@ -1,21 +1,65 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, Fragment, useEffect, useRef, useState } from 'react'
 import logo from './../../styles/template/images/logo-64x64.png'
 import authFingerprint from './../../styles/template/images/icons/auth-fingerprint.png'
 import { Modal } from '../../components/Modal/Modal';
-import { AccountState } from '../../store/account/types';
+import { AccountActionTypes, AccountState, LOG_OUT } from '../../store/account/types';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../../store/account/actions';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppDispatch } from '../..';
+import { history } from '../../helpers';
 
 export const Login = () => {
+
     const [isFingerprintOpen, setIsFingerprintOpen] = useState<boolean>(false);
     const account: AccountState = useSelector((state: AppState) => state.account);
     const { authUser: auth } = account;
+    const [input, setInput] = useState({
+        username: '',
+        password: ''
+    })
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const { username, password } = input;
+
+    const dispatch = useDispatch<AppDispatch>();
+
+
+    const location = useLocation();
+
+    const loading = useSelector<AppState>(state => state.account.loading);
+
 
     const closeFingerprintModal = () => {
         setIsFingerprintOpen(false);
         // do sth
     }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        setInput(inp => ({
+            ...inp, [name]: value
+        }));
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setSubmitted(true);
+
+        if (username && password) {
+            const { from } = location.state || { from: { pathname: '/' } };
+            console.log(from);
+
+            dispatch(login(username, password, from.pathname));
+        }
+    };
+
+    useEffect(() => {
+        dispatch(logout());
+    }, [dispatch]);
 
     if (auth?.isAuthenticated) {
         return <Navigate to="/" />;
@@ -37,16 +81,26 @@ export const Login = () => {
                                 </div>
                             </div>
                         </div>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <input type="text" className="form-control" placeholder="Email Address" />
+                                        <input type="text" className={`form-control ${submitted && !username ? 'is-invalid' : ''}`} placeholder="Username" name='username' onChange={handleChange} />
+                                        {
+                                            submitted && !username && (
+                                                <div className='invalid-feedback'> Username is required </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-md-12">
                                     <div className="form-group">
-                                        <input type="password" className="form-control" placeholder="Password" />
+                                        <input type="password" className={`form-control ${submitted && !password ? 'is-invalid' : ''}`} placeholder="Password" name='password' onChange={handleChange} />
+                                        {
+                                            submitted && !password && (
+                                                <div className='invalid-feedback'> Password is required </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-md-12 mb-3">
@@ -61,7 +115,7 @@ export const Login = () => {
                                 </div>
                                 <div className="col-md-6 text-right">
                                     <div className="form-group">
-                                        <button type="button" className="btn btn-primary sign-up">Sign In</button>
+                                        <button type="submit" className="btn btn-primary sign-up">Sign In</button>
                                     </div>
                                 </div>
                                 <div className="col-md-12 text-center mt-4">

@@ -9,7 +9,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const store = configureAppStore();
+const { store } = configureAppStore();
+
+export type AppDispatch = typeof store.dispatch;
 
 root.render(
   <Provider store={store}>

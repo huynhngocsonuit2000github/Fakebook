@@ -16,6 +16,10 @@ const accountReducer = (
     state: AccountState = initialState,
     action: AccountActionTypes
 ): AccountState => {
+    if (state === undefined) {
+        return initialState; // Return the default state if state is undefined
+    }
+
     switch (action.type) {
         case LOGIN_REQUEST:
             return {
@@ -28,7 +32,11 @@ const accountReducer = (
                 ...state,
                 loading: false,
                 token: action.payload.token,
-                error: null
+                error: null,
+                authUser: {
+                    isAuthenticated: true,
+                    userPermissions: ['member_read', 'member_create', 'admin_read', 'admin_create'] // fake data
+                }
             };
 
         case LOGIN_FAILURE:

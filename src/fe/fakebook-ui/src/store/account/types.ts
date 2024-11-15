@@ -18,7 +18,7 @@ export interface AuthenticatedUser {
 interface LoginRequest {
     type: typeof LOGIN_REQUEST;
     payload: {
-        email: string;
+        username: string;
         password: string;
     }
 }

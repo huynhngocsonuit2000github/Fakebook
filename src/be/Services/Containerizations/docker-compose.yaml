@@ -15,13 +15,13 @@ services:
       - mssql-data:/var/opt/mssql
 
   compose-user-user-service:
-    image: fakebook-userservice:v001
+    image: huynhngocsonuit2000docker/fakebook-userservice:v003
     container_name: compose-user-user-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=compose-user-sqlserver,1433;Database=UserDatabase;User Id=sa;Password=admin1234$;
     ports:
-      - "6000:80"
+      - "4000:80"
     depends_on:
       - compose-user-sqlserver
     networks:
