@@ -11,5 +11,4 @@ import { AccountInfoComponent } from './compoments/account-info/account-info.com
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'fakebook-ui';
 }
