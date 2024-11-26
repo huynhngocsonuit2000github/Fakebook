@@ -18,5 +18,6 @@ export const appConfig: ApplicationConfig = {
       maxAge: 25, // Retains last 25 states
       logOnly: true, // Restrict extension to log-only mode in production
     }),
-    provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)],
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes)],
 };

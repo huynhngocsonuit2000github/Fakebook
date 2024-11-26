@@ -1,0 +1,122 @@
+<div class="row ht-100v flex-row-reverse no-gutters">
+    <!-- Login Form Section -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <div class="signup-form">
+            <div class="auth-logo text-center mb-5">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="/styles/template/images/logo-64x64.png" class="logo-img" alt="Logo" />
+                    </div>
+                    <div class="col-md-10">
+                        <p>Fakebook Social Network</p>
+                        <span>Design System</span>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+
+                    <!-- Error -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <!-- Show error message if login fails -->
+                            <div *ngIf="authError$ | async as error" class="alert alert-danger">
+                                {{ error }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Username Input -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="username" placeholder="Username"
+                                [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+                            @if(submitted && f['username'].errors)
+                            {
+                            <div class="invalid-feedback">
+                                Username is required
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="password" class="form-control" formControlName="password"
+                                placeholder="Password"
+                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                            @if(submitted && f['password'].errors){
+                            <div class="invalid-feedback">
+                                Password is required
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Forgot Password Link -->
+                    <div class="col-md-12 mb-3">
+                        <a href="forgot-password.html">Forgot password?</a>
+                    </div>
+
+                    <!-- Remember Me Checkbox -->
+                    <div class="col-md-6">
+                        <label class="custom-control material-checkbox">
+                            <input type="checkbox" class="material-control-input" />
+                            <span class="material-control-indicator"></span>
+                            <span class="material-control-description">Remember Me</span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-md-6 text-right">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary sign-up">
+                                <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                                <span *ngIf="!(loading$ | async)">Sign In</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fingerprint Modal Trigger -->
+                    <div class="col-md-12 text-center mt-4">
+                        <p class="text-muted">Start using your fingerprint</p>
+                        <button type="button" class="btn btn-outline-primary btn-sm sign-up"
+                            (click)="openFingerprintModal()">
+                            Use Fingerprint
+                        </button>
+                    </div>
+
+                    <!-- Sign Up Link -->
+                    <div class="col-md-12 text-center mt-5">
+                        <span class="go-login">Not yet a member? <a href="sign-up.html">Sign Up</a></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Left Content Section -->
+    <div class="col-md-6 auth-bg-image d-flex justify-content-center align-items-center">
+        <div class="auth-left-content mt-5 mb-5 text-center">
+            <div class="weather-small text-white">
+                <p class="current-weather"><i class="bx bx-sun"></i> <span>35°</span></p>
+                <p class="weather-city">HCM - Viet Nam</p>
+            </div>
+            <div class="text-white mt-5 mb-5">
+                <h2 class="create-account mb-3">Fakebook Application</h2>
+                <p>Thank you for joining. Updates and new features are released daily.</p>
+            </div>
+            <div class="auth-quick-links">
+                <a href="#" class="btn btn-outline-primary">Hello mấy cưng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fingerprint Modal -->
+<!-- <app-modal [isOpen]="isFingerprintOpen" (close)="closeFingerprintModal()">
+    <h3 class="text-muted display-5">Place your Finger on the Device Now</h3>
+    <img src="/styles/template/images/icons/auth-fingerprint.png" alt="Fingerprint" />
+</app-modal> -->

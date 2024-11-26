@@ -10,7 +10,7 @@ import {
 } from '../actions/account.actions';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { defer, of } from 'rxjs';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../services/user.service';
 
 @Injectable()
 export class AccountEffects {
@@ -29,11 +29,9 @@ export class AccountEffects {
                 mergeMap(({ username, password }) =>
                     this.userService.login(username, password).pipe(
                         map((token) => {
-                            console.log('Effect: Login success:', token);
                             return loginSuccess({ token });
                         }),
                         catchError((error) => {
-                            console.error('Effect: Login failure:', error);
                             return of(loginFailure({ error }));
                         })
                     )
@@ -64,9 +62,8 @@ export class AccountEffects {
                 return this.actions$.pipe(
                     ofType(logOut),
                     tap(() => {
-                        console.log('Effect: Logging out and navigating to /login');
                         this.userService.logout(); // Clear session storage
-                        this.router.navigate(['/']); // Navigate to login page
+                        // this.router.navigate(['/']); // Navigate to login page
                     })
                 );
             }),

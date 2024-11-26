@@ -1,0 +1,15 @@
+<!-- member-layout.component.html -->
+<div class="member-layout">
+    <header>Member Header<li routerLink="/">Member: Home</li>
+        <li routerLink="/friends">Member: Friends</li>
+        <li routerLink="/admin/dashboard">Admin: Dashboard</li>
+        <li routerLink="/admin/user-management">Admin: User Management</li>
+    </header>
+
+    <nav>Member Navigation</nav>
+
+    <!-- This will render the child components wrapped by this layout -->
+    <router-outlet></router-outlet>
+
+    <footer>Member Footer</footer>
+</div>
