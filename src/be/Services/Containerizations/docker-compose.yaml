@@ -1,6 +1,19 @@
-version: '3.8'
+version: "3.8"
 
 services:
+  # Fakebook UI service
+  compose-ui-service:
+    image: huynhngocsonuit2000docker/fakebook-ui:v002
+    container_name: compose-ui-service
+    ports:
+      - "9200:80"
+    depends_on:
+      - compose-user-sqlserver
+      - compose-user-user-service
+    networks:
+      - docker_compose_network
+
+  # User SQL server
   compose-user-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: compose-user-sqlserver
@@ -14,6 +27,7 @@ services:
     volumes:
       - mssql-data:/var/opt/mssql
 
+  # User service
   compose-user-user-service:
     image: huynhngocsonuit2000docker/fakebook-userservice:v003
     container_name: compose-user-user-service

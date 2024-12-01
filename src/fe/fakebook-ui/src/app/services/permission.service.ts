@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthUser } from '../../models/AuthUser';
+import { AuthUser } from '../models/AuthUser';
 import { AccountState } from '../state/account.state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';

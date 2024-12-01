@@ -1,5 +1,5 @@
-import { AuthenticatedUser } from "../../models/AuthenticatedUser.model";
-import { AuthUser } from "../../models/AuthUser";
+import { AuthenticatedUser } from "../models/AuthenticatedUser.model";
+import { AuthUser } from "../models/AuthUser";
 
 export interface AccountState {
     user: AuthenticatedUser | null;
