@@ -3,16 +3,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = `http://192.168.50.10:32000/user`; // Use environment variable for API URL
+  // private apiUrl = `http://192.168.50.10:32000/user`; // Use environment variable for API URL
+  private apiUrl = `${environment.apiUrl}/user`; // Use environment variable for API URL
 
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<string> {
+    console.log(this.apiUrl);
+
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { username, password };
 
