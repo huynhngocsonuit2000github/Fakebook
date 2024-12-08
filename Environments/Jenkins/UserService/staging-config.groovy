@@ -26,7 +26,7 @@ return [
     USER_CONTAINER_NAME: 'userservice',
     USER_PORT: 80,
     USER_REPLICAS: 1,
-    USER_ENVIRONMENT: 'Development',
+    USER_ENVIRONMENT: 'Staging',
     USER_DATABASE: 'UserDatabase',
     USER_SECRET_NAME: 'user-secret-credential',
     USER_SECRET_PASSWORD_KEY: 'SA_PASSWORD',

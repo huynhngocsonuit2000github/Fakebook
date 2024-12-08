@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-fakebook-ui-deployment-ui-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-fakebook-ui-deployment-ui-service
+  template:
+    metadata:
+      labels:
+        app: staging-fakebook-ui-deployment-ui-service
+    spec:
+      containers:
+        - name: uiservice
+          image: huynhngocsonuit2000docker/fakebook-ui:v003
+          ports:
+            - containerPort: 80
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-fakebook-ui-service-ui-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 31200  # Expose on NodePort
+  selector:
+    app: staging-fakebook-ui-deployment-ui-service

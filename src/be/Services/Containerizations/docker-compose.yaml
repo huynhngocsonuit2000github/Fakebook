@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # Fakebook UI service
   compose-ui-service:
-    image: huynhngocsonuit2000docker/fakebook-ui:v002
+    image: huynhngocsonuit2000docker/fakebook-ui:v003
     container_name: compose-ui-service
     ports:
       - "9200:80"

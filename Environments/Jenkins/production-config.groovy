@@ -1,3 +1,4 @@
 return [
-    NAMESPACE: 'production-environment'
+    NAMESPACE: 'production-environment',
+    ENV_NAME: 'production'
 ]

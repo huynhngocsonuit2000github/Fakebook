@@ -1,3 +1,4 @@
 return [
-    NAMESPACE: 'staging-environment'
+    NAMESPACE: 'staging-environment',
+    ENV_NAME: 'staging'
 ]
