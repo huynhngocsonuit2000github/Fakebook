@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-fakebook-idp-deployment-api-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-fakebook-idp-deployment-api-service
+  template:
+    metadata:
+      labels:
+        app: staging-fakebook-idp-deployment-api-service
+    spec:
+      containers:
+        - name: idpapiservice
+          image: huynhngocsonuit2000docker/fakebook-idpapi:v001
+          ports:
+            - containerPort: 80
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-fakebook-idp-service-api-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 31001  # Expose on NodePort
+  selector:
+    app: staging-fakebook-idp-deployment-api-service

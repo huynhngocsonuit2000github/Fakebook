@@ -13,6 +13,5 @@ return [
     UI_CONTAINER_NAME: 'uiservice',
     UI_PORT: 80,
     UI_REPLICAS: 1,
-    UI_ENVIRONMENT: 'production',
     UI_NODE_PORT: 32200,
 ]
