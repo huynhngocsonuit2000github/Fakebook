@@ -13,6 +13,15 @@ services:
     networks:
       - docker_compose_network
 
+  # IdP API service
+  compose-idp-api-service:
+    image: huynhngocsonuit2000docker/fakebook-idpapi:v001
+    container_name: compose-idp-api-service
+    ports:
+      - "2001:80"
+    networks:
+      - docker_compose_network
+
   # User SQL server
   compose-user-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
