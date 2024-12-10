@@ -11,7 +11,8 @@ public class AuthService
         _users = new List<User>
             {
                 new User { Username = "user1", Password = "password1", Email = "user1@example.com" },
-                new User { Username = "user2", Password = "password2", Email = "user2@example.com" }
+                new User { Username = "user2", Password = "password2", Email = "user2@example.com" },
+                new User { Username = "son", Password = "1234", Email = "user2@example.com" }
             };
     }
 

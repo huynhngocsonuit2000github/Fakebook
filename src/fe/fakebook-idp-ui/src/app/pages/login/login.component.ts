@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit {
       this.userService.login(username, password)
         .subscribe((res: LoginResponse) => {
           const email = res.email;
-          const token = res.token;
+          const idPToken = res.idPToken;
 
-          if (email) {
-            returnUrl = 'http://localhost:4200/'
-            window.location.href = `${returnUrl}?email=${email}&token=${token}`;
+          if (email && idPToken) {
+            const dnsCb = 'http://localhost:4200'
+            window.location.href = `${dnsCb}/${returnUrl}?email=${email}&idPToken=${idPToken}`;
           }
         },
           error => {

@@ -46,6 +46,12 @@ export const routes: Routes = [
         ]
     },
 
+    // Login Route
+    {
+        path: 'callback',
+        loadComponent: () => import('./compoments/callback/callback.component').then(m => m.CallbackComponent)
+    },
+
     // Unauthorized Route
     {
         path: 'unauthorized',

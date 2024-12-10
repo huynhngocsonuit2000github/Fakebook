@@ -68,4 +68,10 @@ export class LoginComponent implements OnInit {
   closeFingerprintModal(): void {
     this.isFingerprintOpen = false;
   }
+
+  loginWithIdP() {
+    const returnUrl = 'callback'; // You can dynamically construct this if needed
+    const idpLoginUrl = `http://localhost:4201/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+    window.location.href = idpLoginUrl;
+  }
 }

@@ -4,11 +4,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import {
     loginRequest,
-    loginSuccess,
     loginFailure,
     logOut,
+    beforeLoginSuccess,
+    afterLoginSuccess,
 } from '../actions/account.actions';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, tap } from 'rxjs/operators';
 import { defer, of } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
@@ -29,7 +30,7 @@ export class AccountEffects {
                 mergeMap(({ username, password }) =>
                     this.userService.login(username, password).pipe(
                         map((token) => {
-                            return loginSuccess({ token });
+                            return beforeLoginSuccess({ token });
                         }),
                         catchError((error) => {
                             return of(loginFailure({ error }));
@@ -40,14 +41,38 @@ export class AccountEffects {
         })
     );
 
-    loginRedirect$ = createEffect(
+    beforeLoginSuccess$ = createEffect(
+        () =>
+            defer(() => {
+                console.log('Effect: Initializing before login success effect');
+                return this.actions$.pipe(
+                    ofType(beforeLoginSuccess),
+                    tap(() => { console.log('Effect: before login'); }),
+                    mergeMap(({ token }) =>
+                        this.userService.getUserPermissions(token).pipe(
+                            map((permissions) => {
+                                console.log('from effect: ', permissions);
+
+                                return afterLoginSuccess({ permissions });
+                            }),
+                            catchError((error) => {
+                                return of(loginFailure({ error }));
+                            })
+                        )
+                    )
+                );
+            }),
+        { dispatch: true }
+    );
+
+    afterLoginSuccess$ = createEffect(
         () =>
             defer(() => {
                 console.log('Effect: Initializing loginRedirect effect');
                 return this.actions$.pipe(
-                    ofType(loginSuccess),
+                    ofType(afterLoginSuccess),
                     tap(() => {
-                        console.log('Effect: Navigating to /home');
+                        console.log('Effect: Navigating to /112home');
                         this.router.navigate(['/']);
                     })
                 );

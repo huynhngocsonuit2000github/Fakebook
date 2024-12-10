@@ -14,9 +14,38 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<string> {
-    console.log(this.apiUrl);
+  exchangeIdPToken(email: string, idPToken: string): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { email, idPToken };
 
+    return this.http
+      .post(`${this.apiUrl}/exchange-idp-token`, body, { headers, responseType: 'text' })
+      .pipe(
+        map((response: string) => {
+          sessionStorage.setItem('token', response); // Store token in sessionStorage
+          return response;
+        }),
+        catchError(this.handleError) // Handle errors
+      );
+  }
+
+  getUserPermissions(token: string): Observable<string[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Add Bearer token to the headers
+    });
+
+    console.log('token', token);
+    console.log('Headers:', headers);
+
+
+    // Remove 'responseType: 'text'' and let Angular handle the response as JSON
+    return this.http.get<string[]>(`${this.apiUrl}/get-user-permission`, {
+      headers,
+    });
+  }
+
+
+  login(username: string, password: string): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { username, password };
 

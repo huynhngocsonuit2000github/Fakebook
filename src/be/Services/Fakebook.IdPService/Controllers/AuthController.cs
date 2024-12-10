@@ -24,6 +24,10 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid credentials");
         }
 
-        return Ok(new { Email = email });
+        return Ok(new LoginResponse()
+        {
+            Email = email,
+            IdPToken = "THIS_IS_IDP_TOKEN"
+        });
     }
 }
