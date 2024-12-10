@@ -12,7 +12,7 @@ namespace FakebookIntegrationTests.UserService
     {
         private readonly HttpClient _client;
         private string _jwtToken = null!;
-        private string _userId = "c47b9e93-4b85-472a-acc3-dacf248fcc25";
+        private string _userId = "b3081505-eddf-4334-8aeb-16d49b0756ef";
 
         public UserControllerIntegrationTests()
         {
@@ -38,8 +38,8 @@ namespace FakebookIntegrationTests.UserService
 
             var loginRequest = new
             {
-                Username = "ustest1",
-                Password = "pwtest1"
+                Username = "Username06660bb5-92e5-496e-b026-87eae481014e",
+                Password = "Password06660bb5-92e5-496e-b026-87eae481014e"
             };
 
             var response = await _client.PostAsJsonAsync("/user/login", loginRequest);

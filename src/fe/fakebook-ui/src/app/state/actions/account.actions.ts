@@ -2,7 +2,8 @@ import { createAction, props } from '@ngrx/store';
 
 // Action Types
 export const LOGIN_REQUEST = '[Account] Login Request';
-export const LOGIN_SUCCESS = '[Account] Login Success';
+export const BEFORE_LOGIN_SUCCESS = '[Account] Before Login Success';
+export const AFTER_LOGIN_SUCCESS = '[Account] After Login Success';
 export const LOGIN_FAILURE = '[Account] Login Failure';
 export const LOG_OUT = '[Account] Logout';
 
@@ -12,9 +13,14 @@ export const loginRequest = createAction(
     props<{ username: string; password: string }>()
 );
 
-export const loginSuccess = createAction(
-    LOGIN_SUCCESS,
+export const beforeLoginSuccess = createAction(
+    BEFORE_LOGIN_SUCCESS,
     props<{ token: string }>()
+);
+
+export const afterLoginSuccess = createAction(
+    AFTER_LOGIN_SUCCESS,
+    props<{ permissions: string[] }>()
 );
 
 export const loginFailure = createAction(

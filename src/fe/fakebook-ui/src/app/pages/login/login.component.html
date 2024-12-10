@@ -81,10 +81,13 @@
 
                     <!-- Fingerprint Modal Trigger -->
                     <div class="col-md-12 text-center mt-4">
-                        <p class="text-muted">Start using your fingerprint</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm sign-up"
+                        <p class="text-muted">Start using other options</p>
+                        <button type="button" class="btn btn-outline-primary btn-sm sign-up mx-2"
                             (click)="openFingerprintModal()">
                             Use Fingerprint
+                        </button><button type="button" class="btn btn-outline-primary btn-sm sign-up mx-2"
+                            (click)="loginWithIdP()">
+                            Login with IdP
                         </button>
                     </div>
 

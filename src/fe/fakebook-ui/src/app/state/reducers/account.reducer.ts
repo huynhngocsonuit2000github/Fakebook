@@ -1,6 +1,6 @@
 // src/app/state/reducers/account.reducer.ts
 import { createReducer, on } from '@ngrx/store';
-import { loginRequest, loginSuccess, loginFailure, logOut } from '../actions/account.actions';
+import { loginRequest, loginFailure, logOut, beforeLoginSuccess, afterLoginSuccess } from '../actions/account.actions';
 import { initialState } from '../account.state';
 
 export const accountReducer = createReducer(
@@ -11,15 +11,27 @@ export const accountReducer = createReducer(
             loading: true,
         }
     }),
-    on(loginSuccess, (state, { token }) => {
+    on(beforeLoginSuccess, (state, { token }) => {
+        console.log('reducer', token);
         return {
             ...state,
             token,
-            loading: false,
+            loading: true,
             error: null,
             authUser: {
                 isAuthenticated: true,
-                userPermissions: ['member_read', 'member_create', 'admin_read', 'admin_create'] // fake data
+                userPermissions: []
+            }
+        }
+    }),
+    on(afterLoginSuccess, (state, { permissions }) => {
+        console.log('reducer', permissions);
+
+        return {
+            ...state,
+            authUser: {
+                isAuthenticated: true,
+                userPermissions: [...permissions]
             }
         }
     }),

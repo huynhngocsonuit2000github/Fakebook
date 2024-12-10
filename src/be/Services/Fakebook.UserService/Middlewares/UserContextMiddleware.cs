@@ -17,7 +17,7 @@ namespace Fakebook.UserService.Middlewares
             if (context!.User!.Identity!.IsAuthenticated)
             {
                 // Retrieve user information
-                var userId = context.User.FindFirst("UserId")?.Value; 
+                var userId = context.User.FindFirst("UserId")?.Value;
 
                 var userContext = new UserContext()
                 {
