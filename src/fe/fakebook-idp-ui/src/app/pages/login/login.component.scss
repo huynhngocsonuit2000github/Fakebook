@@ -1,0 +1,41 @@
+$gradient-start: #ee7724;
+$gradient-middle-1: #d8363a;
+$gradient-middle-2: #dd3675;
+$gradient-end: #b44593;
+$gradient-fallback: #fccb90;
+
+.gradient-custom-2 {
+  // Fallback for old browsers
+  background: $gradient-fallback;
+
+  // Chrome 10-25, Safari 5.1-6
+  background: -webkit-linear-gradient(
+    to right,
+    $gradient-start,
+    $gradient-middle-1,
+    $gradient-middle-2,
+    $gradient-end
+  );
+
+  // W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
+  background: linear-gradient(
+    to right,
+    $gradient-start,
+    $gradient-middle-1,
+    $gradient-middle-2,
+    $gradient-end
+  );
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 100vh !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
+}
