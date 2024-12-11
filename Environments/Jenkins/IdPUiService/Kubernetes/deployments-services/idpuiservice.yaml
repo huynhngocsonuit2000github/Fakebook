@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${IDP_UI_DEPLOYMENT_NAME}
+spec:
+  replicas: ${IDP_UI_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${IDP_UI_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${IDP_UI_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${IDP_UI_CONTAINER_NAME}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          ports:
+            - containerPort: ${IDP_UI_PORT}
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${IDP_UI_SERVICE_NAME}
+spec:
+  type: NodePort
+  ports:
+    - port: ${IDP_UI_PORT}
+      targetPort: ${IDP_UI_PORT}
+      nodePort: ${IDP_UI_NODE_PORT}  # Expose on NodePort
+  selector:
+    app: ${IDP_UI_DEPLOYMENT_NAME}
