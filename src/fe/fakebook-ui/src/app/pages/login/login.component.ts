@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AccountState } from '../../state/account.state';
 import { loginRequest, logOut } from '../../state/actions/account.actions';
 import { Observable } from 'rxjs';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -71,7 +72,7 @@ export class LoginComponent implements OnInit {
 
   loginWithIdP() {
     const returnUrl = 'callback'; // You can dynamically construct this if needed
-    const idpLoginUrl = `http://localhost:4201/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+    const idpLoginUrl = `${environment.idpUIUrl}/login?returnUrl=${encodeURIComponent(returnUrl)}`;
     window.location.href = idpLoginUrl;
   }
 }

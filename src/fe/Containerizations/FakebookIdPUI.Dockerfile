@@ -6,22 +6,22 @@ FROM node:22 AS build
 ARG ENVIRONMENT=compose
 
 # Set working directory and copy necessary files
-WORKDIR /app/fe/fakebook-ui
-COPY ./fe/fakebook-ui/package*.json ./
+WORKDIR /app/fe/fakebook-idp-ui
+COPY ./fe/fakebook-idp-ui/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy all application files and build the Angular app
-COPY ./fe/fakebook-ui ./
+COPY ./fe/fakebook-idp-ui ./
 RUN echo "Building with configuration: $ENVIRONMENT"
-RUN npx ng build --configuration=$ENVIRONMENT --output-path=/app/fe/fakebook-ui/dist/fakebook-ui
+RUN npx ng build --configuration=$ENVIRONMENT --output-path=/app/fe/fakebook-idp-ui/dist/fakebook-idp-ui
 
 # Step 2: Serve with Nginx
 FROM nginx:alpine
 
 # Copy the built Angular app to Nginx's default serving directory
-COPY --from=build /app/fe/fakebook-ui/dist/fakebook-ui/browser /usr/share/nginx/html
+COPY --from=build /app/fe/fakebook-idp-ui/dist/fakebook-idp-ui/browser /usr/share/nginx/html
 
 # Copy custom Nginx configuration
 COPY ./fe/Containerizations/Ngix/default.conf /etc/nginx/conf.d/default.conf

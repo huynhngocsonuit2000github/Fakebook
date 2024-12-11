@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fakebook-ui": {
+    "fakebook-idp-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/fakebook-ui",
+            "outputPath": "dist/fakebook-idp-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -129,16 +129,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "compose": {
-              "buildTarget": "fakebook-ui:build:compose"
+              "buildTarget": "fakebook-idp-ui:build:compose"
             },
             "development": {
-              "buildTarget": "fakebook-ui:build:development"
+              "buildTarget": "fakebook-idp-ui:build:development"
             },
             "production": {
-              "buildTarget": "fakebook-ui:build:production"
+              "buildTarget": "fakebook-idp-ui:build:production"
             },
             "staging": {
-              "buildTarget": "fakebook-ui:build:staging"
+              "buildTarget": "fakebook-idp-ui:build:staging"
             }
           },
           "defaultConfiguration": "development"

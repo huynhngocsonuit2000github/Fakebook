@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { LoginResponse } from '../../models/LoginResponse';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -54,8 +55,7 @@ export class LoginComponent implements OnInit {
           const idPToken = res.idPToken;
 
           if (email && idPToken) {
-            const dnsCb = 'http://localhost:4200'
-            window.location.href = `${dnsCb}/${returnUrl}?email=${email}&idPToken=${idPToken}`;
+            window.location.href = `${environment.callbackUrl}/${returnUrl}?email=${email}&idPToken=${idPToken}`;
           }
         },
           error => {
