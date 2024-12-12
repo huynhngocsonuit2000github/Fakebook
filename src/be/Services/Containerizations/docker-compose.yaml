@@ -33,6 +33,19 @@ services:
     networks:
       - docker_compose_network
 
+  # API Gateway service
+  compose-apigateway-service:
+    image: huynhngocsonuit2000docker/fakebook-apigateway:v001
+    container_name: compose-apigateway-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Compose
+    ports:
+      - "4321:80"
+    depends_on:
+      - compose-user-user-service
+    networks:
+      - docker_compose_network
+
   # User SQL server
   compose-user-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -49,10 +62,10 @@ services:
 
   # User service
   compose-user-user-service:
-    image: huynhngocsonuit2000docker/fakebook-userservice:v004
+    image: huynhngocsonuit2000docker/fakebook-userservice:v005
     container_name: compose-user-user-service
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Compose
       - ConnectionStrings__DefaultConnection=Server=compose-user-sqlserver,1433;Database=UserDatabase;User Id=sa;Password=admin1234$;
     ports:
       - "4000:80"
