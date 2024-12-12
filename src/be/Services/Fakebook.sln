@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.DataAccessLayer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.IdPService", ".\Fakebook.IdPService\Fakebook.IdPService.csproj", "{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.ApiGateway", "Fakebook.ApiGateway\Fakebook.ApiGateway.csproj", "{951550B9-9C0A-4FB8-AC93-1989F6798319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
