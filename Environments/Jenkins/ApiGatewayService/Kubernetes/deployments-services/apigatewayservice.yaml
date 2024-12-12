@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${API_GATEWAY_DEPLOYMENT_NAME}
+spec:
+  replicas: ${API_GATEWAY_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${API_GATEWAY_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${API_GATEWAY_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${API_GATEWAY_CONTAINER_NAME}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          ports:
+            - containerPort: ${API_GATEWAY_PORT}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: ${API_GATEWAY_ENVIRONMENT}
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${API_GATEWAY_SERVICE_NAME}
+spec:
+  type: NodePort
+  ports:
+    - port: ${API_GATEWAY_PORT}
+      targetPort: ${API_GATEWAY_PORT}
+      nodePort: ${API_GATEWAY_NODE_PORT}  # Expose on NodePort
+  selector:
+    app: ${API_GATEWAY_DEPLOYMENT_NAME}

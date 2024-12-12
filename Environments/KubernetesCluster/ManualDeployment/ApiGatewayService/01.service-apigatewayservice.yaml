@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-fakebook-apigateway-deployment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-fakebook-apigateway-deployment-service
+  template:
+    metadata:
+      labels:
+        app: staging-fakebook-apigateway-deployment-service
+    spec:
+      containers:
+        - name: apigatewayservice
+          image: huynhngocsonuit2000docker/fakebook-apigateway:v001
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Staging"
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-fakebook-apigateway-service-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 31321  # Expose on NodePort
+  selector:
+    app: staging-fakebook-apigateway-deployment-service
