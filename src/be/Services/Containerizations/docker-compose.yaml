@@ -58,7 +58,7 @@ services:
     networks:
       - docker_compose_network
     volumes:
-      - mssql-data:/var/opt/mssql
+      - user-mssql-data:/var/opt/mssql
 
   # User service
   compose-user-user-service:
@@ -74,9 +74,23 @@ services:
     networks:
       - docker_compose_network
 
+  # Auth SQL server
+  compose-auth-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: compose-auth-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=admin1234$
+    ports:
+      - "2434:1433"
+    networks:
+      - docker_compose_network
+    volumes:
+      - auth-mssql-data:/var/opt/mssql
 networks:
   docker_compose_network:
     driver: bridge
 
 volumes:
-  mssql-data:
+  user-mssql-data:
+  auth-mssql-data:

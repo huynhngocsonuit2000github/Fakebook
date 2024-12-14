@@ -10,7 +10,7 @@ return [
     // User Service Configuration
     API_GATEWAY_ENVIRONMENT: 'Staging',
     API_GATEWAY_DEPLOYMENT_NAME: 'staging-fakebook-apigateway-deployment-service',
-    API_GATEWAY_SERVICE_NAME: 'staging-fakebook-apigateway-service-service',
+    API_GATEWAY_SERVICE_NAME: 'staging-fakebook-apigateway-service',
     API_GATEWAY_CONTAINER_NAME: 'apigatewayservice',
     API_GATEWAY_PORT: 80,
     API_GATEWAY_REPLICAS: 1,

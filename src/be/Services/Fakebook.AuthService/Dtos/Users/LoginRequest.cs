@@ -1,4 +1,4 @@
-namespace Fakebook.UserService.Dtos.Users
+namespace Fakebook.AuthService.Dtos.Users
 {
     public class LoginRequest
     {

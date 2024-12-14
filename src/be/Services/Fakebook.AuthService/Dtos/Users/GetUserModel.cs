@@ -1,26 +1,26 @@
-using Fakebook.UserService.Entity;
+using Fakebook.AuthService.Entity;
 
-namespace Fakebook.UserService.Dtos.Users
+namespace Fakebook.AuthService.Dtos.Users
 {
-    public class RegisterUserRequest
+    public class GetUserModel
     {
+        public string Id { get; set; } = null!;
         public string Firstname { get; set; } = null!;
         public string Lastname { get; set; } = null!;
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Email { get; set; } = null!;
 
-        public static User ToEntity(RegisterUserRequest user)
+        public static GetUserModel FromEntity(User user)
         {
-            return new User()
+            return new GetUserModel()
             {
+                Id = user.Id,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
                 Username = user.Username,
-                PasswordHash = user.Password,
+                Password = user.PasswordHash,
                 Email = user.Email,
-                CreatedBy = "me",
-                LastModifiedBy = "me",
             };
         }
     }

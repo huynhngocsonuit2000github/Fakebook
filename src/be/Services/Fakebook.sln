@@ -9,15 +9,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "be", "be", "{81366A39-9B15-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{FC934E26-8FF9-4920-983B-4A6644FEC282}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.UserService", ".\Fakebook.UserService\Fakebook.UserService.csproj", "{274A1353-6C76-4723-9E83-7D3F56D645E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.UserService", "Fakebook.UserService\Fakebook.UserService.csproj", "{274A1353-6C76-4723-9E83-7D3F56D645E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{4DA33BB4-0B3E-458C-8849-383E2705C685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.DataAccessLayer", ".\Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj", "{1876177B-ECDD-4BF4-A38A-3433C283602F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.DataAccessLayer", "Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj", "{1876177B-ECDD-4BF4-A38A-3433C283602F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.IdPService", ".\Fakebook.IdPService\Fakebook.IdPService.csproj", "{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.IdPService", "Fakebook.IdPService\Fakebook.IdPService.csproj", "{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.ApiGateway", "Fakebook.ApiGateway\Fakebook.ApiGateway.csproj", "{951550B9-9C0A-4FB8-AC93-1989F6798319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.ApiGateway", "Fakebook.ApiGateway\Fakebook.ApiGateway.csproj", "{951550B9-9C0A-4FB8-AC93-1989F6798319}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.AuthService", "Fakebook.AuthService\Fakebook.AuthService.csproj", "{0211C895-6A06-493B-A083-0528F83BD05F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{951550B9-9C0A-4FB8-AC93-1989F6798319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0211C895-6A06-493B-A083-0528F83BD05F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0211C895-6A06-493B-A083-0528F83BD05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0211C895-6A06-493B-A083-0528F83BD05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0211C895-6A06-493B-A083-0528F83BD05F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,9 @@ Global
 		{274A1353-6C76-4723-9E83-7D3F56D645E1} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
 		{4DA33BB4-0B3E-458C-8849-383E2705C685} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
 		{1876177B-ECDD-4BF4-A38A-3433C283602F} = {4DA33BB4-0B3E-458C-8849-383E2705C685}
+		{A9FF71F6-1C64-44AD-9F61-FFB36B2C9F82} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
+		{951550B9-9C0A-4FB8-AC93-1989F6798319} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
+		{0211C895-6A06-493B-A083-0528F83BD05F} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEE36AB9-652E-44B1-ABF5-120C5AEE1EAC}

@@ -1,0 +1,53 @@
+{
+  "roles": [
+    {
+      "roleName": "Admin",
+      "description": "Administrator role with all permissions",
+      "permissions": [
+        { "permissionName": "User_Manage", "description": "Permission to manage users" },
+        { "permissionName": "Dashboard_Manage", "description": "Permission to manage the dashboard" },
+        { "permissionName": "HomePage_Access", "description": "Permission to access the home page" },
+        { "permissionName": "Messenger_Send", "description": "Permission to send messages" },
+        { "permissionName": "Messenger_Receive", "description": "Permission to receive messages" }
+      ],
+      "users": [
+        {
+          "username": "admin",
+          "firstname": "Admin",
+          "lastname": "Super",
+          "email": "admin@gmail.com",
+          "passwordHash": "123"
+        }
+      ]
+    },
+    {
+      "roleName": "Member",
+      "description": "Regular member role with limited permissions",
+      "permissions": [
+        { "permissionName": "HomePage_Access", "description": "Permission to access the home page" },
+        { "permissionName": "Messenger_Send", "description": "Permission to send messages" },
+        { "permissionName": "Messenger_Receive", "description": "Permission to receive messages" },
+        { "permissionName": "Friends_View", "description": "Permission to view the friends list" },
+        { "permissionName": "Friends_Manage", "description": "Permission to manage friends" },
+        { "permissionName": "Profile_View", "description": "Permission to view the profile" },
+        { "permissionName": "Profile_Edit", "description": "Permission to edit the profile" }
+      ],
+      "users": [
+        {
+          "username": "son",
+          "firstname": "Son",
+          "lastname": "Huynh",
+          "email": "son@gmail.com",
+          "passwordHash": "123"
+        },
+        {
+          "username": "truc",
+          "firstname": "Truc",
+          "lastname": "Thanh",
+          "email": "truc@gmail.com",
+          "passwordHash": "123"
+        }
+      ]
+    }
+  ]
+}

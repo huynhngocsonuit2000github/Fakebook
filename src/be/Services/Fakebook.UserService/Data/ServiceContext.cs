@@ -1,6 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using Fakebook.UserService.Configurations;
 using Fakebook.UserService.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fakebook.UserService.Data
 {
@@ -10,14 +9,10 @@ namespace Fakebook.UserService.Data
 
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
-        public DbSet<UserRole> UserRoles { get; set; } = null!;
         public DbSet<Permission>? Permissions { get; set; }
-        public DbSet<RolePermission>? RolePermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
-            modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
         }
     }
 }

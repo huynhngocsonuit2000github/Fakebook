@@ -1,4 +1,4 @@
-namespace Fakebook.UserService.Dtos.Users;
+namespace Fakebook.AuthService.Dtos.Users;
 public class ExchangeIdPToken
 {
     public string Email { get; set; } = null!;
