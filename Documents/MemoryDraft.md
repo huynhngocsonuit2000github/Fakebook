@@ -3,3 +3,6 @@ docker compose -f ./be/Services/Containerizations/docker-compose.yaml down
 docker build -t huynhngocsonuit2000docker/fakebook-userservice:v001 . -f ./be/Services/Containerizations/UserService.Dockerfile
 
 docker compose -f ./be/Services/Containerizations/docker-compose.yaml up -d
+
+git config --global user.name "Huynh Ngoc Son"
+git config --global user.email "huynhngocson.uit.2000@gmail.com"

@@ -87,6 +87,21 @@ services:
       - docker_compose_network
     volumes:
       - auth-mssql-data:/var/opt/mssql
+
+  # Auth service
+  compose-auth-auth-service:
+    image: huynhngocsonuit2000docker/fakebook-authservice:v001
+    container_name: compose-auth-auth-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Compose
+      - ConnectionStrings__DefaultConnection=Server=compose-auth-sqlserver,1433;Database=AuthDatabase;User Id=sa;Password=admin1234$;
+    ports:
+      - "4005:80"
+    depends_on:
+      - compose-auth-sqlserver
+    networks:
+      - docker_compose_network
+
 networks:
   docker_compose_network:
     driver: bridge

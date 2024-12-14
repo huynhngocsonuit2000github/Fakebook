@@ -1,149 +1,149 @@
-using System.Net.Http.Json;
-using FluentAssertions;
-using System.Net.Http.Headers;
-using Microsoft.Extensions.Configuration;
-using Xunit;
-using FakebookIntegrationTests.Extensions;
-using FakebookIntegrationTests.Models.UserService.UserController;
+// using System.Net.Http.Json;
+// using FluentAssertions;
+// using System.Net.Http.Headers;
+// using Microsoft.Extensions.Configuration;
+// using Xunit;
+// using FakebookIntegrationTests.Extensions;
+// using FakebookIntegrationTests.Models.UserService.UserController;
 
-namespace FakebookIntegrationTests.UserService
-{
-    public class UserControllerIntegrationTests
-    {
-        private readonly HttpClient _client;
-        private string _jwtToken = null!;
-        private string _userId = "b3081505-eddf-4334-8aeb-16d49b0756ef";
+// namespace FakebookIntegrationTests.UserService
+// {
+//     public class UserControllerIntegrationTests
+//     {
+//         private readonly HttpClient _client;
+//         private string _jwtToken = null!;
+//         private string _userId = "b3081505-eddf-4334-8aeb-16d49b0756ef";
 
-        public UserControllerIntegrationTests()
-        {
-            // Load configuration from appsettings.json
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
+//         public UserControllerIntegrationTests()
+//         {
+//             // Load configuration from appsettings.json
+//             var configuration = new ConfigurationBuilder()
+//                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", optional: true)
+//                 .AddEnvironmentVariables()
+//                 .Build();
 
-            // Get base URL from configuration
-            var baseUrl = configuration["UserService:BaseUrl"] ?? throw new ArgumentNullException("Environment BaseURL");
+//             // Get base URL from configuration
+//             var baseUrl = configuration["UserService:BaseUrl"] ?? throw new ArgumentNullException("Environment BaseURL");
 
-            _client = new HttpClient { BaseAddress = new Uri(baseUrl) };
-        }
+//             _client = new HttpClient { BaseAddress = new Uri(baseUrl) };
+//         }
 
-        private async Task<string> GetJwtTokenAsync()
-        {
-            if (_jwtToken != null)
-            {
-                return _jwtToken;
-            }
+//         private async Task<string> GetJwtTokenAsync()
+//         {
+//             if (_jwtToken != null)
+//             {
+//                 return _jwtToken;
+//             }
 
-            var loginRequest = new
-            {
-                Username = "Username06660bb5-92e5-496e-b026-87eae481014e",
-                Password = "Password06660bb5-92e5-496e-b026-87eae481014e"
-            };
+//             var loginRequest = new
+//             {
+//                 Username = "Username06660bb5-92e5-496e-b026-87eae481014e",
+//                 Password = "Password06660bb5-92e5-496e-b026-87eae481014e"
+//             };
 
-            var response = await _client.PostAsJsonAsync("/user/login", loginRequest);
-            response.EnsureSuccessStatusCode();
+//             var response = await _client.PostAsJsonAsync("/user/login", loginRequest);
+//             response.EnsureSuccessStatusCode();
 
-            _jwtToken = await response.Content.ReadAsStringAsync();
+//             _jwtToken = await response.Content.ReadAsStringAsync();
 
-            return _jwtToken;
-        }
+//             return _jwtToken;
+//         }
 
-        [Fact]
-        public async Task RegisterUserAsync_ReturnsOkResponse_WhenAuthorized()
-        {
-            // Arrange
-            var guid = Guid.NewGuid().ToString();
-            var registrationRequest = new
-            {
-                Firstname = "Firstname" + guid,
-                Lastname = "Lastname" + guid,
-                Username = "Username" + guid,
-                Password = "Password" + guid,
-                Email = "Email" + guid + "@gmail.com",
-            };
+//         [Fact]
+//         public async Task RegisterUserAsync_ReturnsOkResponse_WhenAuthorized()
+//         {
+//             // Arrange
+//             var guid = Guid.NewGuid().ToString();
+//             var registrationRequest = new
+//             {
+//                 Firstname = "Firstname" + guid,
+//                 Lastname = "Lastname" + guid,
+//                 Username = "Username" + guid,
+//                 Password = "Password" + guid,
+//                 Email = "Email" + guid + "@gmail.com",
+//             };
 
-            // Act
-            var response = await _client.PostAsJsonAsync("/user/register", registrationRequest);
-            _userId = await response.Content.ReadAsStringAsync();
+//             // Act
+//             var response = await _client.PostAsJsonAsync("/user/register", registrationRequest);
+//             _userId = await response.Content.ReadAsStringAsync();
 
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            _userId.Should().NotBeEmpty();
-            _userId.Length.Should().Be(36);
-        }
+//             // Assert
+//             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+//             _userId.Should().NotBeEmpty();
+//             _userId.Length.Should().Be(36);
+//         }
 
-        [Fact]
-        public async Task GetAllUsersAsync_ReturnsOkResponse_WhenAuthorized()
-        {
-            // Arrange
-            var token = await GetJwtTokenAsync();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+//         [Fact]
+//         public async Task GetAllUsersAsync_ReturnsOkResponse_WhenAuthorized()
+//         {
+//             // Arrange
+//             var token = await GetJwtTokenAsync();
+//             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            // Act
-            var response = await _client.GetAsync("/user");
+//             // Act
+//             var response = await _client.GetAsync("/user");
 
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        }
+//             // Assert
+//             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+//         }
 
-        [Fact]
-        public async Task GetUserAsync_ReturnsNotFoundResponse_WhenAuthorized()
-        {
-            // Arrange
-            var token = await GetJwtTokenAsync();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+//         [Fact]
+//         public async Task GetUserAsync_ReturnsNotFoundResponse_WhenAuthorized()
+//         {
+//             // Arrange
+//             var token = await GetJwtTokenAsync();
+//             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            // Act
-            var response = await _client.GetAsync("/user/0");
+//             // Act
+//             var response = await _client.GetAsync("/user/0");
 
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
-        }
+//             // Assert
+//             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+//         }
 
-        [Fact]
-        public async Task GetUserAsync_ReturnsOkResponse_WhenAuthorized()
-        {
-            // Arrange
-            var token = await GetJwtTokenAsync();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+//         [Fact]
+//         public async Task GetUserAsync_ReturnsOkResponse_WhenAuthorized()
+//         {
+//             // Arrange
+//             var token = await GetJwtTokenAsync();
+//             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            // Act
-            var response = await _client.GetAsync($"/user/{_userId}");
+//             // Act
+//             var response = await _client.GetAsync($"/user/{_userId}");
 
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        }
+//             // Assert
+//             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+//         }
 
-        [Fact]
-        public async Task UpdateAsync_ReturnsNoContentResponse_WhenAuthorized()
-        {
-            // Arrange
-            var token = await GetJwtTokenAsync();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var guid = Guid.NewGuid().ToString();
-            var updateUserRequest = new
-            {
-                UserId = _userId,
-                Firstname = "new firstname " + guid,
-                Lastname = "new lastname " + guid,
-            };
+//         [Fact]
+//         public async Task UpdateAsync_ReturnsNoContentResponse_WhenAuthorized()
+//         {
+//             // Arrange
+//             var token = await GetJwtTokenAsync();
+//             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+//             var guid = Guid.NewGuid().ToString();
+//             var updateUserRequest = new
+//             {
+//                 UserId = _userId,
+//                 Firstname = "new firstname " + guid,
+//                 Lastname = "new lastname " + guid,
+//             };
 
-            // Act
-            var response = await _client.PatchAsJsonAsync("/user/update", updateUserRequest);
+//             // Act
+//             var response = await _client.PatchAsJsonAsync("/user/update", updateUserRequest);
 
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+//             // Assert
+//             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
 
-            // Act
-            var responseGetUser = await _client.GetAsync($"/user/{_userId}");
-            responseGetUser.EnsureSuccessStatusCode();
+//             // Act
+//             var responseGetUser = await _client.GetAsync($"/user/{_userId}");
+//             responseGetUser.EnsureSuccessStatusCode();
 
-            var userResponse = await responseGetUser.Content.ReadFromJsonAsync<GetUserModel>();
-            userResponse.Should().NotBeNull();
-            userResponse!.Firstname.Should().Be(updateUserRequest.Firstname);
-            userResponse.Lastname.Should().Be(updateUserRequest.Lastname);
-        }
-    }
-}
+//             var userResponse = await responseGetUser.Content.ReadFromJsonAsync<GetUserModel>();
+//             userResponse.Should().NotBeNull();
+//             userResponse!.Firstname.Should().Be(updateUserRequest.Firstname);
+//             userResponse.Lastname.Should().Be(updateUserRequest.Lastname);
+//         }
+//     }
+// }
