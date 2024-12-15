@@ -10,19 +10,19 @@
         }
       ],
       "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     },
     {
       "DownstreamPathTemplate": "/auth/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "compose-abc-service",
+          "Host": "compose-auth-auth-service",
           "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     }
   ],
   "GlobalConfiguration": {

@@ -10,19 +10,19 @@
         }
       ],
       "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     },
     {
       "DownstreamPathTemplate": "/auth/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "staging-abc-service.staging-environment.svc.cluster.local",
-          "Port": 9999
+          "Host": "staging-auth-service-auth-service.staging-environment.svc.cluster.local",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     }
   ],
   "GlobalConfiguration": {

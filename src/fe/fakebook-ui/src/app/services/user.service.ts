@@ -10,7 +10,7 @@ import { environment } from './../../environments/environment';
 })
 export class UserService {
   // private apiUrl = `http://192.168.50.10:32000/user`; // Use environment variable for API URL
-  private apiUrl = `${environment.apiUrl}/user`; // Use environment variable for API URL
+  private apiUrl = `${environment.apiUrl}`; // Use environment variable for API URL
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class UserService {
     const body = { email, idPToken };
 
     return this.http
-      .post(`${this.apiUrl}/exchange-idp-token`, body, { headers, responseType: 'text' })
+      .post(`${this.apiUrl}/auth/exchange-idp-token`, body, { headers, responseType: 'text' })
       .pipe(
         map((response: string) => {
           sessionStorage.setItem('token', response); // Store token in sessionStorage
@@ -39,7 +39,7 @@ export class UserService {
 
 
     // Remove 'responseType: 'text'' and let Angular handle the response as JSON
-    return this.http.get<string[]>(`${this.apiUrl}/get-user-permission`, {
+    return this.http.get<string[]>(`${this.apiUrl}/auth/get-user-permission`, {
       headers,
     });
   }
@@ -50,7 +50,7 @@ export class UserService {
     const body = { username, password };
 
     return this.http
-      .post(`${this.apiUrl}/login`, body, { headers, responseType: 'text' })
+      .post(`${this.apiUrl}/auth/login`, body, { headers, responseType: 'text' })
       .pipe(
         map((response: string) => {
           sessionStorage.setItem('token', response); // Store token in sessionStorage

@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     },
     {
       "DownstreamPathTemplate": "/auth/{everything}",
@@ -18,11 +18,11 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 9999
+          "Port": 5005
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     }
   ],
   "GlobalConfiguration": {

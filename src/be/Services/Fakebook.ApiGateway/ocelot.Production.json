@@ -10,19 +10,19 @@
         }
       ],
       "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     },
     {
       "DownstreamPathTemplate": "/auth/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "production-abc-service.production-environment.svc.cluster.local",
-          "Port": 9999
+          "Host": "production-auth-service-auth-service.production-environment.svc.cluster.local",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ]
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
     }
   ],
   "GlobalConfiguration": {

@@ -50,3 +50,9 @@ docker run --name auth-mysql -e MYSQL_ROOT_PASSWORD=admin1234$ -e MYSQL_DATABASE
 
 kubectl delete services --all -n production-environment
 kubectl delete deployments --all -n production-environment
+
+<!-- Check resource -->
+
+kubectl describe node staging-k8s-master | grep -A 15 "Capacity"
+kubectl describe node staging-k8s-worker1 | grep -A 15 "Capacity"
+kubectl describe node staging-k8s-worker2 | grep -A 15 "Capacity"
