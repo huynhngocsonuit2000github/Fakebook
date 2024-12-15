@@ -9,10 +9,10 @@ Vagrant.configure("2") do |config|
       master.vm.network "private_network", ip: "192.168.50.10"  # Master node's IP Address
       master.vm.provider "virtualbox" do |vb|
         vb.memory = 2048
-        vb.cpus = 2
+        vb.cpus = 1
       end
   
-      ### Provision scripts for master node
+      ### Provision scripts for master node (comment this section when upgrade resource)
       master.vm.provision "shell", path: "./provision-env.sh"
       master.vm.provision "shell", path: "./../../SharedScripts/provision-docker.sh"
       master.vm.provision "shell", path: "./../../SharedScripts/provision-kubernetes.sh"
@@ -27,11 +27,11 @@ Vagrant.configure("2") do |config|
         node.vm.hostname = "staging-k8s-worker#{i}"
         node.vm.network "private_network", ip: "192.168.50.#{10 + i}"   # Worker node's IP Address
         node.vm.provider "virtualbox" do |vb|
-          vb.memory = 4096
-          vb.cpus = 2
+          vb.memory = 10240
+          vb.cpus = 3
         end
   
-        ### Provision scripts for worker nodes
+        ### Provision scripts for worker nodes (comment this section when upgrade resource)
         node.vm.provision "shell", path: "./provision-env.sh"
         node.vm.provision "shell", path: "./../../SharedScripts/provision-docker.sh"
         node.vm.provision "shell", path: "./../../SharedScripts/provision-kubernetes.sh"
