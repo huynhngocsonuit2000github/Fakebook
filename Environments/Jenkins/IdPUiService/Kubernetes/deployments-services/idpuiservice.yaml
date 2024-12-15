@@ -18,6 +18,14 @@ spec:
           ports:
             - containerPort: ${IDP_UI_PORT}
 
+          # resources:
+          #   requests:
+          #     memory: "${IDP_UI_MEMORY_REQUEST}"
+          #     cpu: "${IDP_UI_CPU_REQUEST}"
+          #   limits:
+          #     memory: "${IDP_UI_MEMORY_LIMIT}"
+          #     cpu: "${IDP_UI_CPU_LIMIT}"
+
 ---
 # User Service
 apiVersion: v1
@@ -29,6 +37,6 @@ spec:
   ports:
     - port: ${IDP_UI_PORT}
       targetPort: ${IDP_UI_PORT}
-      nodePort: ${IDP_UI_NODE_PORT}  # Expose on NodePort
+      nodePort: ${IDP_UI_NODE_PORT} # Expose on NodePort
   selector:
     app: ${IDP_UI_DEPLOYMENT_NAME}

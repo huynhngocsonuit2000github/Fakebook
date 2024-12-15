@@ -16,10 +16,10 @@ return [
     MYSQL_SECRET_NAME: 'user-secret-credential',
     MYSQL_DEFAULT_DATABASE: 'UserDatabase',
     MYSQL_SECRET_PASSWORD_KEY: 'ROOT_PASSWORD',
-    MYSQL_MEMORY_REQUEST: "200m",
-    MYSQL_CPU_REQUEST: "256Mi",
-    MYSQL_MEMORY_LIMIT: "500m",
-    MYSQL_CPU_LIMIT: "512Mi",
+    MYSQL_MEMORY_REQUEST: "500m",
+    MYSQL_CPU_REQUEST: "512Mi",
+    MYSQL_MEMORY_LIMIT: "1000m",
+    MYSQL_CPU_LIMIT: "1024Mi",
     MYSQL_SERVICE_NAME: 'staging-user-service-mysql',
 
     // User Service Configuration
@@ -33,4 +33,8 @@ return [
     USER_SECRET_PASSWORD_KEY: 'ROOT_PASSWORD',
     USER_SERVICE_NAME: 'staging-user-service-user-service',
     USER_NODE_PORT: 31000,
+    USER_MEMORY_REQUEST: "500m",
+    USER_CPU_REQUEST: "512Mi",
+    USER_MEMORY_LIMIT: "1000m",
+    USER_CPU_LIMIT: "1024Mi",
 ]

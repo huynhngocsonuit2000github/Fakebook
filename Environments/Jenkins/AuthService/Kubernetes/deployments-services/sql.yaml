@@ -25,13 +25,13 @@ spec:
                 secretKeyRef:
                   name: ${MYSQL_SECRET_NAME}
                   key: ${MYSQL_SECRET_PASSWORD_KEY}
-          resources:
-            requests:
-              memory: "${MYSQL_MEMORY_REQUEST}"
-              cpu: "${MYSQL_CPU_REQUEST}"
-            limits:
-              memory: "${MYSQL_MEMORY_LIMIT}"
-              cpu: "${MYSQL_CPU_LIMIT}"
+          # resources:
+          #   requests:
+          #     memory: "${MYSQL_MEMORY_REQUEST}"
+          #     cpu: "${MYSQL_CPU_REQUEST}"
+          #   limits:
+          #     memory: "${MYSQL_MEMORY_LIMIT}"
+          #     cpu: "${MYSQL_CPU_LIMIT}"
 
 ---
 # SQL Server Service

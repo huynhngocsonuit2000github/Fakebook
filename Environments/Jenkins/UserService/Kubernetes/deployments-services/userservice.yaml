@@ -27,13 +27,13 @@ spec:
                 secretKeyRef:
                   name: ${USER_SECRET_NAME}
                   key: ${USER_SECRET_PASSWORD_KEY}
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "500m"
-            limits:
-              memory: "256Mi"
-              cpu: "1"
+          # resources:
+          #   requests:
+          #     memory: "${USER_MEMORY_REQUEST}" # Set to 2 GB to meet the SQL Server requirement
+          #     cpu: "${USER_CPU_REQUEST}" # Adjust CPU as necessary
+          #   limits:
+          #     memory: "${USER_MEMORY_LIMIT}" # Optional: Set a higher limit if you want to allow more usage
+          #     cpu: "${USER_CPU_LIMIT}"
 
 ---
 # User Service

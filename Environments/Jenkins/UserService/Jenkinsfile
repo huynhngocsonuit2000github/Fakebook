@@ -103,6 +103,10 @@ pipeline {
                     env.USER_SECRET_PASSWORD_KEY = config.USER_SECRET_PASSWORD_KEY
                     env.USER_SERVICE_NAME = config.USER_SERVICE_NAME
                     env.USER_NODE_PORT = config.USER_NODE_PORT.toString()
+                    env.USER_MEMORY_REQUEST = config.USER_MEMORY_REQUEST
+                    env.USER_CPU_REQUEST = config.USER_CPU_REQUEST
+                    env.USER_MEMORY_LIMIT = config.USER_MEMORY_LIMIT
+                    env.USER_CPU_LIMIT = config.USER_CPU_LIMIT
                 }
             }
         }

@@ -31,6 +31,6 @@ spec:
   ports:
     - port: ${API_GATEWAY_PORT}
       targetPort: ${API_GATEWAY_PORT}
-      nodePort: ${API_GATEWAY_NODE_PORT}  # Expose on NodePort
+      nodePort: ${API_GATEWAY_NODE_PORT} # Expose on NodePort
   selector:
     app: ${API_GATEWAY_DEPLOYMENT_NAME}

@@ -103,6 +103,10 @@ pipeline {
                     env.AUTH_SECRET_PASSWORD_KEY = config.AUTH_SECRET_PASSWORD_KEY
                     env.AUTH_SERVICE_NAME = config.AUTH_SERVICE_NAME
                     env.AUTH_NODE_PORT = config.AUTH_NODE_PORT.toString()
+                    env.AUTH_MEMORY_REQUEST = config.AUTH_MEMORY_REQUEST
+                    env.AUTH_CPU_REQUEST = config.AUTH_CPU_REQUEST
+                    env.AUTH_MEMORY_LIMIT = config.AUTH_MEMORY_LIMIT
+                    env.AUTH_CPU_LIMIT = config.AUTH_CPU_LIMIT
                 }
             }
         }

@@ -65,6 +65,14 @@ pipeline {
                     env.IDP_API_PORT = config.IDP_API_PORT.toString()
                     env.IDP_API_REPLICAS = config.IDP_API_REPLICAS.toString()
                     env.IDP_API_NODE_PORT = config.IDP_API_NODE_PORT.toString()
+                    env.IDP_API_MEMORY_REQUEST = config.AUTH_MEMORY_REQUEST
+                    env.IDP_API_CPU_REQUEST = config.AUTH_CPU_REQUEST
+                    env.IDP_API_MEMORY_LIMIT = config.AUTH_MEMORY_LIMIT
+                    env.IDP_API_CPU_LIMIT = config.AUTH_CPU_LIMIT
+                    env.IDP_API_MEMORY_REQUEST = config.IDP_API_MEMORY_REQUEST
+                    env.IDP_API_CPU_REQUEST = config.IDP_API_CPU_REQUEST
+                    env.IDP_API_MEMORY_LIMIT = config.IDP_API_MEMORY_LIMIT
+                    env.IDP_API_CPU_LIMIT = config.IDP_API_CPU_LIMIT
                 }
             }
         }

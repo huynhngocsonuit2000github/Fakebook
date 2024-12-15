@@ -33,4 +33,8 @@ return [
     AUTH_SECRET_PASSWORD_KEY: 'ROOT_PASSWORD',
     AUTH_SERVICE_NAME: 'production-auth-service-auth-service',
     AUTH_NODE_PORT: 32005,
+    AUTH_MEMORY_REQUEST: "200m",
+    AUTH_CPU_REQUEST: "128Mi",
+    AUTH_MEMORY_LIMIT: "500m",
+    AUTH_CPU_LIMIT: "256Mi",
 ]

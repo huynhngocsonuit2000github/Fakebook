@@ -33,4 +33,8 @@ return [
     AUTH_SECRET_PASSWORD_KEY: 'ROOT_PASSWORD',
     AUTH_SERVICE_NAME: 'staging-auth-service-auth-service',
     AUTH_NODE_PORT: 31005,
+    AUTH_MEMORY_REQUEST: "250m",
+    AUTH_CPU_REQUEST: "128Mi",
+    AUTH_MEMORY_LIMIT: "500m",
+    AUTH_CPU_LIMIT: "256Mi",
 ]

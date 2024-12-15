@@ -45,3 +45,8 @@ try_files $uri $uri/ /index.html;
 
 docker run --name user-mysql -e MYSQL_ROOT_PASSWORD=admin1234$ -e MYSQL_DATABASE=UserDatabase -p 3306:3306 --network docker_network -d mysql:latest
 docker run --name auth-mysql -e MYSQL_ROOT_PASSWORD=admin1234$ -e MYSQL_DATABASE=AuthDatabase -p 3307:3306 --network docker_network -d mysql:latest
+
+<!-- Clean service, deployment -->
+
+kubectl delete services --all -n production-environment
+kubectl delete deployments --all -n production-environment

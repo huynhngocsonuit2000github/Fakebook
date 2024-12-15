@@ -65,6 +65,10 @@ pipeline {
                     env.IDP_UI_PORT = config.IDP_UI_PORT.toString()
                     env.IDP_UI_REPLICAS = config.IDP_UI_REPLICAS.toString()
                     env.IDP_UI_NODE_PORT = config.IDP_UI_NODE_PORT.toString()
+                    env.IDP_UI_MEMORY_REQUEST = config.IDP_UI_MEMORY_REQUEST
+                    env.IDP_UI_CPU_REQUEST = config.IDP_UI_CPU_REQUEST
+                    env.IDP_UI_MEMORY_LIMIT = config.IDP_UI_MEMORY_LIMIT
+                    env.IDP_UI_CPU_LIMIT = config.IDP_UI_CPU_LIMIT
                 }
             }
         }

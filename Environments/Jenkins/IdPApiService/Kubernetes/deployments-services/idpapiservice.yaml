@@ -17,6 +17,13 @@ spec:
           image: ${IMAGE_NAME}:${IMAGE_TAG}
           ports:
             - containerPort: ${IDP_API_PORT}
+          # resources:
+          #   requests:
+          #     memory: "${IDP_API_MEMORY_REQUEST}"
+          #     cpu: "${IDP_API_CPU_REQUEST}"
+          #   limits:
+          #     memory: "${IDP_API_MEMORY_LIMIT}"
+          #     cpu: "${IDP_API_CPU_LIMIT}"
 
 ---
 # User Service
@@ -29,6 +36,6 @@ spec:
   ports:
     - port: ${IDP_API_PORT}
       targetPort: ${IDP_API_PORT}
-      nodePort: ${IDP_API_NODE_PORT}  # Expose on NodePort
+      nodePort: ${IDP_API_NODE_PORT} # Expose on NodePort
   selector:
     app: ${IDP_API_DEPLOYMENT_NAME}

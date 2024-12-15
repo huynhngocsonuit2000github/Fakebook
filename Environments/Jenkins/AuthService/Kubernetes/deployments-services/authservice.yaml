@@ -27,13 +27,13 @@ spec:
                 secretKeyRef:
                   name: ${AUTH_SECRET_NAME}
                   key: ${AUTH_SECRET_PASSWORD_KEY}
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "500m"
-            limits:
-              memory: "256Mi"
-              cpu: "1"
+          # resources:
+          #   requests:
+          #     memory: "${AUTH_MEMORY_REQUEST}"
+          #     cpu: "${AUTH_CPU_REQUEST}"
+          #   limits:
+          #     memory: "${AUTH_MEMORY_LIMIT}"
+          #     cpu: "${AUTH_CPU_LIMIT}"
 
 ---
 # User Service

@@ -12,10 +12,6 @@ spec:
       labels:
         app: staging-auth-deployment-mysql
     spec:
-      tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
-          effect: "NoSchedule"
       containers:
         - name: mssql-server
           image: mysql:latest
