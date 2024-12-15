@@ -74,31 +74,31 @@ services:
     networks:
       - docker_compose_network
 
-  # Auth SQL server
-  compose-auth-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: compose-auth-sqlserver
+  # Auth My SQL
+  compose-auth-mysql:
+    image: mysql:latest
+    container_name: compose-auth-mysql
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=admin1234$
+      - MYSQL_ROOT_PASSWORD=admin1234$
+      - MYSQL_DATABASE=AuthDatabase
     ports:
-      - "2434:1433"
+      - "4307:3306"
     networks:
       - docker_compose_network
     volumes:
-      - auth-mssql-data:/var/opt/mssql
+      - auth-mysql-data:/var/lib/mysql
 
   # Auth service
   compose-auth-auth-service:
-    image: huynhngocsonuit2000docker/fakebook-authservice:v001
+    image: huynhngocsonuit2000docker/fakebook-authservice:v003
     container_name: compose-auth-auth-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
-      - ConnectionStrings__DefaultConnection=Server=compose-auth-sqlserver,1433;Database=AuthDatabase;User Id=sa;Password=admin1234$;
+      - ConnectionStrings__DefaultConnection=Server=compose-auth-mysql;Port=3306;Database=AuthDatabase;User=root;Password=admin1234$;SslMode=None;AllowPublicKeyRetrieval=True;
     ports:
       - "4005:80"
     depends_on:
-      - compose-auth-sqlserver
+      - compose-auth-mysql
     networks:
       - docker_compose_network
 
@@ -108,4 +108,4 @@ networks:
 
 volumes:
   user-mssql-data:
-  auth-mssql-data:
+  auth-mysql-data:
