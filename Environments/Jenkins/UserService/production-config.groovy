@@ -16,10 +16,10 @@ return [
     MYSQL_SECRET_NAME: 'user-secret-credential',
     MYSQL_DEFAULT_DATABASE: 'UserDatabase',
     MYSQL_SECRET_PASSWORD_KEY: 'ROOT_PASSWORD',
-    MYSQL_MEMORY_REQUEST: "512Mi",
-    MYSQL_CPU_REQUEST: "500m",
-    MYSQL_MEMORY_LIMIT: "1Gi",
-    MYSQL_CPU_LIMIT: "1",
+    MYSQL_MEMORY_REQUEST: "200m",
+    MYSQL_CPU_REQUEST: "256Mi",
+    MYSQL_MEMORY_LIMIT: "500m",
+    MYSQL_CPU_LIMIT: "512Mi",
     MYSQL_SERVICE_NAME: 'production-user-service-mysql',
 
     // User Service Configuration
