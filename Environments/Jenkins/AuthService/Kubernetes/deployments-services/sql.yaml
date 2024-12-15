@@ -27,10 +27,10 @@ spec:
                   key: ${MYSQL_SECRET_PASSWORD_KEY}
           resources:
             requests:
-              memory: "${MYSQL_MEMORY_REQUEST}" # Set to 2 GB to meet the SQL Server requirement
-              cpu: "${MYSQL_CPU_REQUEST}" # Adjust CPU as necessary
+              memory: "${MYSQL_MEMORY_REQUEST}"
+              cpu: "${MYSQL_CPU_REQUEST}"
             limits:
-              memory: "${MYSQL_MEMORY_LIMIT}" # Optional: Set a higher limit if you want to allow more usage
+              memory: "${MYSQL_MEMORY_LIMIT}"
               cpu: "${MYSQL_CPU_LIMIT}"
 
 ---

@@ -10,6 +10,7 @@ using Fakebook.UserService.HttpRequestHandling;
 using Fakebook.UserService.Middlewares;
 using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
+using Fakebook.UserService.DataSeeding.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,9 +68,16 @@ Console.WriteLine($"Connection string: {connectionString}");
 // Print the connection string to verify the password injection
 Console.WriteLine($"Connection String Used: {connectionString}");
 
-// Database Setup
+// Database Setup 
 builder.Services.AddDbContext<ServiceContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.UseMySQL(connectionString, mySqlOptions =>
+        mySqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null)
+    );
+});
 
 
 builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
@@ -107,6 +115,9 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ServiceContext>();
     dbContext.Database.Migrate();
+
+    // Seeding data
+    new DbSeeder(dbContext).SeedData();
 }
 
 app.UseHttpsRedirection();

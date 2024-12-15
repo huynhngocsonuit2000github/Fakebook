@@ -1,17 +1,39 @@
 {
   "roles": [
     {
+      "id": "1",
       "roleName": "Admin",
       "description": "Administrator role with all permissions",
       "permissions": [
-        { "permissionName": "User_Manage", "description": "Permission to manage users" },
-        { "permissionName": "Dashboard_Manage", "description": "Permission to manage the dashboard" },
-        { "permissionName": "HomePage_Access", "description": "Permission to access the home page" },
-        { "permissionName": "Messenger_Send", "description": "Permission to send messages" },
-        { "permissionName": "Messenger_Receive", "description": "Permission to receive messages" }
+        {
+          "id": "1",
+          "permissionName": "User_Manage",
+          "description": "Permission to manage users"
+        },
+        {
+          "id": "2",
+          "permissionName": "Dashboard_Manage",
+          "description": "Permission to manage the dashboard"
+        },
+        {
+          "id": "3",
+          "permissionName": "HomePage_Access",
+          "description": "Permission to access the home page"
+        },
+        {
+          "id": "4",
+          "permissionName": "Messenger_Send",
+          "description": "Permission to send messages"
+        },
+        {
+          "id": "5",
+          "permissionName": "Messenger_Receive",
+          "description": "Permission to receive messages"
+        }
       ],
       "users": [
         {
+          "id": "1",
           "username": "admin",
           "firstname": "Admin",
           "lastname": "Super",
@@ -21,19 +43,49 @@
       ]
     },
     {
+      "id": "2",
       "roleName": "Member",
       "description": "Regular member role with limited permissions",
       "permissions": [
-        { "permissionName": "HomePage_Access", "description": "Permission to access the home page" },
-        { "permissionName": "Messenger_Send", "description": "Permission to send messages" },
-        { "permissionName": "Messenger_Receive", "description": "Permission to receive messages" },
-        { "permissionName": "Friends_View", "description": "Permission to view the friends list" },
-        { "permissionName": "Friends_Manage", "description": "Permission to manage friends" },
-        { "permissionName": "Profile_View", "description": "Permission to view the profile" },
-        { "permissionName": "Profile_Edit", "description": "Permission to edit the profile" }
+        {
+          "id": "3",
+          "permissionName": "HomePage_Access",
+          "description": "Permission to access the home page"
+        },
+        {
+          "id": "4",
+          "permissionName": "Messenger_Send",
+          "description": "Permission to send messages"
+        },
+        {
+          "id": "5",
+          "permissionName": "Messenger_Receive",
+          "description": "Permission to receive messages"
+        },
+        {
+          "id": "6",
+          "permissionName": "Friends_View",
+          "description": "Permission to view the friends list"
+        },
+        {
+          "id": "7",
+          "permissionName": "Friends_Manage",
+          "description": "Permission to manage friends"
+        },
+        {
+          "id": "8",
+          "permissionName": "Profile_View",
+          "description": "Permission to view the profile"
+        },
+        {
+          "id": "9",
+          "permissionName": "Profile_Edit",
+          "description": "Permission to edit the profile"
+        }
       ],
       "users": [
         {
+          "id": "2",
           "username": "son",
           "firstname": "Son",
           "lastname": "Huynh",
@@ -41,6 +93,7 @@
           "passwordHash": "123"
         },
         {
+          "id": "3",
           "username": "truc",
           "firstname": "Truc",
           "lastname": "Thanh",

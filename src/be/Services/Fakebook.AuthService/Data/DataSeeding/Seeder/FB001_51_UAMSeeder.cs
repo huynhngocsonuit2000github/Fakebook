@@ -2,6 +2,7 @@ using Fakebook.AuthService.Data;
 using Newtonsoft.Json;
 using System.IO;
 using Fakebook.AuthService.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fakebook.AuthService.DataSeeding.Models;
 public class FB001_51_UAMSeeder
@@ -28,14 +29,14 @@ public class FB001_51_UAMSeeder
 
             try
             {
-                System.Console.WriteLine("Start seeding data file: " + jsonFilePath);
+                Console.WriteLine("Start seeding data file: " + jsonFilePath);
 
                 foreach (var roleData in seedData!.Roles)
                 {
                     // Create and insert roles
                     var role = new Role
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = roleData.Id,
                         RoleName = roleData.RoleName,
                         Description = roleData.Description,
                         CreatedBy = "System",
@@ -50,26 +51,31 @@ public class FB001_51_UAMSeeder
                     // Create and insert permissions for the role
                     foreach (var permissionData in roleData.Permissions)
                     {
-                        var permission = new Permission
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            PermissionName = permissionData.PermissionName,
-                            Description = permissionData.Description,
-                            CreatedBy = "System",
-                            LastModifiedBy = "System",
-                            CreatedDate = DateTime.Now,
-                            LastModifiedDate = DateTime.Now
-                        };
+                        var existingPermission = _dbContext.Permissions.FirstOrDefault(e => string.Equals(e.PermissionName, permissionData.PermissionName, StringComparison.OrdinalIgnoreCase));
 
-                        _dbContext.Permissions!.Add(permission);
-                        _dbContext.SaveChanges();
+                        if (existingPermission is null)
+                        {
+                            existingPermission = new Permission
+                            {
+                                Id = permissionData.Id,
+                                PermissionName = permissionData.PermissionName,
+                                Description = permissionData.Description,
+                                CreatedBy = "System",
+                                LastModifiedBy = "System",
+                                CreatedDate = DateTime.Now,
+                                LastModifiedDate = DateTime.Now
+                            };
+
+                            _dbContext.Permissions!.Add(existingPermission);
+                            _dbContext.SaveChanges();
+                        }
 
                         // Assign permission to role
                         _dbContext.RolePermissions!.Add(new RolePermission
                         {
                             Id = Guid.NewGuid().ToString(),
                             RoleId = role.Id,
-                            PermissionId = permission.Id,
+                            PermissionId = existingPermission.Id,
                             CreatedBy = "System",
                             LastModifiedBy = "System",
                             CreatedDate = DateTime.Now,
@@ -84,7 +90,7 @@ public class FB001_51_UAMSeeder
                     {
                         var user = new User
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = userData.Id,
                             Firstname = userData.Firstname,
                             Lastname = userData.Lastname,
                             Username = userData.Username,
@@ -116,12 +122,12 @@ public class FB001_51_UAMSeeder
                     }
                 }
 
-                System.Console.WriteLine("End seeding data file: " + jsonFilePath);
+                Console.WriteLine("End seeding data file: " + jsonFilePath);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                System.Console.WriteLine("There is an error while seeding data");
-                System.Console.WriteLine(ex);
+                Console.WriteLine("There is an error while seeding data");
+                Console.WriteLine(ex);
             }
         }
     }

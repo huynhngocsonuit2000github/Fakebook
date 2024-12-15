@@ -16,7 +16,7 @@ namespace Fakebook.UserService.Controllers
         }
 
         [HttpGet("test")]
-        public async Task<IActionResult> TestAsync(string name, string old)
+        public IActionResult TestAsync(string name, string old)
         {
             return Ok("Very good day! " + name + ", I am " + old + " years old");
         }

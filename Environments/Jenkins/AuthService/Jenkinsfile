@@ -70,7 +70,7 @@ pipeline {
             steps {
                 script {
                     // Load service-specific configuration from config.groovy
-                    def config = evaluate(readFile("./Environments/Jenkins/UserService/${params.ENVIRONMENT}-config.groovy"))
+                    def config = evaluate(readFile("./Environments/Jenkins/AuthService/${params.ENVIRONMENT}-config.groovy"))
 
                     // Set environment variables from the configuration
                     env.IMAGE_NAME = config.IMAGE_NAME
@@ -93,16 +93,16 @@ pipeline {
                     env.MYSQL_CPU_LIMIT = config.MYSQL_CPU_LIMIT
                     env.MYSQL_SERVICE_NAME = config.MYSQL_SERVICE_NAME
 
-                    env.USER_DEPLOYMENT_NAME = config.USER_DEPLOYMENT_NAME
-                    env.USER_CONTAINER_NAME = config.USER_CONTAINER_NAME
-                    env.USER_PORT = config.USER_PORT.toString()
-                    env.USER_REPLICAS = config.USER_REPLICAS.toString()
-                    env.USER_ENVIRONMENT = config.USER_ENVIRONMENT
-                    env.USER_DATABASE = config.USER_DATABASE
-                    env.USER_SECRET_NAME = config.USER_SECRET_NAME
-                    env.USER_SECRET_PASSWORD_KEY = config.USER_SECRET_PASSWORD_KEY
-                    env.USER_SERVICE_NAME = config.USER_SERVICE_NAME
-                    env.USER_NODE_PORT = config.USER_NODE_PORT.toString()
+                    env.AUTH_DEPLOYMENT_NAME = config.AUTH_DEPLOYMENT_NAME
+                    env.AUTH_CONTAINER_NAME = config.AUTH_CONTAINER_NAME
+                    env.AUTH_PORT = config.AUTH_PORT.toString()
+                    env.AUTH_REPLICAS = config.AUTH_REPLICAS.toString()
+                    env.AUTH_ENVIRONMENT = config.AUTH_ENVIRONMENT
+                    env.AUTH_DATABASE = config.AUTH_DATABASE
+                    env.AUTH_SECRET_NAME = config.AUTH_SECRET_NAME
+                    env.AUTH_SECRET_PASSWORD_KEY = config.AUTH_SECRET_PASSWORD_KEY
+                    env.AUTH_SERVICE_NAME = config.AUTH_SERVICE_NAME
+                    env.AUTH_NODE_PORT = config.AUTH_NODE_PORT.toString()
                 }
             }
         }

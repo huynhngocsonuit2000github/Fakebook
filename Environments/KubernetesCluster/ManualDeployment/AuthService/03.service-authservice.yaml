@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-user-deployment-user-service
+  name: staging-auth-deployment-auth-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: staging-user-deployment-user-service
+      app: staging-auth-deployment-auth-service
   template:
     metadata:
       labels:
-        app: staging-user-deployment-user-service
+        app: staging-auth-deployment-auth-service
     spec:
       containers:
-        - name: userservice
-          image: huynhngocsonuit2000docker/fakebook-userservice:v006
+        - name: authservice
+          image: huynhngocsonuit2000docker/fakebook-authservice:v004
           ports:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Staging"
             - name: ConnectionStrings__DefaultConnection
-              value: "Server=staging-user-service-mysql;Port=3306;Database=UserDatabase;User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
+              value: "Server=staging-auth-service-mysql;Port=3306;Database=AuthDatabase;User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
             - name: ConnectionStringsCredential__DefaultConnection
               valueFrom:
                 secretKeyRef:
-                  name: staging-user-secret-credential
+                  name: staging-auth-secret-credential
                   key: ROOT_PASSWORD
 
 ---
@@ -33,12 +33,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: staging-user-service-user-service
+  name: staging-auth-service-auth-service
 spec:
   type: NodePort
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 31000 # Expose on NodePort
+      nodePort: 31005 # Expose on NodePort
   selector:
-    app: staging-user-deployment-user-service
+    app: staging-auth-deployment-auth-service

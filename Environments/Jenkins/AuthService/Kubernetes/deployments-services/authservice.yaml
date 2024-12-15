@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${USER_DEPLOYMENT_NAME}
+  name: ${AUTH_DEPLOYMENT_NAME}
 spec:
-  replicas: ${USER_REPLICAS}
+  replicas: ${AUTH_REPLICAS}
   selector:
     matchLabels:
-      app: ${USER_DEPLOYMENT_NAME}
+      app: ${AUTH_DEPLOYMENT_NAME}
   template:
     metadata:
       labels:
-        app: ${USER_DEPLOYMENT_NAME}
+        app: ${AUTH_DEPLOYMENT_NAME}
     spec:
       containers:
-        - name: ${USER_CONTAINER_NAME}
+        - name: ${AUTH_CONTAINER_NAME}
           image: ${IMAGE_NAME}:${IMAGE_TAG}
           ports:
-            - containerPort: ${USER_PORT}
+            - containerPort: ${AUTH_PORT}
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: "${USER_ENVIRONMENT}"
+              value: "${AUTH_ENVIRONMENT}"
             - name: ConnectionStrings__DefaultConnection
-              value: "Server=${MYSQL_SERVICE_NAME};Port=${MYSQL_PORT};Database=${USER_DATABASE};User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
+              value: "Server=${MYSQL_SERVICE_NAME};Port=${MYSQL_PORT};Database=${AUTH_DATABASE};User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
             - name: ConnectionStringsCredential__DefaultConnection
               valueFrom:
                 secretKeyRef:
-                  name: ${USER_SECRET_NAME}
-                  key: ${USER_SECRET_PASSWORD_KEY}
+                  name: ${AUTH_SECRET_NAME}
+                  key: ${AUTH_SECRET_PASSWORD_KEY}
           resources:
             requests:
               memory: "128Mi"
@@ -40,12 +40,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${USER_SERVICE_NAME}
+  name: ${AUTH_SERVICE_NAME}
 spec:
   type: NodePort
   ports:
-    - port: ${USER_PORT}
-      targetPort: ${USER_PORT}
-      nodePort: ${USER_NODE_PORT}
+    - port: ${AUTH_PORT}
+      targetPort: ${AUTH_PORT}
+      nodePort: ${AUTH_NODE_PORT}
   selector:
-    app: ${USER_DEPLOYMENT_NAME}
+    app: ${AUTH_DEPLOYMENT_NAME}

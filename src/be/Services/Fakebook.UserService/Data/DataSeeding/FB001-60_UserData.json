@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "admin",
+      "firstname": "Admin",
+      "lastname": "Super",
+      "email": "admin@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "3",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "son",
+      "firstname": "Son",
+      "lastname": "Huynh",
+      "email": "son@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "2",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "truc",
+      "firstname": "Truc",
+      "lastname": "Thanh",
+      "email": "truc@gmail.com",
+      "passwordHash": "123"
+    }
+  ]
+}

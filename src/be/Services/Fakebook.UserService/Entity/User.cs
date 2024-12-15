@@ -13,5 +13,6 @@ namespace Fakebook.UserService.Entity
         public string? Bio { get; set; } = null!;
         public string? ProfilePictureUrl { get; set; } = null!;
         public bool IsActive { get; set; } = true;
+        public bool IsInternalUser { get; set; }
     }
 }

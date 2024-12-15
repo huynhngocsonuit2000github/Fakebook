@@ -8,7 +8,7 @@ services:
     ports:
       - "9200:80"
     depends_on:
-      - compose-user-sqlserver
+      - compose-user-mysql
       - compose-user-user-service
     networks:
       - docker_compose_network
@@ -46,31 +46,31 @@ services:
     networks:
       - docker_compose_network
 
-  # User SQL server
-  compose-user-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: compose-user-sqlserver
+  # User My SQL
+  compose-user-mysql:
+    image: mysql:latest
+    container_name: compose-user-mysql
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=admin1234$
+      - MYSQL_ROOT_PASSWORD=admin1234$
+      - MYSQL_DATABASE=UserDatabase
     ports:
-      - "2433:1433"
+      - "4306:3306"
     networks:
       - docker_compose_network
     volumes:
-      - user-mssql-data:/var/opt/mssql
+      - user-mysql-data:/var/lib/mysql
 
   # User service
   compose-user-user-service:
-    image: huynhngocsonuit2000docker/fakebook-userservice:v005
+    image: huynhngocsonuit2000docker/fakebook-userservice:v006
     container_name: compose-user-user-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
-      - ConnectionStrings__DefaultConnection=Server=compose-user-sqlserver,1433;Database=UserDatabase;User Id=sa;Password=admin1234$;
+      - ConnectionStrings__DefaultConnection=Server=compose-user-mysql;Port=3306;Database=UserDatabase;User=root;Password=admin1234$;SslMode=None;AllowPublicKeyRetrieval=True;
     ports:
       - "4000:80"
     depends_on:
-      - compose-user-sqlserver
+      - compose-user-mysql
     networks:
       - docker_compose_network
 
@@ -90,7 +90,7 @@ services:
 
   # Auth service
   compose-auth-auth-service:
-    image: huynhngocsonuit2000docker/fakebook-authservice:v003
+    image: huynhngocsonuit2000docker/fakebook-authservice:v004
     container_name: compose-auth-auth-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -107,5 +107,5 @@ networks:
     driver: bridge
 
 volumes:
-  user-mssql-data:
+  user-mysql-data:
   auth-mysql-data:

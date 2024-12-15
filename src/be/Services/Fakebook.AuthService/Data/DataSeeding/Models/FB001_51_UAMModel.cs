@@ -11,6 +11,7 @@ namespace Fakebook.AuthService.DataSeeding.Models
 
     public class RoleData
     {
+        public string Id { get; set; } = null!;
         public string RoleName { get; set; } = null!;
         public string Description { get; set; } = null!;
         public List<PermissionData> Permissions { get; set; } = null!;
@@ -19,12 +20,14 @@ namespace Fakebook.AuthService.DataSeeding.Models
 
     public class PermissionData
     {
+        public string Id { get; set; } = null!;
         public string PermissionName { get; set; } = null!;
         public string Description { get; set; } = null!;
     }
 
     public class UserData
     {
+        public string Id { get; set; } = null!;
         public string Username { get; set; } = null!;
         public string Firstname { get; set; } = null!;
         public string Lastname { get; set; } = null!;

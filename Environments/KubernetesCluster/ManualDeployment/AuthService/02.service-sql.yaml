@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-user-deployment-mysql
+  name: staging-auth-deployment-mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: staging-user-deployment-mysql
+      app: staging-auth-deployment-mysql
   template:
     metadata:
       labels:
-        app: staging-user-deployment-mysql
+        app: staging-auth-deployment-mysql
     spec:
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
@@ -23,11 +23,11 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_DATABASE
-              value: UserDatabase
+              value: AuthDatabase
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: staging-user-secret-credential
+                  name: staging-auth-secret-credential
                   key: ROOT_PASSWORD
           resources:
             requests:
@@ -42,11 +42,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: staging-user-service-mysql
+  name: staging-auth-service-mysql
 spec:
   type: ClusterIP
   ports:
     - port: 3306
       targetPort: 3306
   selector:
-    app: staging-user-deployment-mysql
+    app: staging-auth-deployment-mysql

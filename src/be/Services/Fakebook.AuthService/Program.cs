@@ -11,7 +11,6 @@ using Fakebook.AuthService.Middlewares;
 using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.DataSeeding.Models;
-using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +68,6 @@ Console.WriteLine($"Connection string: {connectionString}");
 Console.WriteLine($"Connection String Used: {connectionString}");
 
 // Database Setup
-
 builder.Services.AddDbContext<ServiceContext>(options =>
 {
     options.UseMySQL(connectionString, mySqlOptions =>
@@ -116,6 +114,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ServiceContext>();
     dbContext.Database.Migrate();
+
     // Seeding data
     new DbSeeder(dbContext).SeedData();
 }
