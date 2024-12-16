@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/user/{everything}",
+      "DownstreamPathTemplate": "/user",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,42 @@
           "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage"]
     },
     {
-      "DownstreamPathTemplate": "/auth/{everything}",
+      "DownstreamPathTemplate": "/user/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/user/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage", "Profile_View"]
+    },
+    {
+      "DownstreamPathTemplate": "/user/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/user/update",
+      "UpstreamHttpMethod": ["Patch"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage", "Profile_Edit"]
+    },
+
+    {
+      "DownstreamPathTemplate": "/auth/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,11 +52,56 @@
           "Port": 5005
         }
       ],
-      "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
+      "UpstreamPathTemplate": "/auth/register",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/login",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/exchange-idp-token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/exchange-idp-token",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/get-user-permission",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/get-user-permission",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": []
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5321"
+    "BaseUrl": "http://localhost:5321",
+    "AuthUrl": "http://localhost:5005/auth"
   }
 }

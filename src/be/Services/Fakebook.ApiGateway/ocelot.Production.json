@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/user/{everything}",
+      "DownstreamPathTemplate": "/user",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,42 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/user/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage"]
     },
     {
-      "DownstreamPathTemplate": "/auth/{everything}",
+      "DownstreamPathTemplate": "/user/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "production-user-service-user-service.production-environment.svc.cluster.local",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage", "Profile_View"]
+    },
+    {
+      "DownstreamPathTemplate": "/user/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "production-user-service-user-service.production-environment.svc.cluster.local",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/update",
+      "UpstreamHttpMethod": ["Patch"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": ["User_Manage", "Profile_Edit"]
+    },
+
+    {
+      "DownstreamPathTemplate": "/auth/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,11 +52,56 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete", "Patch"]
+      "UpstreamPathTemplate": "/auth/register",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "production-auth-service-auth-service.production-environment.svc.cluster.local",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/login",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/exchange-idp-token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "production-auth-service-auth-service.production-environment.svc.cluster.local",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/exchange-idp-token",
+      "UpstreamHttpMethod": ["Post"],
+      "RequireAuthenticate": false,
+      "CustomRequiredPermissions": []
+    },
+    {
+      "DownstreamPathTemplate": "/auth/get-user-permission",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "production-auth-service-auth-service.production-environment.svc.cluster.local",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/get-user-permission",
+      "UpstreamHttpMethod": ["Get"],
+      "RequireAuthenticate": true,
+      "CustomRequiredPermissions": []
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://192.168.50.12:32321"
+    "BaseUrl": "http://192.168.50.12:32321",
+    "AuthUrl": "http://production-auth-service-auth-service.production-environment.svc.cluster.local/auth"
   }
 }

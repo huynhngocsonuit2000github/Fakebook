@@ -1,3 +1,4 @@
+using Fakebook.ApiGateway.Middlewares;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -19,14 +20,24 @@ builder.Services.AddCors(options =>
 var environment = builder.Environment.EnvironmentName;
 builder.Configuration.AddJsonFile($"ocelot.{environment}.json", optional: false, reloadOnChange: true);
 
-builder.Services.AddOcelot();
+builder.Services.AddHttpContextAccessor();
 
+// Add Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // Enable console logging for debug purposes
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
+builder.Services.AddOcelot();
 
 var app = builder.Build();
 
 // Use CORS policy
 app.UseCors("AllowAllOrigins");
 
-app.UseOcelot().Wait();
+// Add the custom middleware
+app.UseMiddleware<CustomAuthorizationMiddleware>();
+
+app.UseDeveloperExceptionPage(); // Show exception details in development
+await app.UseOcelot();
 
 app.Run();

@@ -4,7 +4,7 @@ docker build -t huynhngocsonuit2000docker/fakebook-userservice:v006 . -f ./be/Se
 docker build -t huynhngocsonuit2000docker/fakebook-idpapi:v002 . -f ./be/Services/Containerizations/IdPService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-ui:v005 --build-arg ENVIRONMENT=compose . -f ./fe/Containerizations/FakebookUI.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-idpui:v006 --build-arg ENVIRONMENT=staging . -f ./fe/Containerizations/FakebookIdPUI.Dockerfile
-docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v001 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v002 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-authservice:v004 . -f ./be/Services/Containerizations/AuthService.Dockerfile
 
 <!-- Run docker compose -->
@@ -37,6 +37,14 @@ index index.html;
 location / {
 try_files $uri $uri/ /index.html;
 }
+
+<!-- Dotnet server -->
+
+- install vi
+  apt update && apt install vim -y
+
+- update key in json file
+  echo '{ "key": "new-value" }' > ocelot.Compose.json
 
 <!-- MySQL -->
 

@@ -35,7 +35,7 @@ services:
 
   # API Gateway service
   compose-apigateway-service:
-    image: huynhngocsonuit2000docker/fakebook-apigateway:v001
+    image: huynhngocsonuit2000docker/fakebook-apigateway:v002
     container_name: compose-apigateway-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
