@@ -2,6 +2,7 @@ using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.AuthService.Dtos.Users;
 using Fakebook.AuthService.Entity;
 using Fakebook.AuthService.Repositories;
+using Fakebook.AuthService.HttpRequestHandling;
 
 namespace Fakebook.AuthService.Services
 {
@@ -9,11 +10,13 @@ namespace Fakebook.AuthService.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserContextService _userContextService;
 
-        public UserUservice(IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public UserUservice(IUserRepository userRepository, IUnitOfWork unitOfWork, IUserContextService userContextService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _userContextService = userContextService;
         }
 
         public async Task<string> CreateUserAsync(User user)
@@ -41,6 +44,16 @@ namespace Fakebook.AuthService.Services
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _userRepository.GetAllAsync();
+        }
+
+        public async Task<List<string>?> GetCurrentUserPermissionsAsync()
+        {
+            var currentUser = _userContextService.GetAuthenticatedUserContext();
+
+            if (currentUser is null) throw new Exception("The authenticated user is failed");
+
+            return await _userRepository.GetUserPermissionsByUserIdAsync(currentUser.UserId);
+
         }
 
         public async Task<User> GetUserByIdAsync(string id)

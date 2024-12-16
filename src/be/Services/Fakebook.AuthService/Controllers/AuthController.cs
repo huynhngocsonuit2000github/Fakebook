@@ -17,12 +17,6 @@ namespace Fakebook.AuthService.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("test")]
-        public IActionResult TestAsync(string name, string old)
-        {
-            return Ok("Very good day! " + name + ", I am " + old + " years old");
-        }
-
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterUserRequest user)
         {
@@ -72,13 +66,10 @@ namespace Fakebook.AuthService.Controllers
         [HttpGet("get-user-permission")]
         public async Task<IActionResult> GetUserPermissionAsync()
         {
-            System.Console.WriteLine("========== Get Permission");
             // get from database
-            var permission = new List<string>(){
-            "member_read", "member_create", "admin_read",  "admin_create"
-            };
+            var permission = await _userUservice.GetCurrentUserPermissionsAsync();
 
-            return Ok(await Task.FromResult(permission));
+            return Ok(permission);
         }
     }
 }

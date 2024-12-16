@@ -7,5 +7,6 @@ namespace Fakebook.AuthService.Repositories
     public interface IUserRepository : IBaseRepository<User>
     {
         Task<AuthenticatedUserModel?> GetAuthenticatedUserAsync();
+        Task<List<string>?> GetUserPermissionsByUserIdAsync(string userId);
     }
 }
