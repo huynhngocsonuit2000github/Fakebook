@@ -1,6 +1,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { PermissionService, UserCredential } from '../services/permission.service';
+import { PermissionService } from '../services/permission.service';
 import { Observable } from 'rxjs';
+import { UserCredential } from '../services/models/user.model';
 
 @Directive({
   selector: '[appHasPermission]',

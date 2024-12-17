@@ -3,6 +3,7 @@ import { AuthUser } from '../models/AuthUser';
 import { AccountState } from '../state/account.state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { UserCredential } from './models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,9 +43,4 @@ export class PermissionService {
       observer.complete();
     });
   }
-}
-
-export interface UserCredential {
-  isAuth: boolean;
-  validPermission: boolean
 }
