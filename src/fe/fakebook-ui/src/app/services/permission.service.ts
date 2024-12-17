@@ -18,17 +18,33 @@ export class PermissionService {
   }
 
   // Check if the user has a specific permission
-  hasPermission(permissionName: string): Observable<boolean> {
+  isAuthenticated(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       if (!this.currentUser) {
         observer.next(false);
       } else {
-        // Assuming userPermissions is an array
-        const hasPermission = this.currentUser.userPermissions.some(
-          (permission) => permission === permissionName
-        );
-        observer.next(hasPermission);
+        observer.next(this.currentUser.isAuthenticated);
       }
     });
   }
+
+  // Check if the user has a specific permission
+  hasPermission(permissionName: string): Observable<UserCredential> {
+    return new Observable<UserCredential>((observer) => {
+      if (!this.currentUser || !this.currentUser.isAuthenticated) {
+        // User is not authenticated
+        observer.next({ isAuth: false, validPermission: false });
+      } else {
+        // Check for required permission
+        const validPermission = this.currentUser.userPermissions.includes(permissionName);
+        observer.next({ isAuth: true, validPermission });
+      }
+      observer.complete();
+    });
+  }
+}
+
+export interface UserCredential {
+  isAuth: boolean;
+  validPermission: boolean
 }

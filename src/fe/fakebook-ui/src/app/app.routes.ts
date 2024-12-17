@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { PermissionGuard } from './guards/permission.guard';
-import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MemberLayoutComponent } from './layouts/member-layout/member-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
@@ -14,13 +13,13 @@ export const routes: Routes = [
                 path: '',
                 loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
                 canActivate: [PermissionGuard],
-                data: { permission: 'member_read' },
+                data: { permission: 'HomePage_Access' },
             },
             {
                 path: 'friends',
                 loadComponent: () => import('./pages/friends/friends.component').then(m => m.FriendsComponent),
                 canActivate: [PermissionGuard],
-                data: { permission: 'member_create' },
+                data: { permission: 'Friends_View' },
             },
         ]
     },
@@ -34,13 +33,13 @@ export const routes: Routes = [
                 path: 'dashboard',
                 loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
                 canActivate: [PermissionGuard],
-                data: { permission: 'admin_read' },
+                data: { permission: 'Dashboard_Manage' },
             },
             {
                 path: 'user-management',
                 loadComponent: () => import('./pages/user-management/user-management.component').then(m => m.UserManagementComponent),
                 canActivate: [PermissionGuard],
-                data: { permission: 'admin_create' },
+                data: { permission: 'User_Manage' },
             },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
@@ -52,12 +51,6 @@ export const routes: Routes = [
         loadComponent: () => import('./compoments/callback/callback.component').then(m => m.CallbackComponent)
     },
 
-    // Unauthorized Route
-    {
-        path: 'unauthorized',
-        component: UnauthorizedComponent,
-    },
-
     // Login Route
     {
         path: 'login',
@@ -65,5 +58,23 @@ export const routes: Routes = [
     },
 
     // Fallback Route (If the route does not match any, redirect to home page or another path)
-    { path: '', redirectTo: '/', pathMatch: 'full' }
+    { path: '', redirectTo: '/', pathMatch: 'full' },
+
+    // Unauthorized Route
+    {
+        path: 'unauthorized',
+        loadComponent: () => import('./pages/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
+    },
+
+    // Forbidden
+    {
+        path: 'forbidden',
+        loadComponent: () => import('./pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)
+    },
+
+    // Not Found Route
+    {
+        path: '**',
+        loadComponent: () => import('./pages/notfound/notfound.component').then(m => m.NotfoundComponent)
+    },
 ];

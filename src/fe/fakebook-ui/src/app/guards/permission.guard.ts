@@ -11,17 +11,20 @@ export class PermissionGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         const requiredPermission = route.data['permission'];
-        console.log('Required permission:', requiredPermission);
 
         // Use hasPermission and return the observable directly
         return this.permissionService.hasPermission(requiredPermission).pipe(
-            map((hasPermission) => {
-                if (hasPermission) {
-                    return true;
-                } else {
-                    // Redirect to unauthorized page if permission is not granted
+            map((authenAutho) => {
+                if (!authenAutho.isAuth) {
                     this.router.navigate(['/unauthorized']);
                     return false;
+                } else {
+                    if (authenAutho.isAuth && !authenAutho.validPermission) {
+                        this.router.navigate(['/forbidden']);
+                        return false;
+                    }
+
+                    return true;
                 }
             })
         );

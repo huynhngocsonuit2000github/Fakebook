@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { PermissionService } from '../services/permission.service';
+import { PermissionService, UserCredential } from '../services/permission.service';
 import { Observable } from 'rxjs';
 
 @Directive({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   standalone: false  // Mark as standalone
 })
 export class PermissionDirective {
-  private permission$: Observable<boolean> | null = null;
+  private permission$: Observable<UserCredential> | null = null;
 
   @Input() set appHasPermission(permission: string) {
     // Get the observable for the permission
@@ -15,7 +15,7 @@ export class PermissionDirective {
 
     // Subscribe to the observable and manage the view
     this.permission$.subscribe((hasPermission) => {
-      if (hasPermission) {
+      if (hasPermission.isAuth && hasPermission.validPermission) {
         // If the user has the permission, add the template to the view
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
