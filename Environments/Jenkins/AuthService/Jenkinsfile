@@ -94,7 +94,9 @@ pipeline {
                     env.MYSQL_SERVICE_NAME = config.MYSQL_SERVICE_NAME
 
                     env.AUTH_DEPLOYMENT_NAME = config.AUTH_DEPLOYMENT_NAME
+                    env.AUTH_MAP_PATH = config.AUTH_MAP_PATH
                     env.AUTH_CONTAINER_NAME = config.AUTH_CONTAINER_NAME
+                    env.AUTH_VOLUME_NAME = config.AUTH_VOLUME_NAME
                     env.AUTH_PORT = config.AUTH_PORT.toString()
                     env.AUTH_REPLICAS = config.AUTH_REPLICAS.toString()
                     env.AUTH_ENVIRONMENT = config.AUTH_ENVIRONMENT

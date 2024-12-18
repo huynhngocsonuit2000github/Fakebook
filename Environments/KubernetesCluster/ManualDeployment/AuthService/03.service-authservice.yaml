@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authservice
-          image: huynhngocsonuit2000docker/fakebook-authservice:v004
+          image: huynhngocsonuit2000docker/fakebook-authservice:v005
           ports:
             - containerPort: 80
           env:
@@ -27,6 +27,14 @@ spec:
                 secretKeyRef:
                   name: staging-auth-secret-credential
                   key: ROOT_PASSWORD
+          volumeMounts:
+            - name: public-key-volume
+              mountPath: /app/keys/public_key.pem # Mount to this path in the container
+              subPath: public_key.pem
+      volumes:
+        - name: public-key-volume
+          secret:
+            secretName: staging-auth-secret-credential
 
 ---
 # User Service

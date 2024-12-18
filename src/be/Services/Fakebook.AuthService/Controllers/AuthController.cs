@@ -1,4 +1,5 @@
 using Fakebook.AuthService.Dtos.Users;
+using Fakebook.AuthService.Helpers;
 using Fakebook.AuthService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace Fakebook.AuthService.Controllers
     {
         private readonly IUserUservice _userUservice;
         private readonly ITokenService _tokenService;
+        private readonly ITokenHelper _tokenHelper;
 
-        public AuthController(IUserUservice userUservice, ITokenService tokenService)
+        public AuthController(IUserUservice userUservice, ITokenService tokenService, ITokenHelper tokenHelper)
         {
             _userUservice = userUservice;
             _tokenService = tokenService;
+            _tokenHelper = tokenHelper;
         }
 
         [HttpPost("register")]
@@ -42,24 +45,20 @@ namespace Fakebook.AuthService.Controllers
         [HttpPost("exchange-idp-token")]
         public async Task<IActionResult> ExchangeIdPTokenAsync(ExchangeIdPToken input)
         {
-            System.Console.WriteLine("========== Exchange");
-            System.Console.WriteLine("Email: " + input.Email);
-            System.Console.WriteLine("IdPToken: " + input.IdPToken);
-            // there will be a function to validate the IdP token
-            if (input.IdPToken == "THIS_IS_IDP_TOKEN")
+            if (_tokenHelper.ValidateIdPToken(input.IdPToken))
             {
                 // If first time -> call to IdP to get information and create user
                 // then generate new token
                 var token = _tokenService.GenerateToken(new Entity.User()
                 {
-                    Username = "ustest1",
-                    Id = "2b8c5b35-654c-438d-af9a-30a70459493c"
+                    Username = "son",
+                    Id = "1"
                 });
 
                 return Ok(await Task.FromResult(token));
             }
 
-            return BadRequest("The IpToken should be: THIS_IS_IDP_TOKEN");
+            return BadRequest("The IpToken is invalid");
         }
 
         [Authorize]
