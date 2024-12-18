@@ -1,3 +1,4 @@
+using Fakebook.IdPService.Helpers;
 using Fakebook.IdPService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddSingleton<AuthService>(); // Register the AuthService
+builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

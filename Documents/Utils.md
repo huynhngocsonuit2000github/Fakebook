@@ -1,7 +1,7 @@
 <!-- Build image -->
 
 docker build -t huynhngocsonuit2000docker/fakebook-userservice:v006 . -f ./be/Services/Containerizations/UserService.Dockerfile
-docker build -t huynhngocsonuit2000docker/fakebook-idpapi:v002 . -f ./be/Services/Containerizations/IdPService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-idpapi:v003 . -f ./be/Services/Containerizations/IdPService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-ui:v005 --build-arg ENVIRONMENT=compose . -f ./fe/Containerizations/FakebookUI.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-idpui:v006 --build-arg ENVIRONMENT=staging . -f ./fe/Containerizations/FakebookIdPUI.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v002 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
@@ -64,3 +64,7 @@ kubectl delete deployments --all -n production-environment
 kubectl describe node staging-k8s-master | grep -A 15 "Capacity"
 kubectl describe node staging-k8s-worker1 | grep -A 15 "Capacity"
 kubectl describe node staging-k8s-worker2 | grep -A 15 "Capacity"
+
+<!-- ssh to the kubernete service container  -->
+
+kubectl exec -it staging-fakebook-idp-deployment-api-service-7bb5488698-kr9j5 -n staging-environment -- /bin/bash

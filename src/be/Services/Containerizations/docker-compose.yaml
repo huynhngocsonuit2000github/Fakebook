@@ -26,12 +26,16 @@ services:
 
   # IdP API service
   compose-idp-api-service:
-    image: huynhngocsonuit2000docker/fakebook-idpapi:v002
+    image: huynhngocsonuit2000docker/fakebook-idpapi:v003
     container_name: compose-idp-api-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Compose
     ports:
       - "2001:80"
     networks:
       - docker_compose_network
+    volumes:
+      - ./../../keys:/run/secrets/
 
   # API Gateway service
   compose-apigateway-service:

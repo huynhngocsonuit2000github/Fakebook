@@ -62,6 +62,9 @@ pipeline {
                     env.IDP_API_DEPLOYMENT_NAME = config.IDP_API_DEPLOYMENT_NAME
                     env.IDP_API_SERVICE_NAME = config.IDP_API_SERVICE_NAME
                     env.IDP_API_CONTAINER_NAME = config.IDP_API_CONTAINER_NAME
+                    env.IDP_API_VOLUME_NAME = config.IDP_API_VOLUME_NAME
+                    env.IDP_API_KEYS = config.IDP_API_KEYS
+                    env.IDP_API_MAP_PATH = config.IDP_API_MAP_PATH
                     env.IDP_API_PORT = config.IDP_API_PORT.toString()
                     env.IDP_API_REPLICAS = config.IDP_API_REPLICAS.toString()
                     env.IDP_API_NODE_PORT = config.IDP_API_NODE_PORT.toString()

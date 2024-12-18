@@ -1,4 +1,5 @@
 using Fakebook.IdPService.Dtos;
+using Fakebook.IdPService.Helpers;
 using Fakebook.IdPService.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace Fakebook.IdPService.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
+    private readonly ITokenHelper _tokenHelper;
 
-    public AuthController(AuthService authService)
+    public AuthController(AuthService authService, ITokenHelper tokenHelper)
     {
         _authService = authService;
+        _tokenHelper = tokenHelper;
     }
 
     [HttpPost("login")]
@@ -24,10 +27,12 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid credentials");
         }
 
+        var token = _tokenHelper.GenerateIdPToken(email);
+
         return Ok(new LoginResponse()
         {
-            Email = email,
-            IdPToken = "THIS_IS_IDP_TOKEN"
+            Email = email, // TODO: Remove email in the future
+            IdPToken = token
         });
     }
 }

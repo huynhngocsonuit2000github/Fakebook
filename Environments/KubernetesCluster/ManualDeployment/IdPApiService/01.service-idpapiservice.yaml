@@ -14,9 +14,17 @@ spec:
     spec:
       containers:
         - name: idpapiservice
-          image: huynhngocsonuit2000docker/fakebook-idpapi:v001
+          image: huynhngocsonuit2000docker/fakebook-idpapi:v003
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: private-key-volume
+              mountPath: /app/keys/private_key.pem # Mount to this path in the container
+              subPath: private_key.pem
+      volumes:
+        - name: private-key-volume
+          secret:
+            secretName: staging-idp-secret-private-key
 
 ---
 # User Service
@@ -29,6 +37,6 @@ spec:
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 31001  # Expose on NodePort
+      nodePort: 31001 # Expose on NodePort
   selector:
     app: staging-fakebook-idp-deployment-api-service

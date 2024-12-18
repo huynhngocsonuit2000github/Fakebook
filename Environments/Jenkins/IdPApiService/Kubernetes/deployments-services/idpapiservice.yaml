@@ -17,6 +17,13 @@ spec:
           image: ${IMAGE_NAME}:${IMAGE_TAG}
           ports:
             - containerPort: ${IDP_API_PORT}
+          volumeMounts:
+            - name: private-key-volume
+              mountPath: ${IDP_API_MAP_PATH} # Mount to this path in the container
+      volumes:
+        - name: ${IDP_API_VOLUME_NAME}
+          secret:
+            secretName: ${IDP_API_KEYS}
           # resources:
           #   requests:
           #     memory: "${IDP_API_MEMORY_REQUEST}"
