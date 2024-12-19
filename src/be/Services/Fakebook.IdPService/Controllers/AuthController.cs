@@ -9,29 +9,25 @@ namespace Fakebook.IdPService.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService _authService;
     private readonly ITokenHelper _tokenHelper;
+    private readonly IUserUservice _authService;
 
-    public AuthController(AuthService authService, ITokenHelper tokenHelper)
+    public AuthController(ITokenHelper tokenHelper, IUserUservice authService)
     {
-        _authService = authService;
         _tokenHelper = tokenHelper;
+        _authService = authService;
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest loginRequest)
+    public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginRequest)
     {
-        var email = _authService.Authenticate(loginRequest.Username, loginRequest.Password);
-        if (string.IsNullOrEmpty(email))
-        {
-            return Unauthorized("Invalid credentials");
-        }
-
-        var token = _tokenHelper.GenerateIdPToken(email);
+        var loginUser = await _authService.LoginAsync(loginRequest.Username, loginRequest.Password);
+         
+        var token = _tokenHelper.GenerateIdPToken(loginUser.Email);
 
         return Ok(new LoginResponse()
         {
-            Email = email, // TODO: Remove email in the future
+            Email = loginUser.Email, // TODO: Remove email in the future
             IdPToken = token
         });
     }
