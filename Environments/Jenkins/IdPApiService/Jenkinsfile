@@ -58,6 +58,21 @@ pipeline {
                     env.SECRET_CONFIGMAP_PATH = config.SECRET_CONFIGMAP_PATH
                     env.SERVICES_PATH = config.SERVICES_PATH
 
+                    // Set environment variables for SQL and User Service
+                    env.MYSQL_DEPLOYMENT_NAME = config.MYSQL_DEPLOYMENT_NAME
+                    env.MYSQL_CONTAINER_NAME = config.MYSQL_CONTAINER_NAME
+                    env.MYSQL_IMAGE = config.MYSQL_IMAGE
+                    env.MYSQL_PORT = config.MYSQL_PORT.toString()
+                    env.MYSQL_REPLICAS = config.MYSQL_REPLICAS.toString()
+                    env.MYSQL_SECRET_NAME = config.MYSQL_SECRET_NAME
+                    env.MYSQL_DEFAULT_DATABASE = config.MYSQL_DEFAULT_DATABASE
+                    env.MYSQL_SECRET_PASSWORD_KEY = config.MYSQL_SECRET_PASSWORD_KEY
+                    env.MYSQL_MEMORY_REQUEST = config.MYSQL_MEMORY_REQUEST
+                    env.MYSQL_CPU_REQUEST = config.MYSQL_CPU_REQUEST
+                    env.MYSQL_MEMORY_LIMIT = config.MYSQL_MEMORY_LIMIT
+                    env.MYSQL_CPU_LIMIT = config.MYSQL_CPU_LIMIT
+                    env.MYSQL_SERVICE_NAME = config.MYSQL_SERVICE_NAME
+
                     // Set environment variables for UI Service
                     env.IDP_API_DEPLOYMENT_NAME = config.IDP_API_DEPLOYMENT_NAME
                     env.IDP_API_SERVICE_NAME = config.IDP_API_SERVICE_NAME
@@ -76,6 +91,10 @@ pipeline {
                     env.IDP_API_CPU_REQUEST = config.IDP_API_CPU_REQUEST
                     env.IDP_API_MEMORY_LIMIT = config.IDP_API_MEMORY_LIMIT
                     env.IDP_API_CPU_LIMIT = config.IDP_API_CPU_LIMIT
+                    env.IDP_API_ENVIRONMENT = config.IDP_API_ENVIRONMENT
+                    env.IDP_API_DATABASE = config.IDP_API_DATABASE
+                    env.IDP_API_SECRET_NAME = config.IDP_API_SECRET_NAME
+                    env.IDP_API_SECRET_PASSWORD_KEY = config.IDP_API_SECRET_PASSWORD_KEY
                 }
             }
         }

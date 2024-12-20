@@ -26,7 +26,7 @@ services:
 
   # IdP API service
   compose-idp-api-service:
-    image: huynhngocsonuit2000docker/fakebook-idpapi:v003
+    image: huynhngocsonuit2000docker/fakebook-idpapi:v004
     container_name: compose-idp-api-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -36,6 +36,22 @@ services:
       - docker_compose_network
     volumes:
       - ./../../keys:/run/secrets/
+    depends_on:
+      - compose-idp-mysql
+
+  # IdP My SQL
+  compose-idp-mysql:
+    image: mysql:latest
+    container_name: compose-idp-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin1234$
+      - MYSQL_DATABASE=IdPDatabase
+    ports:
+      - "4308:3306"
+    networks:
+      - docker_compose_network
+    volumes:
+      - idp-mysql-data:/var/lib/mysql
 
   # API Gateway service
   compose-apigateway-service:
@@ -113,3 +129,4 @@ networks:
 volumes:
   user-mysql-data:
   auth-mysql-data:
+  idp-mysql-data:

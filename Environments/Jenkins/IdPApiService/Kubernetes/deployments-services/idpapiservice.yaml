@@ -20,6 +20,16 @@ spec:
           volumeMounts:
             - name: private-key-volume
               mountPath: ${IDP_API_MAP_PATH} # Mount to this path in the container
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "${IDP_API_ENVIRONMENT}"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=${MYSQL_SERVICE_NAME};Port=${MYSQL_PORT};Database=${IDP_API_DATABASE};User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
+            - name: ConnectionStringsCredential__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: ${IDP_API_SECRET_NAME}
+                  key: ${IDP_API_SECRET_PASSWORD_KEY}
       volumes:
         - name: ${IDP_API_VOLUME_NAME}
           secret:

@@ -14,9 +14,19 @@ spec:
     spec:
       containers:
         - name: idpapiservice
-          image: huynhngocsonuit2000docker/fakebook-idpapi:v003
+          image: huynhngocsonuit2000docker/fakebook-idpapi:v004
           ports:
             - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Staging"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=staging-fakebook-idp-service-mysql-service;Port=3306;Database=IdPDatabase;User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
+            - name: ConnectionStringsCredential__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: staging-idp-secret-private-key
+                  key: ROOT_PASSWORD
           volumeMounts:
             - name: private-key-volume
               mountPath: /app/keys/private_key.pem # Mount to this path in the container

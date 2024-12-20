@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-fakebook-idp-deployment-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-fakebook-idp-deployment-mysql
+  template:
+    metadata:
+      labels:
+        app: staging-fakebook-idp-deployment-mysql
+    spec:
+      containers:
+        - name: mssql-server
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: IdPDatabase
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: staging-idp-secret-private-key
+                  key: ROOT_PASSWORD
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+
+---
+# SQL Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-fakebook-idp-service-mysql-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: staging-fakebook-idp-deployment-mysql

@@ -25,6 +25,8 @@ return [
     // User Service Configuration
     AUTH_DEPLOYMENT_NAME: 'staging-auth-deployment-auth-service',
     AUTH_CONTAINER_NAME: 'userservice',
+    AUTH_VOLUME_NAME: "public-key-volume",
+    AUTH_MAP_PATH: "/app/keys",
     AUTH_PORT: 80,
     AUTH_REPLICAS: 1,
     AUTH_ENVIRONMENT: 'Staging',

@@ -27,6 +27,13 @@ spec:
                 secretKeyRef:
                   name: ${AUTH_SECRET_NAME}
                   key: ${AUTH_SECRET_PASSWORD_KEY}
+          volumeMounts:
+            - name: ${AUTH_VOLUME_NAME}
+              mountPath: ${AUTH_MAP_PATH} # Mount to this path in the container
+      volumes:
+        - name: ${AUTH_VOLUME_NAME}
+          secret:
+            secretName: ${AUTH_SECRET_NAME}
           # resources:
           #   requests:
           #     memory: "${AUTH_MEMORY_REQUEST}"

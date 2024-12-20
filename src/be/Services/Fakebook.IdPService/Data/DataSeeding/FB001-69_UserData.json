@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "isActive": true,
+      "username": "admin_idp",
+      "firstname": "Admin",
+      "lastname": "Super",
+      "email": "admin@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "3",
+      "isActive": true,
+      "username": "son_idp",
+      "firstname": "Son",
+      "lastname": "Huynh",
+      "email": "son@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "2",
+      "isActive": true,
+      "username": "truc_idp",
+      "firstname": "Truc",
+      "lastname": "Thanh",
+      "email": "truc@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "4",
+      "isActive": true,
+      "username": "anh_idp",
+      "firstname": "Anh",
+      "lastname": "Lan",
+      "email": "anh@gmail.com",
+      "passwordHash": "123"
+    },
+    {
+      "id": "5",
+      "isActive": true,
+      "username": "hoai_idp",
+      "firstname": "Hoai",
+      "lastname": "To",
+      "email": "hoai@gmail.com",
+      "passwordHash": "123"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ using Fakebook.AuthService.Middlewares;
 using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.DataSeeding.Models;
+using Fakebook.AuthService.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +55,7 @@ builder.Services.AddAuthorization();
 
 // Register your TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 
 // Database Setup - checking
 var environment = builder.Environment.EnvironmentName;

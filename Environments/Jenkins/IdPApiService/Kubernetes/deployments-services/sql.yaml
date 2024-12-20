@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${MYSQL_DEPLOYMENT_NAME}
+spec:
+  replicas: ${MYSQL_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${MYSQL_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${MYSQL_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${MYSQL_CONTAINER_NAME}
+          image: ${MYSQL_IMAGE}
+          ports:
+            - containerPort: ${MYSQL_PORT}
+          env:
+            - name: MYSQL_DATABASE
+              value: ${MYSQL_DEFAULT_DATABASE}
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${MYSQL_SECRET_NAME}
+                  key: ${MYSQL_SECRET_PASSWORD_KEY}
+          # resources:
+          #   requests:
+          #     memory: "${MYSQL_MEMORY_REQUEST}" # Set to 2 GB to meet the SQL Server requirement
+          #     cpu: "${MYSQL_CPU_REQUEST}" # Adjust CPU as necessary
+          #   limits:
+          #     memory: "${MYSQL_MEMORY_LIMIT}" # Optional: Set a higher limit if you want to allow more usage
+          #     cpu: "${MYSQL_CPU_LIMIT}"
+
+---
+# SQL Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${MYSQL_SERVICE_NAME}
+spec:
+  type: ClusterIP
+  ports:
+    - port: ${MYSQL_PORT}
+      targetPort: ${MYSQL_PORT}
+  selector:
+    app: ${MYSQL_DEPLOYMENT_NAME}
