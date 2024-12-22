@@ -26,7 +26,7 @@ services:
 
   # IdP API service
   compose-idp-api-service:
-    image: huynhngocsonuit2000docker/fakebook-idpapi:v004
+    image: huynhngocsonuit2000docker/fakebook-idpapi:v005
     container_name: compose-idp-api-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -110,7 +110,7 @@ services:
 
   # Auth service
   compose-auth-auth-service:
-    image: huynhngocsonuit2000docker/fakebook-authservice:v004
+    image: huynhngocsonuit2000docker/fakebook-authservice:v005
     container_name: compose-auth-auth-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose

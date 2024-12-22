@@ -19,4 +19,17 @@ public class UserUservice : IUserUservice
     {
         return await _userRepository.GetUserByCredentialAsync(username, password);
     }
+
+    public async Task<UserDetailModel?> GetUserDetailAsync(string email)
+    {
+        if (string.IsNullOrEmpty(email)) throw new Exception("The user email is invalid");
+
+        var user = await _userRepository.FindFirstAsync(e => string.Equals(e.Email, email, StringComparison.OrdinalIgnoreCase));
+
+        if (user is null) throw new Exception("The user email is invalid");
+
+        if (!user.IsActive) throw new Exception("The user status is inactive");
+
+        return UserDetailModel.FromEntity(user);
+    }
 }
