@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\Commons\Fakebook.SynchronousModel\Fakebook.SynchronousModel.csproj" />
   </ItemGroup>
 
 </Project>

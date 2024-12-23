@@ -12,6 +12,7 @@ using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.DataSeeding.Models;
 using Fakebook.AuthService.Helpers;
+using Fakebook.AuthService.SynchronousApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,11 +52,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddHttpClient();
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<IHttpClientProvider, HttpClientProvider>();
 
 // Register your TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenHelper, TokenHelper>();
+builder.Services.AddScoped<IIdPSynchronousApiService, IdPSynchronousApiService>();
 
 // Database Setup - checking
 var environment = builder.Environment.EnvironmentName;
@@ -86,6 +90,8 @@ builder.Services.AddDbContext<ServiceContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserUservice, UserUservice>();
 
 

@@ -3,6 +3,8 @@ using Fakebook.AuthService.Dtos.Users;
 using Fakebook.AuthService.Entity;
 using Fakebook.AuthService.Repositories;
 using Fakebook.AuthService.HttpRequestHandling;
+using Fakebook.AuthService.SynchronousApi;
+using Fakebook.AuthService.Helpers;
 
 namespace Fakebook.AuthService.Services
 {
@@ -11,12 +13,64 @@ namespace Fakebook.AuthService.Services
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserContextService _userContextService;
+        private readonly IIdPSynchronousApiService _idPSynchronousApiService;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public UserUservice(IUserRepository userRepository, IUnitOfWork unitOfWork, IUserContextService userContextService)
+        public UserUservice(IUserRepository userRepository, IUnitOfWork unitOfWork, IUserContextService userContextService, IIdPSynchronousApiService idPSynchronousApiService, IRoleRepository roleRepository, IUserRoleRepository userRoleRepository)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _userContextService = userContextService;
+            _idPSynchronousApiService = idPSynchronousApiService;
+            _roleRepository = roleRepository;
+            _userRoleRepository = userRoleRepository;
+        }
+
+        public async Task<User> GetOrCreateUserByEmailAsync(string email)
+        {
+            var existingUser = await _userRepository.FindFirstAsync(e => string.Equals(e.Email, email, StringComparison.OrdinalIgnoreCase));
+
+            if (existingUser is not null)
+            {
+                System.Console.WriteLine("Existing user");
+                return existingUser;
+            }
+
+            System.Console.WriteLine("Create new user");
+
+            var idpUser = await _idPSynchronousApiService.GetUserDetailByEmailAsync(email);
+
+            var userId = Guid.NewGuid().ToString();
+            var newUser = new User()
+            {
+                Id = userId,
+                Firstname = idpUser!.Firstname,
+                Lastname = idpUser.Lastname,
+                Username = idpUser.Username.Substring(0, idpUser.Username.IndexOf("_idp")),
+                Email = idpUser.Email,
+                PasswordHash = AppConstants.DefaultPassword,
+                IsActive = true,
+                IsInternalUser = true,
+                CreatedBy = userId,
+                LastModifiedBy = userId,
+            };
+
+            var defaultRole = await _roleRepository.GetRoleByRoleNameAsync(AppConstants.DefaultRoleName);
+            var defaultUserRole = new UserRole()
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = userId,
+                RoleId = defaultRole.Id,
+                CreatedBy = userId,
+                LastModifiedBy = userId,
+            };
+
+            await _userRepository.AddAsync(newUser);
+            await _userRoleRepository.AddAsync(defaultUserRole);
+            await _unitOfWork.CompleteAsync();
+
+            return newUser;
         }
 
         public async Task<string> CreateUserAsync(User user)

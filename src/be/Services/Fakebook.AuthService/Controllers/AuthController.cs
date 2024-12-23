@@ -48,12 +48,10 @@ namespace Fakebook.AuthService.Controllers
             if (_tokenHelper.ValidateIdPToken(input.IdPToken))
             {
                 // If first time -> call to IdP to get information and create user
+                var user = await _userUservice.GetOrCreateUserByEmailAsync(input.Email);
+
                 // then generate new token
-                var token = _tokenService.GenerateToken(new Entity.User()
-                {
-                    Username = "son",
-                    Id = "1"
-                });
+                var token = _tokenService.GenerateToken(user);
 
                 return Ok(await Task.FromResult(token));
             }

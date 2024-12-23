@@ -1,4 +1,5 @@
 ﻿using Fakebook.IdPService.Models.Users;
+using Fakebook.SynchronousModel.Models.IdPService.Users;
 
 namespace Fakebook.IdPService.Services;
 public interface IUserUservice

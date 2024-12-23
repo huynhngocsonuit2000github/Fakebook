@@ -2,6 +2,7 @@ using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.IdPService.Models;
 using Fakebook.IdPService.Models.Users;
 using Fakebook.IdPService.Repositories;
+using Fakebook.SynchronousModel.Models.IdPService.Users;
 
 namespace Fakebook.IdPService.Services;
 public class UserUservice : IUserUservice
@@ -30,6 +31,12 @@ public class UserUservice : IUserUservice
 
         if (!user.IsActive) throw new Exception("The user status is inactive");
 
-        return UserDetailModel.FromEntity(user);
+        return new UserDetailModel()
+        {
+            Firstname = user.Firstname,
+            Lastname = user.Lastname,
+            Username = user.Username,
+            Email = user.Email,
+        };
     }
 }

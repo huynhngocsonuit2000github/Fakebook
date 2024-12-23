@@ -11,5 +11,6 @@ namespace Fakebook.AuthService.Services
         Task<User?> GetUserByUsernameAsync(string username);
         Task UpdateAsync(UpdateUserRequest userRequest);
         Task<List<string>?> GetCurrentUserPermissionsAsync();
+        Task<User> GetOrCreateUserByEmailAsync(string email);
     }
 }

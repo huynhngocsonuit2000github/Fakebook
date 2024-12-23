@@ -51,7 +51,7 @@ public class FB001_51_UAMSeeder
                     // Create and insert permissions for the role
                     foreach (var permissionData in roleData.Permissions)
                     {
-                        var existingPermission = _dbContext.Permissions.FirstOrDefault(e => string.Equals(e.PermissionName, permissionData.PermissionName, StringComparison.OrdinalIgnoreCase));
+                        var existingPermission = _dbContext.Permissions!.FirstOrDefault(e => string.Equals(e.PermissionName, permissionData.PermissionName, StringComparison.OrdinalIgnoreCase));
 
                         if (existingPermission is null)
                         {

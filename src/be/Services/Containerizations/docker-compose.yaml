@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # Fakebook UI service
   compose-ui-service:
-    image: huynhngocsonuit2000docker/fakebook-ui:v005
+    image: huynhngocsonuit2000docker/fakebook-ui:v006
     container_name: compose-ui-service
     ports:
       - "9200:80"
@@ -15,7 +15,7 @@ services:
 
   # Fakebook IdP UI service
   compose-idpui-service:
-    image: huynhngocsonuit2000docker/fakebook-idpui:v005
+    image: huynhngocsonuit2000docker/fakebook-idpui:v006
     container_name: compose-idpui-service
     ports:
       - "9201:80"
@@ -26,7 +26,7 @@ services:
 
   # IdP API service
   compose-idp-api-service:
-    image: huynhngocsonuit2000docker/fakebook-idpapi:v005
+    image: huynhngocsonuit2000docker/fakebook-idpapi:v006
     container_name: compose-idp-api-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -55,7 +55,7 @@ services:
 
   # API Gateway service
   compose-apigateway-service:
-    image: huynhngocsonuit2000docker/fakebook-apigateway:v002
+    image: huynhngocsonuit2000docker/fakebook-apigateway:v003
     container_name: compose-apigateway-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -110,7 +110,7 @@ services:
 
   # Auth service
   compose-auth-auth-service:
-    image: huynhngocsonuit2000docker/fakebook-authservice:v005
+    image: huynhngocsonuit2000docker/fakebook-authservice:v006
     container_name: compose-auth-auth-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -121,6 +121,8 @@ services:
       - compose-auth-mysql
     networks:
       - docker_compose_network
+    volumes:
+      - ./../../keys:/run/secrets/
 
 networks:
   docker_compose_network:
