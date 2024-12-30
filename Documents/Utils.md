@@ -1,11 +1,11 @@
 <!-- Build image -->
 
-docker build -t huynhngocsonuit2000docker/fakebook-userservice:v006 . -f ./be/Services/Containerizations/UserService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-userservice:v007 . -f ./be/Services/Containerizations/UserService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-idpapi:v006 . -f ./be/Services/Containerizations/IdPService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-ui:v006 --build-arg ENVIRONMENT=compose . -f ./fe/Containerizations/FakebookUI.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-idpui:v006 --build-arg ENVIRONMENT=compose . -f ./fe/Containerizations/FakebookIdPUI.Dockerfile
-docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v003 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
-docker build -t huynhngocsonuit2000docker/fakebook-authservice:v006 . -f ./be/Services/Containerizations/AuthService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v004 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-authservice:v007 . -f ./be/Services/Containerizations/AuthService.Dockerfile
 
 <!-- Run docker compose -->
 
@@ -68,3 +68,8 @@ kubectl describe node staging-k8s-worker2 | grep -A 15 "Capacity"
 <!-- ssh to the kubernete service container  -->
 
 kubectl exec -it staging-fakebook-idp-deployment-api-service-7bb5488698-kr9j5 -n staging-environment -- /bin/bash
+
+<!-- Fix DNS resolution -->
+
+cat /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf

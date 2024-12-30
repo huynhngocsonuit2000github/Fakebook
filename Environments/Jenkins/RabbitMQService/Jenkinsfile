@@ -1,0 +1,115 @@
+
+pipeline {
+agent any
+
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['staging', 'production'],
+            description: 'Choose the environment for deployment'
+        )
+    }
+
+    stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout Code') {
+            steps {
+                // Checkout code from the Git repository with a timeout
+                checkout scm
+            }
+        }
+
+        stage('Load Global Configuration') {
+            steps {
+                script {
+                    // Load service-specific configuration from config.groovy
+                    def config = evaluate(readFile('Environments/Jenkins/global-config.groovy'))
+                    def envConfig = evaluate(readFile("Environments/Jenkins/${params.ENVIRONMENT}-config.groovy"))
+
+                    // Set environment variables from the configuration
+                    env.KUBECONFIG = config.KUBECONFIG
+                    env.KUBE_CONTEXT = config.KUBE_CONTEXT
+                    env.DOCKER_CREDENTIAL_ID = config.DOCKER_CREDENTIAL_ID
+
+                    env.NAMESPACE = envConfig.NAMESPACE
+                }
+            }
+        }
+
+        stage('Load Specific Configuration') {
+            steps {
+                script {
+                    // Load service-specific configuration from config.groovy
+                    def config = evaluate(readFile("./Environments/Jenkins/RabbitMQService/${params.ENVIRONMENT}-config.groovy"))
+
+                    // Set environment variables from the configuration
+                    env.IMAGE_NAME = config.IMAGE_NAME
+                    env.SECRET_CONFIGMAP_PATH = config.SECRET_CONFIGMAP_PATH
+                    env.SERVICES_PATH = config.SERVICES_PATH
+
+                    // Set environment variables for SQL and User Service
+                    env.RABBITMQ_DEPLOYMENT_NAME = config.RABBITMQ_DEPLOYMENT_NAME
+                    env.RABBITMQ_CONTAINER_NAME = config.RABBITMQ_CONTAINER_NAME
+                    env.RABBITMQ_PORT_ENV = config.RABBITMQ_PORT_ENV
+                    env.RABBITMQ_PORT = config.RABBITMQ_PORT.toString()
+                    env.RABBITMQ_PORT_UI = config.RABBITMQ_PORT_UI.toString()
+                    env.RABBITMQ_NODE_PORT = config.RABBITMQ_NODE_PORT.toString()
+                    env.RABBITMQ_REPLICAS = config.RABBITMQ_REPLICAS.toString()
+                    env.RABBITMQ_ENVIRONMENT = config.RABBITMQ_ENVIRONMENT
+                    env.RABBITMQ_SECRET_NAME = config.RABBITMQ_SECRET_NAME
+                    env.RABBITMQ_SERVICE_NAME = config.RABBITMQ_SERVICE_NAME
+                    env.RABBITMQ_SERVICE_NAME_UI = config.RABBITMQ_SERVICE_NAME_UI
+                    env.RABBITMQ_SECRET_USERNAME_KEY = config.RABBITMQ_SECRET_USERNAME_KEY
+                    env.RABBITMQ_SECRET_PASSWORD_KEY = config.RABBITMQ_SECRET_PASSWORD_KEY
+                }
+            }
+        }
+
+        stage('Deploy Secrets and ConfigMaps') {
+            steps {
+                script {
+                    def secretFiles = findFiles(glob: "${env.SECRET_CONFIGMAP_PATH}")
+                    secretFiles.each { file ->
+                        echo "Applying secret or configmap: ${file.path}"
+                        echo "Checking contexts"
+                        echo "kubectl config get-contexts"
+                        sh "kubectl get nodes"
+                        sh "kubectl --context=${env.KUBE_CONTEXT} apply -f ${file.path} -n ${env.NAMESPACE}"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Services') {
+            steps {
+                script {
+                    def serviceFiles = findFiles(glob: "${env.SERVICES_PATH}")
+                    serviceFiles.each { file ->
+                        echo "Applying Service and Deployment: ${file.path}"
+
+                        // Replace placeholders in each service file based on the ddconfig
+                        def serviceYAML = readFile(file.path)
+                        serviceYAML = serviceYAML.replaceAll(/\$\{([A-Z_]+)\}/) { env[it[1]] }
+
+                        // Write the modified YAML back and apply it
+                        writeFile file: file.path, text: serviceYAML
+                        sh "kubectl --context=${KUBE_CONTEXT} apply -f ${file.path} -n ${env.NAMESPACE}"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up the workspace after the job is completed
+            cleanWs()
+        }
+    }
+
+}

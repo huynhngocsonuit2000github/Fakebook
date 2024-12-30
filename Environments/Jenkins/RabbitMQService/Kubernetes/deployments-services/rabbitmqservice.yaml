@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${RABBITMQ_DEPLOYMENT_NAME}
+spec:
+  replicas: ${RABBITMQ_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${RABBITMQ_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${RABBITMQ_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${RABBITMQ_CONTAINER_NAME}
+          image: ${IMAGE_NAME}
+          env:
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${RABBITMQ_SECRET_NAME}
+                  key: ${RABBITMQ_SECRET_USERNAME_KEY}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${RABBITMQ_SECRET_NAME}
+                  key: ${RABBITMQ_SECRET_PASSWORD_KEY}
+            - name: RABBITMQ_HOST
+              value: ${RABBITMQ_SERVICE_NAME}
+            - name: RABBITMQ_PORT
+              value: "${RABBITMQ_PORT_ENV}"
+
+---
+# RabbitMQ Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${RABBITMQ_SERVICE_NAME}
+spec:
+  type: ClusterIP
+  ports:
+    - port: ${RABBITMQ_PORT}
+      targetPort: ${RABBITMQ_PORT}
+  selector:
+    app: ${RABBITMQ_DEPLOYMENT_NAME}
+
+---
+# RabbitMQ Service UI
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${RABBITMQ_SERVICE_NAME_UI}
+spec:
+  type: NodePort
+  ports:
+    - port: ${RABBITMQ_PORT_UI}
+      targetPort: ${RABBITMQ_PORT_UI}
+      nodePort: ${RABBITMQ_NODE_PORT} # Expose on NodePort
+  selector:
+    app: ${RABBITMQ_DEPLOYMENT_NAME}

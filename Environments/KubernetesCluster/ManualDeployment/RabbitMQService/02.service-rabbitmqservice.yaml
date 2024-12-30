@@ -1,0 +1,62 @@
+# RabbitMQ Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-rabbitmq-deployment-rabbitmq-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-rabbitmq-deployment-rabbitmq-service
+  template:
+    metadata:
+      labels:
+        app: staging-rabbitmq-deployment-rabbitmq-service
+    spec:
+      containers:
+        - name: rabbitmqservice
+          image: rabbitmq:management
+          env:
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: staging-rabbitmq-secret-credential
+                  key: username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: staging-rabbitmq-secret-credential
+                  key: password
+            - name: RABBITMQ_HOST
+              value: "staging-rabbitmq-service" # Correct service name
+            - name: RABBITMQ_PORT
+              value: "5672"
+
+---
+# RabbitMQ Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-rabbitmq-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: 5672
+  selector:
+    app: staging-rabbitmq-deployment-rabbitmq-service
+
+---
+# RabbitMQ Service UI
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-rabbitmq-service-ui
+spec:
+  type: NodePort
+  ports:
+    - port: 15672
+      targetPort: 15672
+      nodePort: 31672 # Expose on NodePort
+  selector:
+    app: staging-rabbitmq-deployment-rabbitmq-service
