@@ -2,15 +2,16 @@ using Fakebook.UserService.Dtos.Users;
 using Fakebook.UserService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace Fakebook.UserService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserUservice _userUservice;
+        private readonly IUserService _userUservice;
 
-        public UserController(IUserUservice userUservice)
+        public UserController(IUserService userUservice)
         {
             _userUservice = userUservice;
         }

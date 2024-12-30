@@ -11,6 +11,9 @@ using Fakebook.UserService.Middlewares;
 using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.UserService.DataSeeding.Models;
+using Fakebook.UserService.MessageQueue;
+using Fakebook.MessageQueueHandler.Consumer;
+using Fakebook.MessageQueueHandler.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,11 +85,14 @@ builder.Services.AddDbContext<ServiceContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserUservice, UserUservice>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor
 builder.Services.AddScoped<IUserContextService, UserContextService>();
+
+// Add a hosted service to run the consumer
+builder.Services.AddHostedService<RabbitMQConsumerHostedService>();
 
 // Update Cors
 builder.Services.AddCors(options =>

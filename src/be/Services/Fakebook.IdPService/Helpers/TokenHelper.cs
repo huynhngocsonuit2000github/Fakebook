@@ -41,8 +41,9 @@ public class TokenHelper : ITokenHelper
             {
                 new Claim(ClaimTypes.Email, email),
             }),
-            Expires = DateTime.UtcNow.AddMinutes(15),
-            SigningCredentials = signingCredentials
+            Expires = DateTime.UtcNow.AddMinutes(1500),
+            SigningCredentials = signingCredentials,
+            NotBefore = DateTime.UtcNow
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);

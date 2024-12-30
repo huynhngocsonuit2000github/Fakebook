@@ -13,6 +13,7 @@ using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.DataSeeding.Models;
 using Fakebook.AuthService.Helpers;
 using Fakebook.AuthService.SynchronousApi;
+using Fakebook.MessageQueueHandler.Publisher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,7 @@ builder.Services.AddScoped<IHttpClientProvider, HttpClientProvider>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 builder.Services.AddScoped<IIdPSynchronousApiService, IdPSynchronousApiService>();
+builder.Services.AddScoped<IRabbitMQPublisher, RabbitMQPublisher>();
 
 // Database Setup - checking
 var environment = builder.Environment.EnvironmentName;

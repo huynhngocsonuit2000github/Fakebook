@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authservice
-          image: huynhngocsonuit2000docker/fakebook-authservice:v005
+          image: huynhngocsonuit2000docker/fakebook-authservice:v007
           ports:
             - containerPort: 80
           env:

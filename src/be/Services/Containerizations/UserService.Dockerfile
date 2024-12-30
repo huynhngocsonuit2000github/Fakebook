@@ -7,10 +7,14 @@ WORKDIR /src
 COPY ["./be/Services/Fakebook.sln", "./be/Services/"]
 
 COPY ["./be/Services/Commons/Fakebook.DataAccessLayer/Fakebook.DataAccessLayer.csproj", "./be/Services/Commons/Fakebook.DataAccessLayer/"]
+COPY ["./be/Services/Commons/Fakebook.SynchronousModel/Fakebook.SynchronousModel.csproj", "./be/Services/Commons/Fakebook.SynchronousModel/"]
+COPY ["./be/Services/Commons/Fakebook.MessageQueueHandler/Fakebook.MessageQueueHandler.csproj", "./be/Services/Commons/Fakebook.MessageQueueHandler/"]
 COPY ["./be/Services/Fakebook.UserService/Fakebook.UserService.csproj", "./be/Services/Fakebook.UserService/"]
 RUN dotnet restore "./be/Services/Fakebook.UserService/Fakebook.UserService.csproj"
 
 COPY ["./be/Services/Commons/Fakebook.DataAccessLayer/", "./be/Services/Commons/Fakebook.DataAccessLayer/"]
+COPY ["./be/Services/Commons/Fakebook.SynchronousModel/", "./be/Services/Commons/Fakebook.SynchronousModel/"]
+COPY ["./be/Services/Commons/Fakebook.MessageQueueHandler/", "./be/Services/Commons/Fakebook.MessageQueueHandler/"]
 COPY ["./be/Services/Fakebook.UserService/", "./be/Services/Fakebook.UserService/"]
 WORKDIR /src/be/Services/Fakebook.UserService
 RUN dotnet build "./Fakebook.UserService.csproj" -c Release -o /app/build

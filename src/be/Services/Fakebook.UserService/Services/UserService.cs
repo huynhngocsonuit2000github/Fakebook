@@ -1,16 +1,17 @@
 using Fakebook.DataAccessLayer.Interfaces;
+using Fakebook.SynchronousModel.Models.IdPService.Users;
 using Fakebook.UserService.Dtos.Users;
 using Fakebook.UserService.Entity;
 using Fakebook.UserService.Repositories;
 
 namespace Fakebook.UserService.Services
 {
-    public class UserUservice : IUserUservice
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserUservice(IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -44,6 +45,31 @@ namespace Fakebook.UserService.Services
             existingUser.LastModifiedBy = authenticatedUser.Id;
             existingUser.LastModifiedDate = DateTime.Now;
 
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task SyncCreatedIdPUserAsync(IdPLoginCreateUserModel input)
+        {
+            var existingUser = await _userRepository.GetByIdAsync(input.Id);
+            if (existingUser is not null) throw new Exception("The user exists");
+
+            var user = new User()
+            {
+                Id = input.Id,
+                CreatedBy = input.CreatedBy,
+                LastModifiedBy = input.LastModifiedBy,
+                CreatedDate = input.CreatedDate,
+                LastModifiedDate = input.LastModifiedDate,
+                IsDeleted = input.IsDeleted,
+                Firstname = input.Firstname,
+                Lastname = input.Lastname,
+                Username = input.Username,
+                Email = input.Email,
+                PasswordHash = input.PasswordHash,
+                IsActive = input.IsActive,
+                IsInternalUser = input.IsInternalUser,
+            };
+            await _userRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync();
         }
     }

@@ -55,7 +55,7 @@ services:
 
   # API Gateway service
   compose-apigateway-service:
-    image: huynhngocsonuit2000docker/fakebook-apigateway:v003
+    image: huynhngocsonuit2000docker/fakebook-apigateway:v004
     container_name: compose-apigateway-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -82,7 +82,7 @@ services:
 
   # User service
   compose-user-user-service:
-    image: huynhngocsonuit2000docker/fakebook-userservice:v006
+    image: huynhngocsonuit2000docker/fakebook-userservice:v007
     container_name: compose-user-user-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -91,6 +91,7 @@ services:
       - "4000:80"
     depends_on:
       - compose-user-mysql
+      - compose-rabbitmq-service
     networks:
       - docker_compose_network
 
@@ -110,7 +111,7 @@ services:
 
   # Auth service
   compose-auth-auth-service:
-    image: huynhngocsonuit2000docker/fakebook-authservice:v006
+    image: huynhngocsonuit2000docker/fakebook-authservice:v007
     container_name: compose-auth-auth-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Compose
@@ -123,6 +124,19 @@ services:
       - docker_compose_network
     volumes:
       - ./../../keys:/run/secrets/
+
+  # Rabbit MQ service
+  compose-rabbitmq-service:
+    image: rabbitmq:management
+    container_name: compose-rabbitmq-service
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - docker_compose_network
 
 networks:
   docker_compose_network:

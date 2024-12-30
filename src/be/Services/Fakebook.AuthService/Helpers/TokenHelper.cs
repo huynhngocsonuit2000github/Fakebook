@@ -21,7 +21,14 @@ public class TokenHelper : ITokenHelper
 
     public bool ValidateIdPToken(string token)
     {
+        System.Console.WriteLine("Start verify token");
+        System.Console.WriteLine(token);
+
         var publicKey = File.ReadAllText(_publicKeyPath);
+
+        System.Console.WriteLine("Public key");
+        System.Console.WriteLine(publicKey);
+
         var rsa = RSA.Create();
         rsa.ImportFromPem(publicKey.ToCharArray());
 
@@ -40,8 +47,9 @@ public class TokenHelper : ITokenHelper
             tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
             return true;
         }
-        catch (SecurityTokenException)
+        catch (SecurityTokenException ex)
         {
+            System.Console.WriteLine("Exception SecurityTokenException: " + ex.Message);
             return false;
         }
         catch (Exception ex)

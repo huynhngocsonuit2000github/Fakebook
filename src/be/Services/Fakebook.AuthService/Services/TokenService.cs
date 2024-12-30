@@ -18,7 +18,7 @@ namespace Fakebook.AuthService.Services
         }
 
         public string GenerateToken(User user)
-        { 
+        {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
@@ -33,7 +33,7 @@ namespace Fakebook.AuthService.Services
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(_jwtSettings.ExpirationMinutes),
+                expires: DateTime.Now.AddDays(_jwtSettings.ExpirationMinutes),
                 signingCredentials: credentials
             );
 
