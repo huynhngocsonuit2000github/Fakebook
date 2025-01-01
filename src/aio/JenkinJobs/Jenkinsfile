@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Trigger Job and Get Reports') {
+            steps {
+                script {
+                    // Trigger the job
+                    def triggerUrl = "http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/build?token=testTriggerToken"
+                    echo "Triggering job: $triggerUrl"
+                    def triggerResponse = sh(script: "curl -u admin:117406bbd24b3f9fb0d9477247049b272a -X POST $triggerUrl", returnStdout: true)
+                    echo triggerResponse
+                    
+                    // Wait for the job to complete
+                    sleep 60 // wait for the job to complete (adjust as needed)
+                    
+                    // Download the reports
+                    def trxUrl = "http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/lastSuccessfulBuild/artifact/archivedReports/*.trx"
+                    def htmlUrl = "http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/lastSuccessfulBuild/artifact/archivedReports/*.html"
+                    
+                    echo "Downloading TRX report from $trxUrl"
+                    sh(script: "curl -u admin:117406bbd24b3f9fb0d9477247049b272a -O $trxUrl")
+                    
+                    echo "Downloading HTML report from $htmlUrl"
+                    sh(script: "curl -u admin:117406bbd24b3f9fb0d9477247049b272a -O $htmlUrl")
+                }
+            }
+        }
+    }
+}
