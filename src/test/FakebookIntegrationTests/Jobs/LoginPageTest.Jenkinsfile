@@ -6,7 +6,7 @@ pipeline {
             steps {
                 checkout scm
                 script {
-                    sh 'git checkout -b aio-prototype' 
+                    sh 'git checkout aio-prototype'
                 }
             }
         }

@@ -16,10 +16,29 @@ docker exec -it aio-jenkins-agent-new bash
 
 <!-- curl -u admin:117406bbd24b3f9fb0d9477247049b272a -X POST http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/buildWithParameters?token=testTriggerToken -->
 
+=====
+
+# Test Jenkins Agent
+
+testTriggerToken
+admin:117406bbd24b3f9fb0d9477247049b272a
+
 curl -u admin:117406bbd24b3f9fb0d9477247049b272a -X POST http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/build?token=testTriggerToken
 
-curl -u admin:117406bbd24b3f9fb0d9477247049b272a -O http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/lastSuccessfulBuild/artifact/archivedReports/
+# AIO Jenkins Agent
 
-curl -u admin:117406bbd24b3f9fb0d9477247049b272a -O http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/lastSuccessfulBuild/artifact/archivedReports/\_a5e8d98a3d7b_2025-01-01_15_32_39.trx
+aio_jenkins
+admin:11d731d093618b516824fbaae075ceca24
+curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST http://aio-jenkins-agent-new:8080/job/Trigger-Test-Agent/build?token=aio_jenkins
+curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST "http://localhost:8082/job/Trigger-Test-Agent/build?token=aio_jenkins"
 
-curl -u admin:117406bbd24b3f9fb0d9477247049b272a -O http://test-jenkins-agent-new:8080/job/FB001-Test_internal_user_login/lastSuccessfulBuild/artifact/archivedReports/final_report.txt
+======
+
+# test api get report
+
+curl -X POST "http://localhost:5051/api/reports/trigger-job"
+
+curl -X POST "http://localhost:5050/api/reports/upload" \
+ -F "files=@./a" \
+ -F "files=@./b" \
+ -F "files=@./c"

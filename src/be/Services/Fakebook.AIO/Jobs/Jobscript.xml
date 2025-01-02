@@ -1,0 +1,24 @@
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
+    <actions>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction
+            plugin="pipeline-model-definition@2.2218.v56d0cda_37c72" />
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction
+            plugin="pipeline-model-definition@2.2218.v56d0cda_37c72">
+            <jobProperties />
+            <triggers />
+            <parameters />
+            <options />
+        </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+    </actions>
+    <description>This is the test description</description>
+    <keepDependencies>false</keepDependencies>
+    <properties />
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition"
+        plugin="workflow-cps@4002.v80ca_d0f47d7f">
+        <script>{{pipeline}}</script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers />
+    <authToken>so_test_jenkins</authToken>
+    <disabled>false</disabled>
+</flow-definition>

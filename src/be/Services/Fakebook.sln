@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.SynchronousModel",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.MessageQueueHandler", "Commons\Fakebook.MessageQueueHandler\Fakebook.MessageQueueHandler.csproj", "{62586CC2-3AF2-434E-BF2D-9C5F0E53F767}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.AIO", "Fakebook.AIO\Fakebook.AIO.csproj", "{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{62586CC2-3AF2-434E-BF2D-9C5F0E53F767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62586CC2-3AF2-434E-BF2D-9C5F0E53F767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62586CC2-3AF2-434E-BF2D-9C5F0E53F767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{0211C895-6A06-493B-A083-0528F83BD05F} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
 		{82CFEEFE-AF19-4B3D-BD28-B5CB77FFCF45} = {4DA33BB4-0B3E-458C-8849-383E2705C685}
 		{62586CC2-3AF2-434E-BF2D-9C5F0E53F767} = {4DA33BB4-0B3E-458C-8849-383E2705C685}
+		{D00A6F2D-2E1C-4710-AF2D-66525A6CD89A} = {FC934E26-8FF9-4920-983B-4A6644FEC282}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEE36AB9-652E-44B1-ABF5-120C5AEE1EAC}
