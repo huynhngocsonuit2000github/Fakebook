@@ -1,0 +1,106 @@
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Cases Form</h1>
+    <form [formGroup]="caseForm" (ngSubmit)="onSubmit()">
+        <!-- Cases List -->
+        <div class="case-item card mb-3" *ngFor="let i of indices" [formGroup]="getFormGroupAt(i)">
+            <div class="card-body">
+                <h3 class="card-title">Case {{ i + 1 }}</h3>
+                <div class="row">
+                    <input id="id-{{ i }}" formControlName="id" type="hidden" />
+                    <div class="col-md-6">
+                        <label for="name-{{ i }}">Name</label>
+                        <input id="name-{{ i }}" formControlName="name" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="description-{{ i }}">Description</label>
+                        <input id="description-{{ i }}" formControlName="description" class="form-control"
+                            type="text" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="jobName-{{ i }}">Job Name</label>
+                        <input id="jobName-{{ i }}" formControlName="jobName" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="numberOfSuccess-{{ i }}">Success</label>
+                        <input id="numberOfSuccess-{{ i }}" formControlName="numberOfSuccess" class="form-control"
+                            type="number" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="numberOfFailed-{{ i }}">Failed</label>
+                        <input id="numberOfFailed-{{ i }}" formControlName="numberOfFailed" class="form-control"
+                            type="number" />
+                    </div>
+                </div>
+                <div class="text-end mt-3 d-flex align-items-center justify-content-between">
+                    <!-- Left-aligned buttons -->
+                    <div>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="updateCase(i)">
+                            Update Case
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm ml-2" (click)="removeCase(i)">
+                            Remove Case
+                        </button>
+                    </div>
+
+                    <!-- Right-aligned button -->
+                    <button type="button" class="btn btn-success btn-sm" (click)="runTestCase(i)">
+                        Run test
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- New Case Form -->
+        <div *ngIf="addingNewCase" class="new-case-form card mt-4">
+            <div class="card-body">
+                <h3 class="card-title">New Case</h3>
+                <div [formGroup]="newCaseForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new-name">Name</label>
+                            <input id="new-name" formControlName="name" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new-description">Description</label>
+                            <input id="new-description" formControlName="description" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="new-jobName">Job Name</label>
+                            <input id="new-jobName" formControlName="jobName" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="new-numberOfSuccess">Success</label>
+                            <input id="new-numberOfSuccess" formControlName="numberOfSuccess" class="form-control"
+                                type="number" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="new-numberOfFailed">Failed</label>
+                            <input id="new-numberOfFailed" formControlName="numberOfFailed" class="form-control"
+                                type="number" />
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="button" class="btn btn-success" (click)="saveNewCase()">
+                        Save Case
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="cancelNewCase()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Case -->
+        <div class="text-end mt-4">
+            <button type="button" class="btn btn-primary" (click)="showNewCaseForm()">
+                Add New Case
+            </button>
+        </div>
+    </form>
+</div>

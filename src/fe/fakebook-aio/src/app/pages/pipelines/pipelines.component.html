@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Jenkins Job Configuration</h1>
+    <form [formGroup]="jenkinsForm" (ngSubmit)="onSubmit($event)">
+        <div class="form-group">
+            <label for="jobName">Job Name</label>
+            <input type="text" id="jobName" formControlName="jobName" placeholder="Enter job name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jobDescription">Description</label>
+            <textarea id="jobDescription" formControlName="jobDescription"
+                placeholder="Enter job description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="branch">Branch</label>
+            <input type="text" id="branch" formControlName="branch" placeholder="Enter branch name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="buildCommands">Build Commands</label>
+            <textarea id="buildCommands" formControlName="buildCommands" placeholder="Enter build commands"
+                required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Save Configuration</button>
+    </form>
+</div>

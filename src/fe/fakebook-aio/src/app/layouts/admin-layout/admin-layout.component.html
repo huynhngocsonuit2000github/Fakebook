@@ -1,0 +1,18 @@
+<!-- admin-layout.component.html -->
+<div class="admin-layout">
+    <header>
+        <span routerLink="/">AIO Application</span>
+
+        <li routerLink="/cases">Cases</li>
+        <li routerLink="/sets">Sets</li>
+        <li routerLink="/cycles">Cycles</li>
+        <li routerLink="/pipelines">Pipelines</li>
+    </header>
+
+    <nav>AIO Navigation</nav>
+
+    <!-- This will render the child components wrapped by this layout -->
+    <router-outlet></router-outlet>
+
+    <footer>AIO Footer</footer>
+</div>

@@ -6,9 +6,11 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["./be/Services/Fakebook.sln", "./be/Services/"]
 
+COPY ["./be/Services/Commons/Fakebook.DataAccessLayer/Fakebook.DataAccessLayer.csproj", "./be/Services/Commons/Fakebook.DataAccessLayer/"]
 COPY ["./be/Services/Fakebook.AIO/Fakebook.AIO.csproj", "./be/Services/Fakebook.AIO/"]
 RUN dotnet restore "./be/Services/Fakebook.AIO/Fakebook.AIO.csproj"
 
+COPY ["./be/Services/Commons/Fakebook.DataAccessLayer/", "./be/Services/Commons/Fakebook.DataAccessLayer/"]
 COPY ["./be/Services/Fakebook.AIO/", "./be/Services/Fakebook.AIO/"]
 WORKDIR /src/be/Services/Fakebook.AIO
 RUN dotnet build "./Fakebook.AIO.csproj" -c Release -o /app/build

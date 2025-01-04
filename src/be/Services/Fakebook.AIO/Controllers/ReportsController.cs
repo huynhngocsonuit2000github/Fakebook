@@ -1,6 +1,9 @@
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
+using System.Xml.Linq;
 using Fakebook.AIO.Models;
+using Fakebook.AIO.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fakebook.AIO.Controllers;
@@ -11,9 +14,11 @@ public class ReportsController : ControllerBase
 {
 
     private readonly IConfiguration _configuration;
-    public ReportsController(IConfiguration configuration)
+    private readonly ICaseService _caseService;
+    public ReportsController(IConfiguration configuration, ICaseService caseService)
     {
         _configuration = configuration;
+        _caseService = caseService;
     }
 
 
@@ -133,9 +138,17 @@ public class ReportsController : ControllerBase
     }
 
 
-    [HttpPost("trigger-job")]
-    public async Task<IActionResult> TriggerJob()
+    [HttpGet("trigger-job/{caseId}")]
+    public async Task<IActionResult> TriggerJob(string caseId)
     {
+        var cas = await _caseService.GetByIdAsync(caseId);
+
+        if (cas is null) return NotFound("The case id is invalid!");
+
+        var caseJobName = cas.JobName;
+        System.Console.WriteLine("JobName: " + caseJobName);
+        // "JobName": "Trigger-Test-Agent",
+
         System.Console.WriteLine("Hit the api");
         var httpClient = new HttpClient();
         try
@@ -146,18 +159,16 @@ public class ReportsController : ControllerBase
             var token = _configuration["AIOJenkins:Token"];
             var credentials = _configuration["AIOJenkins:Credentials"];
 
-            System.Console.WriteLine(jenkinsHost);
-            System.Console.WriteLine(jobName);
-            System.Console.WriteLine(token);
-            System.Console.WriteLine(credentials);
-
             if (string.IsNullOrEmpty(jenkinsHost) || string.IsNullOrEmpty(jobName) || string.IsNullOrEmpty(token) || string.IsNullOrEmpty(credentials))
             {
                 return BadRequest(new { Message = "Missing Jenkins configuration settings." });
             }
 
             // Construct the Jenkins job URL
-            var jenkinsUrl = $"{jenkinsHost}/job/{jobName}/build?token={token}";
+            var jenkinsUrl = $"{jenkinsHost}/job/{jobName}/buildWithParameters?token={token}&caseId={caseId}&jobName={caseJobName}";
+
+            System.Console.WriteLine("My url");
+            System.Console.WriteLine(jenkinsUrl);
 
             // Encode credentials in Base64
             var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
@@ -185,9 +196,13 @@ public class ReportsController : ControllerBase
         }
     }
 
-    [HttpPost("upload")]
-    public async Task<IActionResult> UploadAsync(IFormFileCollection files)
+    [HttpPost("upload/{caseId}")]
+    public async Task<IActionResult> UploadAsync(string caseId, IFormFileCollection files)
     {
+        var cas = await _caseService.GetByIdAsync(caseId);
+
+        if (cas is null) return NotFound("The case id is invalid!");
+
         System.Console.WriteLine("Hit the api");
         var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedReports");
         Directory.CreateDirectory(uploadPath);
@@ -195,6 +210,8 @@ public class ReportsController : ControllerBase
         System.Console.WriteLine("Count: " + files.Count());
 
         var uploadedFiles = new List<string>();
+        var testResultsSummary = new List<CaseResultModel>();
+
         foreach (var file in files)
         {
             System.Console.WriteLine($"File Name: {file.FileName}, Length: {file.Length}");
@@ -205,9 +222,60 @@ public class ReportsController : ControllerBase
                 await file.CopyToAsync(stream);
             }
             uploadedFiles.Add(filePath);
+
+            // If the file is a .trx file, process it
+            if (Path.GetExtension(file.FileName).Equals(".trx", StringComparison.OrdinalIgnoreCase))
+            {
+                var resultSummary = ParseTrxFile(filePath);
+                if (resultSummary != null)
+                {
+                    testResultsSummary.Add(resultSummary);
+                }
+            }
         }
+
+        var firstReport = testResultsSummary[0];
+
+        cas.NumberOfSuccess += firstReport.Passed;
+        cas.NumberOfFailed += firstReport.Failed;
+
+        await _caseService.UpdateAsync(caseId, cas);
 
         return Ok(new { Message = "Files uploaded successfully.", Files = uploadedFiles });
     }
 
+    private CaseResultModel ParseTrxFile(string filePath)
+    {
+        try
+        {
+            var doc = XDocument.Load(filePath);
+
+            // Namespace to match elements in the .trx file
+            XNamespace ns = "http://microsoft.com/schemas/VisualStudio/TeamTest/2010";
+
+            // Extract counters from the ResultSummary
+            var counters = doc.Descendants(ns + "Counters").FirstOrDefault();
+            if (counters != null)
+            {
+                int total = int.Parse(counters.Attribute("total")?.Value ?? "0");
+                int passed = int.Parse(counters.Attribute("passed")?.Value ?? "0");
+                int failed = int.Parse(counters.Attribute("failed")?.Value ?? "0");
+
+                return new CaseResultModel()
+                {
+                    File = Path.GetFileName(filePath),
+                    Total = total,
+                    Passed = passed,
+                    Failed = failed
+                };
+            }
+
+            throw new Exception("No test results found in the file.");
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine($"Error parsing .trx file {filePath}: {ex.Message}");
+            throw new Exception("Failed to parse the file.");
+        }
+    }
 }

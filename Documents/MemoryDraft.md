@@ -38,7 +38,13 @@ curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST "http://localhost:8082/
 
 curl -X POST "http://localhost:5051/api/reports/trigger-job"
 
-curl -X POST "http://localhost:5050/api/reports/upload" \
- -F "files=@./a" \
- -F "files=@./b" \
- -F "files=@./c"
+curl -X POST "http://localhost:5050/api/reports/upload/a0a386cb-f7a8-4250-9998-e41b44747e49" \
+ -F "files=@./\_a5e8d98a3d7b_2025-01-02_14_05_48.trx" \
+ -F "files=@./\_a5e8d98a3d7b_2025-01-04_04_10_49.trx" \
+ -F "files=@./htmlpublisher-wrapper.html"
+
+<!-- deploy -->
+
+# Go to the src folder && build the image
+
+docker build -t huynhngocsonuit2000docker/fakebook-aioservice:v001 . -f ./be/Services/Containerizations/AIOService.Dockerfile

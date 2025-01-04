@@ -1,0 +1,19 @@
+{
+  "Cases": [
+    {
+      "Name": "Case 1",
+      "Description": "Description for Case 1",
+      "JobName": "Job A"
+    },
+    {
+      "Name": "Case 2",
+      "Description": "Description for Case 2",
+      "JobName": "Job B"
+    },
+    {
+      "Name": "Case 3",
+      "Description": "Description for Case 3",
+      "JobName": "Job C"
+    }
+  ]
+}

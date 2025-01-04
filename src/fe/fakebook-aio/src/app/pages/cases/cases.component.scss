@@ -1,0 +1,25 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+
+  .case-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    .card-body {
+      padding: 15px;
+
+      label {
+        font-weight: bold;
+      }
+
+      input {
+        margin-bottom: 10px;
+      }
+
+      button {
+        margin-top: 10px;
+      }
+    }
+  }
+}
