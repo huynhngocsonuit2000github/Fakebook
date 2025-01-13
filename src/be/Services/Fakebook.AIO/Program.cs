@@ -46,7 +46,9 @@ builder.Services.AddDbContext<ServiceContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
 builder.Services.AddScoped<ICaseRepository, CaseRepository>();
+builder.Services.AddScoped<IPipelineRepository, PipelineRepository>();
 builder.Services.AddScoped<ICaseService, CaseService>();
+builder.Services.AddScoped<IPipelineService, PipelineService>();
 
 // Update Cors
 builder.Services.AddCors(options =>

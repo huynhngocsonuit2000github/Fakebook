@@ -44,6 +44,15 @@
                         </button>
                     </div>
 
+                    <form [formGroup]="form">
+                        <label for="pipeline-select">Select a Pipeline:</label>
+                        <select id="pipeline-select" formControlName="selectedPipeline" (change)="onPipelineChange()">
+                            <option *ngFor="let pipeline of pipelines" [value]="pipeline.id">
+                                {{ pipeline.jobName }}
+                            </option>
+                        </select>
+                    </form>
+
                     <!-- Right-aligned button -->
                     <button type="button" class="btn btn-success btn-sm" (click)="runTestCase(i)">
                         Run test

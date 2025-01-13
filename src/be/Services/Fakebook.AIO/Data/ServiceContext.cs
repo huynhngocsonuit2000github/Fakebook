@@ -8,5 +8,6 @@ namespace Fakebook.AIO.Data
         public ServiceContext(DbContextOptions<ServiceContext> options) : base(options) { }
 
         public DbSet<Case> Cases { get; set; } = null!;
+        public DbSet<Pipeline> Pipelines { get; set; } = null!;
     }
 }

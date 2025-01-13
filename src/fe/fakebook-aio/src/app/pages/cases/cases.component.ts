@@ -1,14 +1,15 @@
 import { ReportsService } from './../../services/reports.service';
 import { CaseCreateModel, CaseUpdateModel } from './../../services/models/cases.model';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CasesService } from '../../services/cases.service';
 import { CommonModule } from '@angular/common';
+import { PipelineModel } from '../../services/models/pipeline.model';
 
 @Component({
   selector: 'app-cases',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './cases.component.html',
   styleUrl: './cases.component.scss'
 })
@@ -17,8 +18,17 @@ export class CasesComponent implements OnInit {
   indices: number[] = []; // Array to hold indices 
   addingNewCase = false; // Track if a new case is being added
   newCaseForm!: FormGroup; // FormGroup for the new case
+  pipelines: PipelineModel[] = [];
 
-  constructor(private fb: FormBuilder, private caseService: CasesService, private reportsService: ReportsService) { }
+
+  form: FormGroup;
+
+
+  constructor(private fb: FormBuilder, private caseService: CasesService, private reportsService: ReportsService) {
+    this.form = this.fb.group({
+      selectedPipeline: [null], // Initialize the control
+    });
+  }
 
   ngOnInit(): void {
     this.caseForm = this.fb.group({
@@ -42,6 +52,26 @@ export class CasesComponent implements OnInit {
         this.addCase(e);
       });
     });
+
+    this.fetchPipelines();
+  }
+
+  fetchPipelines(): void {
+    this.reportsService.getAllPipelines().subscribe(
+      (data) => {
+        this.pipelines = data;
+        if (data.length > 0) {
+          this.form.patchValue({ selectedPipeline: data[0].id }); // Safely set the value
+        }
+      },
+      (error) => {
+        console.error('Error fetching pipelines:', error);
+      }
+    );
+  }
+
+  onPipelineChange(): void {
+    console.log('Selected Pipeline:', this.form.value.selectedPipeline);
   }
 
   get cases(): FormArray {
@@ -74,13 +104,16 @@ export class CasesComponent implements OnInit {
   }
 
   runTestCase(index: number): void {
+    var pipeline = this.pipelines.find(e => e.id == this.form.value.selectedPipeline)?.jobName;
 
-    const item = this.getFormGroupAt(index).value;
-    console.log('Run test case ', item.id);
+    if (confirm(`Are you sure to use Pipeline ${pipeline} to run test?`)) {
+      const item = this.getFormGroupAt(index).value;
+      console.log('Run test case ', item.id);
 
-    this.reportsService.triggerCases(item.id).subscribe(({ message }) => {
-      alert(message)
-    })
+      this.reportsService.triggerCases(item.id, this.form.value.selectedPipeline).subscribe(({ message }) => {
+        alert(message)
+      })
+    }
   }
 
   updateIndices(): void {

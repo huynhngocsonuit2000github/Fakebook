@@ -31,6 +31,7 @@ aio_jenkins
 admin:11d731d093618b516824fbaae075ceca24
 curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST http://aio-jenkins-agent-new:8080/job/Trigger-Test-Agent/build?token=aio_jenkins
 curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST "http://localhost:8082/job/Trigger-Test-Agent/build?token=aio_jenkins"
+curl -u admin:11d731d093618b516824fbaae075ceca24 -X POST "http://localhost:8082/job/Trigger-Test-Agent/buildWithParameters?token=aio_jenkins&caseId=a0a386cb-f7a8-4250-9998-e41b44747e49&jobName=FB001-Test_internal_user_login"
 
 ======
 
@@ -48,3 +49,10 @@ curl -X POST "http://localhost:5050/api/reports/upload/a0a386cb-f7a8-4250-9998-e
 # Go to the src folder && build the image
 
 docker build -t huynhngocsonuit2000docker/fakebook-aioservice:v001 . -f ./be/Services/Containerizations/AIOService.Dockerfile
+
+# Pipeline database
+
+JobName // TestJobName
+JobDescription
+AuthToken // to trigger job after create so_test_jenkins
+PipelineContent

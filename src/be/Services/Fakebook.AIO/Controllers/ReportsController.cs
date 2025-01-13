@@ -12,21 +12,40 @@ namespace Fakebook.AIO.Controllers;
 [Route("/api/[controller]")]
 public class ReportsController : ControllerBase
 {
-
     private readonly IConfiguration _configuration;
     private readonly ICaseService _caseService;
-    public ReportsController(IConfiguration configuration, ICaseService caseService)
+    private readonly IPipelineService _pipelineService;
+    public ReportsController(IConfiguration configuration, ICaseService caseService, IPipelineService pipelineService)
     {
         _configuration = configuration;
         _caseService = caseService;
+        _pipelineService = pipelineService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var data = await _pipelineService.GetAllAsync();
+
+        return Ok(data);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
+    {
+        var cas = await _pipelineService.GetByIdAsync(id);
+
+        if (cas is null)
+            return NotFound("Pipeline not found");
+
+        return Ok(cas);
     }
 
 
     [HttpPost("create-job")]
-    public async Task<IActionResult> CreateJobAsync()
+    public async Task<IActionResult> CreateJobAsync(PipelineCreateModel input)
     {
         string _jobscriptFilesPath = "./Jobs/Jobscript.xml"; // Path to Jenkinsfile
-        string _jenkinsFilesPath = "./Jobs/Jenkinsfile"; // Path to Jenkinsfile
         string _jenkinsBaseUrl = _configuration["AIOJenkins:HostName"]; // Jenkins base URL
         string _jenkinsCredentials = _configuration["AIOJenkins:Credentials"]; // Jenkins credentials in the form "username:password"
 
@@ -36,22 +55,24 @@ public class ReportsController : ControllerBase
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(_jenkinsCredentials)));
 
             // Check if the job already exists
-            var jobExistsResponse = await client.GetAsync($"{_jenkinsBaseUrl}/job/TestJobName/api/json");
+            var jobExistsResponse = await client.GetAsync($"{_jenkinsBaseUrl}/job/{input.JobName}/api/json");
             if (jobExistsResponse.IsSuccessStatusCode)
             {
                 return Conflict(new { message = "Jenkins job already exists." });
             }
 
             // Read the Jenkinsfile content
-            if (!System.IO.File.Exists(_jobscriptFilesPath) || !System.IO.File.Exists(_jenkinsFilesPath))
+            if (!System.IO.File.Exists(_jobscriptFilesPath))
             {
                 return BadRequest(new { message = "Jenkinsfile not found." });
             }
 
             var jenkinsScriptContent = await System.IO.File.ReadAllTextAsync(_jobscriptFilesPath);
-            var jenkinsFileContent = await System.IO.File.ReadAllTextAsync(_jenkinsFilesPath);
-            jenkinsScriptContent = jenkinsScriptContent.Replace("{{pipeline}}", jenkinsFileContent);
-            var jobName = "TestJobName"; // Specify the job name here
+            jenkinsScriptContent = jenkinsScriptContent
+                                                    .Replace("{{pipeline}}", input.PipelineContent)
+                                                    .Replace("{{description}}", input.JobDescription)
+                                                    .Replace("{{authToken}}", input.AuthToken);
+
 
             // Fetch the CSRF crumb
             var crumbResponse = await client.GetAsync($"{_jenkinsBaseUrl}/crumbIssuer/api/json");
@@ -59,7 +80,7 @@ public class ReportsController : ControllerBase
             var crumb = Newtonsoft.Json.JsonConvert.DeserializeObject<Crumb>(crumbData).crumb;
 
             // Jenkins API URL to create a new job
-            var jenkinsUrl = $"{_jenkinsBaseUrl}/createItem?name={jobName}"; // POST request to create job
+            var jenkinsUrl = $"{_jenkinsBaseUrl}/createItem?name={input.JobName}"; // POST request to create job
             var content = new StringContent(jenkinsScriptContent, Encoding.UTF8, "application/xml");
             content.Headers.Add("Jenkins-Crumb", crumb);
 
@@ -67,6 +88,8 @@ public class ReportsController : ControllerBase
 
             if (response.IsSuccessStatusCode)
             {
+                await _pipelineService.CreateAsync(input.ToPipeline());
+
                 return Ok(new { message = "Jenkins job created successfully." });
             }
             else
@@ -80,11 +103,10 @@ public class ReportsController : ControllerBase
         }
     }
 
-    [HttpPost("update-job")]
-    public async Task<IActionResult> UpdateJobAsync()
+    [HttpPost("update-job/{id}")]
+    public async Task<IActionResult> UpdateJobAsync(string id, PipelineCreateModel input)
     {
         string _jobscriptFilesPath = "./Jobs/Jobscript.xml"; // Path to Jenkinsfile
-        string _jenkinsFilesPath = "./Jobs/Jenkinsfile"; // Path to Jenkinsfile
         string _jenkinsBaseUrl = _configuration["AIOJenkins:HostName"]; // Jenkins base URL
         string _jenkinsCredentials = _configuration["AIOJenkins:Credentials"]; // Jenkins credentials in the form "username:password"
 
@@ -94,21 +116,23 @@ public class ReportsController : ControllerBase
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(_jenkinsCredentials)));
 
             // Check if the job already exists
-            var jobExistsResponse = await client.GetAsync($"{_jenkinsBaseUrl}/job/TestJobName/api/json");
+            var jobExistsResponse = await client.GetAsync($"{_jenkinsBaseUrl}/job/{input.JobName}/api/json");
             if (!jobExistsResponse.IsSuccessStatusCode)
             {
                 return NotFound(new { message = "Jenkins job does not exist." });
             }
 
             // Read the Jenkinsfile content
-            if (!System.IO.File.Exists(_jobscriptFilesPath) || !System.IO.File.Exists(_jenkinsFilesPath))
+            if (!System.IO.File.Exists(_jobscriptFilesPath))
             {
                 return BadRequest(new { message = "Jenkinsfile not found." });
             }
 
             var jenkinsScriptContent = await System.IO.File.ReadAllTextAsync(_jobscriptFilesPath);
-            var jenkinsFileContent = await System.IO.File.ReadAllTextAsync(_jenkinsFilesPath);
-            jenkinsScriptContent = jenkinsScriptContent.Replace("{{pipeline}}", jenkinsFileContent);
+            jenkinsScriptContent = jenkinsScriptContent
+                                                    .Replace("{{pipeline}}", input.PipelineContent)
+                                                    .Replace("{{description}}", input.JobDescription)
+                                                    .Replace("{{authToken}}", input.AuthToken);
 
             // Fetch the CSRF crumb
             var crumbResponse = await client.GetAsync($"{_jenkinsBaseUrl}/crumbIssuer/api/json");
@@ -116,7 +140,7 @@ public class ReportsController : ControllerBase
             var crumb = Newtonsoft.Json.JsonConvert.DeserializeObject<Crumb>(crumbData).crumb;
 
             // Jenkins API URL to update the job
-            var jenkinsUrl = $"{_jenkinsBaseUrl}/job/TestJobName/config.xml"; // POST request to update job
+            var jenkinsUrl = $"{_jenkinsBaseUrl}/job/{input.JobName}/config.xml"; // POST request to update job
             var content = new StringContent(jenkinsScriptContent, Encoding.UTF8, "application/xml");
             content.Headers.Add("Jenkins-Crumb", crumb);
 
@@ -124,6 +148,8 @@ public class ReportsController : ControllerBase
 
             if (response.IsSuccessStatusCode)
             {
+                await _pipelineService.UpdateAsync(id, input.ToPipeline());
+
                 return Ok(new { message = "Jenkins job updated successfully." });
             }
             else
@@ -138,37 +164,31 @@ public class ReportsController : ControllerBase
     }
 
 
-    [HttpGet("trigger-job/{caseId}")]
-    public async Task<IActionResult> TriggerJob(string caseId)
+    [HttpGet("trigger-job")]
+    public async Task<IActionResult> TriggerJob(string caseId, string pipelineId)
     {
         var cas = await _caseService.GetByIdAsync(caseId);
-
         if (cas is null) return NotFound("The case id is invalid!");
 
-        var caseJobName = cas.JobName;
-        System.Console.WriteLine("JobName: " + caseJobName);
-        // "JobName": "Trigger-Test-Agent",
+        var job = await _pipelineService.GetByIdAsync(pipelineId);
+        if (job is null) return NotFound("The pipeline id is invalid!");
 
-        System.Console.WriteLine("Hit the api");
+        var caseJobName = cas.JobName;
+
         var httpClient = new HttpClient();
         try
         {
             // Read Jenkins configuration
             var jenkinsHost = _configuration["AIOJenkins:HostName"];
-            var jobName = _configuration["AIOJenkins:JobName"];
-            var token = _configuration["AIOJenkins:Token"];
             var credentials = _configuration["AIOJenkins:Credentials"];
 
-            if (string.IsNullOrEmpty(jenkinsHost) || string.IsNullOrEmpty(jobName) || string.IsNullOrEmpty(token) || string.IsNullOrEmpty(credentials))
+            if (string.IsNullOrEmpty(jenkinsHost) || string.IsNullOrEmpty(job.JobName) || string.IsNullOrEmpty(job.AuthToken) || string.IsNullOrEmpty(credentials))
             {
                 return BadRequest(new { Message = "Missing Jenkins configuration settings." });
             }
 
             // Construct the Jenkins job URL
-            var jenkinsUrl = $"{jenkinsHost}/job/{jobName}/buildWithParameters?token={token}&caseId={caseId}&jobName={caseJobName}";
-
-            System.Console.WriteLine("My url");
-            System.Console.WriteLine(jenkinsUrl);
+            var jenkinsUrl = $"{jenkinsHost}/job/{job.JobName}/buildWithParameters?token={job.AuthToken}&caseId={caseId}&jobName={caseJobName}";
 
             // Encode credentials in Base64
             var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
@@ -203,18 +223,14 @@ public class ReportsController : ControllerBase
 
         if (cas is null) return NotFound("The case id is invalid!");
 
-        System.Console.WriteLine("Hit the api");
         var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedReports");
         Directory.CreateDirectory(uploadPath);
-
-        System.Console.WriteLine("Count: " + files.Count());
 
         var uploadedFiles = new List<string>();
         var testResultsSummary = new List<CaseResultModel>();
 
         foreach (var file in files)
         {
-            System.Console.WriteLine($"File Name: {file.FileName}, Length: {file.Length}");
 
             var filePath = Path.Combine(uploadPath, file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -274,7 +290,6 @@ public class ReportsController : ControllerBase
         }
         catch (Exception ex)
         {
-            System.Console.WriteLine($"Error parsing .trx file {filePath}: {ex.Message}");
             throw new Exception("Failed to parse the file.");
         }
     }

@@ -10,7 +10,7 @@
             <options />
         </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
     </actions>
-    <description>This is the test description</description>
+    <description>{{description}}</description>
     <keepDependencies>false</keepDependencies>
     <properties />
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition"
@@ -19,6 +19,6 @@
         <sandbox>true</sandbox>
     </definition>
     <triggers />
-    <authToken>so_test_jenkins</authToken>
+    <authToken>{{authToken}}</authToken>
     <disabled>false</disabled>
 </flow-definition>

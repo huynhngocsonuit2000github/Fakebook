@@ -25,4 +25,11 @@
     <ProjectReference Include="..\Commons\Fakebook.DataAccessLayer\Fakebook.DataAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ContentWithTargetPath Include="Jobs/Jobscript.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Jobs/Jobscript.xml</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
 </Project>

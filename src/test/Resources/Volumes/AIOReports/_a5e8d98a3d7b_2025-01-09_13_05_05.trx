@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f8593333-ae28-4c2b-b968-09788b13f444" name="@a5e8d98a3d7b 2025-01-09 13:05:05" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-01-09T13:05:05.2158735+00:00" queuing="2025-01-09T13:05:05.2158738+00:00" start="2025-01-09T13:04:42.4154320+00:00" finish="2025-01-09T13:05:05.2626899+00:00" />
+  <TestSettings name="default" id="4612df61-e282-4497-9393-a1e9afd3e7c5">
+    <Deployment runDeploymentRoot="_a5e8d98a3d7b_2025-01-09_13_05_05" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="57fc2f5a-8dbb-454c-9715-67f757e50dfc" testId="2b105cf9-4085-2175-7ef3-8a3e8f3e5ceb" testName="FakebookIntegrationTests.Selenium.LoginPageTest.Test_LoginPage_ExternalUser" computerName="a5e8d98a3d7b" duration="00:00:14.4748724" startTime="2025-01-09T13:05:04.7815149+00:00" endTime="2025-01-09T13:05:04.7815763+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57fc2f5a-8dbb-454c-9715-67f757e50dfc" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="FakebookIntegrationTests.Selenium.LoginPageTest.Test_LoginPage_ExternalUser" storage="/var/jenkins_home/workspace/fb001-test_external_user_login/fakebookintegrationtests/bin/debug/net6.0/fakebookintegrationtests.dll" id="2b105cf9-4085-2175-7ef3-8a3e8f3e5ceb">
+      <Execution id="57fc2f5a-8dbb-454c-9715-67f757e50dfc" />
+      <TestMethod codeBase="/var/jenkins_home/workspace/FB001-Test_external_user_login/FakebookIntegrationTests/bin/Debug/net6.0/FakebookIntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FakebookIntegrationTests.Selenium.LoginPageTest" name="Test_LoginPage_ExternalUser" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="2b105cf9-4085-2175-7ef3-8a3e8f3e5ceb" executionId="57fc2f5a-8dbb-454c-9715-67f757e50dfc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.02] xUnit.net VSTest Adapter v2.4.5+1caef2f33e (64-bit .NET 6.0.36)
+[xUnit.net 00:00:05.51]   Discovering: FakebookIntegrationTests
+[xUnit.net 00:00:05.69]   Discovered:  FakebookIntegrationTests
+[xUnit.net 00:00:05.71]   Starting:    FakebookIntegrationTests
+[xUnit.net 00:00:20.44]   Finished:    FakebookIntegrationTests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

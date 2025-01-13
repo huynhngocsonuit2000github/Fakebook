@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'http://compose-aio-service',
+    apiUrl: 'http://localhost:5051',
 };

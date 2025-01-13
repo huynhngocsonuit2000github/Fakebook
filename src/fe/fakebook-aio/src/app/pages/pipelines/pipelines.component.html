@@ -1,28 +1,61 @@
 <div class="container">
-    <h1>Jenkins Job Configuration</h1>
-    <form [formGroup]="jenkinsForm" (ngSubmit)="onSubmit($event)">
-        <div class="form-group">
-            <label for="jobName">Job Name</label>
-            <input type="text" id="jobName" formControlName="jobName" placeholder="Enter job name" required>
+    <div class="row">
+        <!-- Left Side: List of Jenkins Jobs -->
+        <div class="col-4">
+            <h2>Jenkins Jobs</h2>
+            <button class="btn btn-primary" (click)="createNewPipeline()">Create New Pipeline</button>
+            <ul class="job-list">
+                <li *ngFor="let job of jenkinsJobs" (click)="loadJob(job)" class="job-item">
+                    {{ job.jobName }}
+                </li>
+            </ul>
         </div>
 
-        <div class="form-group">
-            <label for="jobDescription">Description</label>
-            <textarea id="jobDescription" formControlName="jobDescription"
-                placeholder="Enter job description"></textarea>
-        </div>
+        <!-- Right Side: Jenkins Job Form -->
+        <div class="col-8">
+            <h1>Jenkins Job Configuration</h1>
+            <form id="jenkinsForm" [formGroup]="jenkinsForm" (ngSubmit)="onSubmit($event)">
+                <input id="id" formControlName="id" type="hidden" />
+                <div class="form-group">
+                    <label for="jobName">Job Name</label>
 
-        <div class="form-group">
-            <label for="branch">Branch</label>
-            <input type="text" id="branch" formControlName="branch" placeholder="Enter branch name" required>
-        </div>
+                    <!-- Conditionally render input or label based on isNewPipeline -->
+                    <div *ngIf="isNewPipeline">
+                        <input type="text" id="jobName" formControlName="jobName" placeholder="Enter job name" required>
+                    </div>
+                    <div *ngIf="!isNewPipeline">
+                        <input type="text" id="jobName" formControlName="jobName" readonly class="disable">
+                    </div>
 
-        <div class="form-group">
-            <label for="buildCommands">Build Commands</label>
-            <textarea id="buildCommands" formControlName="buildCommands" placeholder="Enter build commands"
-                required></textarea>
-        </div>
 
-        <button type="submit" class="btn">Save Configuration</button>
-    </form>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobDescription">Description</label>
+                    <textarea id="jobDescription" formControlName="jobDescription"
+                        placeholder="Enter job description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="authToken">Auth Token</label>
+                    <input type="text" id="authToken" formControlName="authToken" placeholder="Enter auth token"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pipelineContent">Pipeline Content</label>
+                    <textarea id="pipelineContent" formControlName="pipelineContent"
+                        placeholder="Enter pipeline content" required></textarea>
+                </div>
+
+                @if(isNewPipeline){
+                <button type="submit" class="btn btn-success">Create Pipeline</button>
+
+                }
+                @else{
+                <button type="submit" class="btn btn-primary">Save Pipeline</button>
+                }
+            </form>
+        </div>
+    </div>
 </div>

@@ -1,35 +1,45 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
+.col-8 {
   padding: 20px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Background color for better contrast */
+  border-left: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 28px; /* Increased heading font size for better visibility */
     color: #333;
+    margin-bottom: 20px;
+    font-weight: 700; /* Bold font weight for emphasis */
   }
 
   .form-group {
-    margin-bottom: 15px;
-
+    margin-bottom: 20px; /* Increased spacing for better readability */
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       font-weight: bold;
-      color: #555;
+      color: #333;
+      font-size: 16px; /* Label font size */
     }
 
     input,
     textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 16px;
+      transition: border-color 0.3s ease-in-out;
+
+      &:focus {
+        border-color: #007bff; /* Highlight border on focus for better UX */
+        outline: none;
+      }
+
+      &.disable {
+        background-color: #f0f0f0; /* Disabled state background color */
+        color: #a0a0a0; /* Dimmed text color */
+        cursor: not-allowed; /* Cursor change for disabled state */
+      }
     }
 
     textarea {
@@ -41,7 +51,7 @@
   .btn {
     display: inline-block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #007bff;
     color: #fff;
     font-size: 16px;
@@ -50,10 +60,44 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease-in-out;
 
     &:hover {
       background-color: #0056b3;
     }
+
+    &.disable {
+      background-color: #f0f0f0;
+      color: #a0a0a0;
+      cursor: not-allowed;
+    }
   }
+}
+
+.job-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .job-item {
+    padding: 12px 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+
+    &.active {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+}
+
+.btn-success {
+  background-color: rgb(55, 88, 6) !important;
 }

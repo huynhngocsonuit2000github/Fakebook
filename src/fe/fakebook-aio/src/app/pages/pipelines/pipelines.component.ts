@@ -1,48 +1,88 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReportsService } from './../../services/reports.service';
+import { PipelineModel } from '../../services/models/pipeline.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pipelines',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './pipelines.component.html',
-  styleUrl: './pipelines.component.scss'
+  styleUrls: ['./pipelines.component.scss']
 })
-export class PipelinesComponent implements OnInit {
+export class PipelinesComponent {
+  jenkinsForm: FormGroup;
+  jenkinsJobs: PipelineModel[] = [];
+  isNewPipeline: boolean = true; // Tracks whether creating a new pipeline or editing
 
-  jenkinsForm!: FormGroup;
-
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-  }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder, private reportsService: ReportsService) {
     this.jenkinsForm = this.fb.group({
+      id: [''],
       jobName: ['', Validators.required],
       jobDescription: [''],
-      branch: ['', Validators.required],
-      buildCommands: ['', Validators.required],
+      authToken: ['', Validators.required],
+      pipelineContent: ['', Validators.required],
+    });
+
+    this.loadJobs();
+  }
+
+  loadJobs() {
+    this.reportsService.getAllPipelines().subscribe({
+      next: (jobs) => {
+        this.jenkinsJobs = jobs;
+      },
+      error: (error) => {
+        alert('Failed to load Jenkins jobs: ' + error.message);
+      }
     });
   }
 
+  loadJob(job: PipelineModel) {
+    this.isNewPipeline = false; // Editing existing pipeline
+    this.jenkinsForm.patchValue({
+      id: job.id,
+      jobName: job.jobName,
+      jobDescription: job.jobDescription,
+      authToken: job.authToken,
+      pipelineContent: job.pipelineContent,
+    });
+  }
+
+  createNewPipeline() {
+    this.isNewPipeline = true; // Creating new pipeline
+    this.jenkinsForm.reset(); // Clear the form
+  }
+
   onSubmit(event: Event) {
-    console.log('aa');
-    console.log(this.jenkinsForm.value);
     event.preventDefault();
 
-    return;
-
     if (this.jenkinsForm.valid) {
-      const jobData = this.jenkinsForm.value;
-      this.http.post('https://your-api-endpoint/jenkins/jobs', jobData).subscribe({
-        next: (response) => {
-          alert('Jenkins job created successfully!');
-        },
-        error: (error) => {
-          alert('Error creating Jenkins job: ' + error.message);
-        }
-      });
+      const formData = this.jenkinsForm.value;
+
+      if (this.isNewPipeline) {
+        this.reportsService.createJob(formData).subscribe({
+          next: () => {
+            alert('Pipeline created successfully!');
+            this.loadJobs();
+            this.jenkinsForm.reset();
+          },
+          error: (error) => {
+            alert('Error creating pipeline: ' + error.error.message);
+          }
+        });
+      } else {
+        this.reportsService.updateJob(formData.id, formData).subscribe({
+          next: () => {
+            alert('Pipeline updated successfully!');
+            this.loadJobs();
+          },
+          error: (error) => {
+            alert('Error updating pipeline: ' + error.error.message);
+          }
+        });
+      }
     } else {
       alert('Please fill all required fields.');
     }
