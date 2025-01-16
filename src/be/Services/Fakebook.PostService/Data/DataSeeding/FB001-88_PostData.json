@@ -1,0 +1,119 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "admin",
+      "firstname": "Admin",
+      "lastname": "Super",
+      "email": "admin@gmail.com"
+    },
+    {
+      "id": "3",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "son",
+      "firstname": "Son",
+      "lastname": "Huynh",
+      "email": "son@gmail.com"
+    },
+    {
+      "id": "2",
+      "isActive": true,
+      "isInternalUser": true,
+      "username": "truc",
+      "firstname": "Truc",
+      "lastname": "Thanh",
+      "email": "truc@gmail.com"
+    }
+  ],
+  "posts": [
+    {
+      "id": "101",
+      "content": "Welcome to the community!",
+      "ownerId": "1"
+    },
+    {
+      "id": "102",
+      "content": "Learning ASP.NET Core is fun!",
+      "ownerId": "2"
+    },
+    {
+      "id": "103",
+      "content": "Let's build something amazing!",
+      "ownerId": "3"
+    }
+  ],
+  "comments": [
+    {
+      "id": "201",
+      "content": "This is great advice!",
+      "userId": "2",
+      "postId": "101"
+    },
+    {
+      "id": "202",
+      "content": "I completely agree!",
+      "userId": "3",
+      "postId": "102"
+    },
+    {
+      "id": "203",
+      "content": "Thanks for sharing.",
+      "userId": "1",
+      "postId": "103"
+    },
+    {
+      "id": "204",
+      "content": "Me too!",
+      "userId": "3",
+      "parentCommentId": "202"
+    },
+    {
+      "id": "205",
+      "content": "You're welcome!",
+      "userId": "1",
+      "parentCommentId": "203"
+    }
+  ],
+  "likes": [
+    {
+      "id": "301",
+      "userId": "3",
+      "postId": "101"
+    },
+    {
+      "id": "302",
+      "userId": "1",
+      "postId": "102"
+    },
+    {
+      "id": "303",
+      "userId": "2",
+      "commentId": "201"
+    },
+    {
+      "id": "304",
+      "userId": "1",
+      "commentId": "204"
+    }
+  ],
+  "shares": [
+    {
+      "id": "401",
+      "userId": "2",
+      "postId": "101"
+    },
+    {
+      "id": "402",
+      "userId": "3",
+      "postId": "102"
+    },
+    {
+      "id": "403",
+      "userId": "1",
+      "postId": "103"
+    }
+  ]
+}
