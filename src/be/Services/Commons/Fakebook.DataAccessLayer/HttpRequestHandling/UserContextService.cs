@@ -1,4 +1,6 @@
-namespace Fakebook.AuthService.HttpRequestHandling
+using Microsoft.AspNetCore.Http;
+
+namespace Fakebook.DataAccessLayer.HttpRequestHandling
 {
     public class UserContextService : IUserContextService
     {

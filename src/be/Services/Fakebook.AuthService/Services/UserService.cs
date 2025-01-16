@@ -2,9 +2,9 @@ using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.AuthService.Dtos.Users;
 using Fakebook.AuthService.Entity;
 using Fakebook.AuthService.Repositories;
-using Fakebook.AuthService.HttpRequestHandling;
 using Fakebook.AuthService.SynchronousApi;
 using Fakebook.AuthService.Helpers;
+using Fakebook.DataAccessLayer.HttpRequestHandling;
 
 namespace Fakebook.AuthService.Services
 {

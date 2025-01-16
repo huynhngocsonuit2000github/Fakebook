@@ -1,7 +1,7 @@
+using Fakebook.DataAccessLayer.HttpRequestHandling;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.UserService.Data;
 using Fakebook.UserService.Entity;
-using Fakebook.UserService.HttpRequestHandling;
 using Fakebook.UserService.Models.Users;
 
 namespace Fakebook.UserService.Repositories
@@ -22,7 +22,7 @@ namespace Fakebook.UserService.Repositories
 
             var user = await GetByIdAsync(authUserContext.UserId);
 
-            if(user is null) return null;
+            if (user is null) return null;
 
             return AuthenticatedUserModel.FromEntity(user);
         }

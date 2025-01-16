@@ -1,4 +1,4 @@
-namespace Fakebook.UserService.HttpRequestHandling
+namespace Fakebook.DataAccessLayer.HttpRequestHandling
 {
     public class UserContext
     {

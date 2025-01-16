@@ -2,18 +2,18 @@ using Fakebook.AuthService.Data;
 using Microsoft.EntityFrameworkCore;
 using Fakebook.AuthService.Repositories;
 using Fakebook.AuthService.Services;
-using Fakebook.AuthService.Authentication.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Fakebook.AuthService.HttpRequestHandling;
-using Fakebook.AuthService.Middlewares;
 using Fakebook.DataAccessLayer.Interfaces;
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.DataSeeding.Models;
 using Fakebook.AuthService.Helpers;
 using Fakebook.AuthService.SynchronousApi;
 using Fakebook.MessageQueueHandler.Publisher;
+using Fakebook.DataAccessLayer.HttpRequestHandling;
+using Fakebook.DataAccessLayer.Middlewares;
+using Fakebook.DataAccessLayer.Authentication.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

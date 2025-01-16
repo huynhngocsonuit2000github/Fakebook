@@ -1,9 +1,9 @@
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.Data;
 using Fakebook.AuthService.Entity;
-using Fakebook.AuthService.HttpRequestHandling;
 using Fakebook.AuthService.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Fakebook.DataAccessLayer.HttpRequestHandling;
 
 namespace Fakebook.AuthService.Repositories
 {

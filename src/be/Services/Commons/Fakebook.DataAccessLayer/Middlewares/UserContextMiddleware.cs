@@ -1,6 +1,8 @@
-using Fakebook.UserService.HttpRequestHandling;
 
-namespace Fakebook.UserService.Middlewares
+using Fakebook.DataAccessLayer.HttpRequestHandling;
+using Microsoft.AspNetCore.Http;
+
+namespace Fakebook.DataAccessLayer.Middlewares
 {
     public class UserContextMiddleware
     {

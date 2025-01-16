@@ -1,4 +1,4 @@
-namespace Fakebook.AuthService.Authentication.Models
+namespace Fakebook.DataAccessLayer.Authentication.Models
 {
     public class JwtSettings
     {

@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Fakebook.AuthService.Authentication.Models;
 using Fakebook.AuthService.Entity;
+using Fakebook.DataAccessLayer.Authentication.Models;
 
 namespace Fakebook.AuthService.Services
 {

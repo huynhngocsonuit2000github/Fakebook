@@ -1,17 +1,14 @@
 using Fakebook.DataAccessLayer.Implementaions;
 using Fakebook.AuthService.Data;
 using Fakebook.AuthService.Entity;
-using Fakebook.AuthService.HttpRequestHandling;
-using Fakebook.AuthService.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using Fakebook.AuthService.Helpers;
 
 namespace Fakebook.AuthService.Repositories
 {
     public class RoleRepository : BaseRepository<Role>, IRoleRepository
     {
         private ServiceContext serviceContext;
-        public RoleRepository(ServiceContext context, IUserContextService userContextService) : base(context)
+        public RoleRepository(ServiceContext context) : base(context)
         {
             serviceContext = context;
         }

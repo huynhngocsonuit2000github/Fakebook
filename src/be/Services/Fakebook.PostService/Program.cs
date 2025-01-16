@@ -1,6 +1,16 @@
+using System.Text;
+using Fakebook.DataAccessLayer.Authentication.Models;
+using Fakebook.DataAccessLayer.HttpRequestHandling;
+using Fakebook.DataAccessLayer.Implementaions;
+using Fakebook.DataAccessLayer.Interfaces;
+using Fakebook.DataAccessLayer.Middlewares;
 using Fakebook.PostService.Data;
 using Fakebook.PostService.DataSeeding.Models;
+using Fakebook.PostService.Repositories;
+using Fakebook.PostService.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +59,41 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddScoped<IUnitOfWork>(sp => new UnitOfWork(sp.GetService<ServiceContext>()!));
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPostService, PostService>();
+
+
+builder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+
+// JWT Settings configuration
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettings);
+
+// Add Authentication services and JWT Bearer options
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero,
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -72,6 +117,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAllOrigins");
 
+app.UseAuthentication();
+app.UseMiddleware<UserContextMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
