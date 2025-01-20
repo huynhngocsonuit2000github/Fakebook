@@ -26,7 +26,7 @@ namespace Fakebook.PostService.Services
             var currentUser = _userContextService.GetAuthenticatedUserContext()
                 ?? throw new Exception("The authenticated user is failed");
 
-            var _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
+            _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
                 ?? throw new Exception("The user id in invalid");
 
             var post = new Post()
@@ -52,7 +52,7 @@ namespace Fakebook.PostService.Services
             var currentUser = _userContextService.GetAuthenticatedUserContext()
                 ?? throw new Exception("The authenticated user is failed");
 
-            var _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
+            _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
                 ?? throw new Exception("The user id in invalid");
 
             var post = await _postRepository.FindFirstAsync(e => e.Id == postId && !e.IsDeleted)
@@ -89,7 +89,7 @@ namespace Fakebook.PostService.Services
             var currentUser = _userContextService.GetAuthenticatedUserContext()
                 ?? throw new Exception("The authenticated user is failed");
 
-            var _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
+            _ = await _userRepository.FindFirstAsync(e => e.Id == currentUser.UserId)
                 ?? throw new Exception("The user id in invalid");
 
             var post = await _postRepository.FindFirstAsync(e => e.Id == postId && !e.IsDeleted)
@@ -104,6 +104,12 @@ namespace Fakebook.PostService.Services
             post.LastModifiedDate = DateTime.Now;
 
             await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task<Post> GetByIdAsync(string postId)
+        {
+            return await _postRepository.GetPostById(postId)
+                ?? throw new Exception("The post is invalid");
         }
     }
 }

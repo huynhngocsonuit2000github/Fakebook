@@ -3,8 +3,7 @@ using Fakebook.PostService.Entity;
 
 namespace Fakebook.PostService.Repositories
 {
-    public interface IPostRepository : IBaseRepository<Post>
+    public interface ILikeRepository : IBaseRepository<Like>
     {
-        Task<Post?> GetPostById(string postId);
     }
 }

@@ -32,6 +32,13 @@ public class PostController : ControllerBase
         return Ok(posts.Select(GetPostModel.FromEntity));
     }
 
+    [HttpGet("{postId}")]
+    public async Task<IActionResult> GetByIdAsync(string postId)
+    {
+        var post = await _postService.GetByIdAsync(postId);
+        return Ok(GetPostModel.FromEntity(post));
+    }
+
     [HttpGet("get-by-current-user")]
     [Authorize]
     public async Task<IActionResult> GetByCurrentUserAsync()
