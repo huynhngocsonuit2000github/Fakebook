@@ -75,11 +75,15 @@ agent any
                 script {
                     def secretFiles = findFiles(glob: "${env.SECRET_CONFIGMAP_PATH}")
                     secretFiles.each { file ->
-                        echo "Applying secret or configmap: ${file.path}"
-                        echo "Checking contexts"
-                        echo "kubectl config get-contexts"
-                        sh "kubectl get nodes"
-                        sh "kubectl --context=${env.KUBE_CONTEXT} apply -f ${file.path} -n ${env.NAMESPACE}"
+                        echo "Applying Secret or Config map: ${file.path}"
+
+                        // Replace placeholders in each service file based on the ddconfig
+                        def serviceYAML = readFile(file.path)
+                        serviceYAML = serviceYAML.replaceAll(/\$\{([A-Z_]+)\}/) { env[it[1]] }
+
+                        // Write the modified YAML back and apply it
+                        writeFile file: file.path, text: serviceYAML
+                        sh "kubectl --context=${KUBE_CONTEXT} apply -f ${file.path} -n ${env.NAMESPACE}"
                     }
                 }
             }
