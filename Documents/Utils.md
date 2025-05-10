@@ -56,6 +56,7 @@ docker run --name auth-mysql -e MYSQL_ROOT_PASSWORD=admin1234$ -e MYSQL_DATABASE
 
 <!-- Clean service, deployment -->
 
+kubectl delete pods --all -n production-environment
 kubectl delete services --all -n production-environment
 kubectl delete deployments --all -n production-environment
 
