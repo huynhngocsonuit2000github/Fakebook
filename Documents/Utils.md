@@ -6,6 +6,7 @@ docker build -t huynhngocsonuit2000docker/fakebook-ui:v006 --build-arg ENVIRONME
 docker build -t huynhngocsonuit2000docker/fakebook-idpui:v006 --build-arg ENVIRONMENT=compose . -f ./fe/Containerizations/FakebookIdPUI.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-apigateway:v004 . -f ./be/Services/Containerizations/ApiGatewayService.Dockerfile
 docker build -t huynhngocsonuit2000docker/fakebook-authservice:v007 . -f ./be/Services/Containerizations/AuthService.Dockerfile
+docker build -t huynhngocsonuit2000docker/fakebook-postservice:v001 . -f ./be/Services/Containerizations/PostService.Dockerfile
 
 <!-- Run docker compose -->
 

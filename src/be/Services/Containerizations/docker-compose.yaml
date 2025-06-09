@@ -138,6 +138,34 @@ services:
     networks:
       - docker_compose_network
 
+  # Post My SQL
+  compose-post-mysql:
+    image: mysql:latest
+    container_name: compose-post-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin1234$
+      - MYSQL_DATABASE=PostDatabase
+    ports:
+      - "4309:3306"
+    networks:
+      - docker_compose_network
+    volumes:
+      - post-mysql-data:/var/lib/mysql
+
+  # Post service
+  compose-post-post-service:
+    image: huynhngocsonuit2000docker/fakebook-postservice:v001
+    container_name: compose-post-post-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Compose
+      # - ConnectionStrings__DefaultConnection=Server=compose-post-mysql;Port=3306;Database=PostDatabase;User=root;Password=admin1234$;SslMode=None;AllowPublicKeyRetrieval=True;
+    ports:
+      - "4010:80"
+    depends_on:
+      - compose-post-mysql
+    networks:
+      - docker_compose_network
+
 networks:
   docker_compose_network:
     driver: bridge
@@ -146,3 +174,4 @@ volumes:
   user-mysql-data:
   auth-mysql-data:
   idp-mysql-data:
+  post-mysql-data:
