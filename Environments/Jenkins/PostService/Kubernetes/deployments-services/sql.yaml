@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${MYSQL_DEPLOYMENT_NAME}
+spec:
+  replicas: ${MYSQL_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${MYSQL_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${MYSQL_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${MYSQL_CONTAINER_NAME}
+          image: ${MYSQL_IMAGE}
+          ports:
+            - containerPort: ${MYSQL_PORT}
+          env:
+            - name: MYSQL_DATABASE
+              value: ${MYSQL_DEFAULT_DATABASE}
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${MYSQL_SECRET_NAME}
+                  key: ${MYSQL_SECRET_PASSWORD_KEY}
+---
+# SQL Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${MYSQL_SERVICE_NAME}
+spec:
+  type: ClusterIP
+  ports:
+    - port: ${MYSQL_PORT}
+      targetPort: ${MYSQL_PORT}
+  selector:
+    app: ${MYSQL_DEPLOYMENT_NAME}
