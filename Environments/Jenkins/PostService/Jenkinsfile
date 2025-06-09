@@ -70,7 +70,7 @@ pipeline {
             steps {
                 script {
                     // Load service-specific configuration from config.groovy
-                    def config = evaluate(readFile("./Environments/Jenkins/UserService/${params.ENVIRONMENT}-config.groovy"))
+                    def config = evaluate(readFile("./Environments/Jenkins/PostService/${params.ENVIRONMENT}-config.groovy"))
 
                     // Set environment variables from the configuration
                     env.IMAGE_NAME = config.IMAGE_NAME
@@ -93,20 +93,55 @@ pipeline {
                     env.MYSQL_CPU_LIMIT = config.MYSQL_CPU_LIMIT
                     env.MYSQL_SERVICE_NAME = config.MYSQL_SERVICE_NAME
 
-                    env.USER_DEPLOYMENT_NAME = config.USER_DEPLOYMENT_NAME
-                    env.USER_CONTAINER_NAME = config.USER_CONTAINER_NAME
-                    env.USER_PORT = config.USER_PORT.toString()
-                    env.USER_REPLICAS = config.USER_REPLICAS.toString()
-                    env.USER_ENVIRONMENT = config.USER_ENVIRONMENT
-                    env.USER_DATABASE = config.USER_DATABASE
-                    env.USER_SECRET_NAME = config.USER_SECRET_NAME
-                    env.USER_SECRET_PASSWORD_KEY = config.USER_SECRET_PASSWORD_KEY
-                    env.USER_SERVICE_NAME = config.USER_SERVICE_NAME
-                    env.USER_NODE_PORT = config.USER_NODE_PORT.toString()
-                    env.USER_MEMORY_REQUEST = config.USER_MEMORY_REQUEST
-                    env.USER_CPU_REQUEST = config.USER_CPU_REQUEST
-                    env.USER_MEMORY_LIMIT = config.USER_MEMORY_LIMIT
-                    env.USER_CPU_LIMIT = config.USER_CPU_LIMIT
+                    env.POST_DEPLOYMENT_NAME = config.POST_DEPLOYMENT_NAME
+                    env.POST_CONTAINER_NAME = config.POST_CONTAINER_NAME
+                    env.POST_PORT = config.POST_PORT.toString()
+                    env.POST_REPLICAS = config.POST_REPLICAS.toString()
+                    env.POST_ENVIRONMENT = config.POST_ENVIRONMENT
+                    env.POST_DATABASE = config.POST_DATABASE
+                    env.POST_SECRET_NAME = config.POST_SECRET_NAME
+                    env.POST_SECRET_PASSWORD_KEY = config.POST_SECRET_PASSWORD_KEY
+                    env.POST_SERVICE_NAME = config.POST_SERVICE_NAME
+                    env.POST_NODE_PORT = config.POST_NODE_PORT.toString()
+                    env.POST_MEMORY_REQUEST = config.POST_MEMORY_REQUEST
+                    env.POST_CPU_REQUEST = config.POST_CPU_REQUEST
+                    env.POST_MEMORY_LIMIT = config.POST_MEMORY_LIMIT
+                    env.POST_CPU_LIMIT = config.POST_CPU_LIMIT
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image from Dockerfile
+                    sh "docker build -t ${env.IMAGE_NAME}:${env.IMAGE_TAG} ./src -f ${env.DOCKERFILE}"
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry("https://index.docker.io/v1/", "${env.DOCKER_CREDENTIAL_ID}") {
+                        // Push the Docker image to the registry
+                        sh "docker push ${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Secrets and ConfigMaps') {
+            steps {
+                script {
+                    def secretFiles = findFiles(glob: "${env.SECRET_CONFIGMAP_PATH}")
+                    secretFiles.each { file ->
+                        echo "Applying secret or configmap: ${file.path}"
+                        echo "Checking contexts"
+                        echo "kubectl config get-contexts"
+                        sh "kubectl get nodes"
+                        sh "kubectl --context=${env.KUBE_CONTEXT} apply -f ${file.path} -n ${env.NAMESPACE}"
+                    }
                 }
             }
         }
@@ -121,7 +156,6 @@ pipeline {
                         // Replace placeholders in each service file based on the ddconfig
                         def serviceYAML = readFile(file.path)
                         serviceYAML = serviceYAML.replaceAll(/\$\{([A-Z_]+)\}/) { env[it[1]] }
-
 
                         // Write the modified YAML back and apply it
                         writeFile file: file.path, text: serviceYAML

@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
     ### Number of worker nodes
-    num_nodes = 2 # Change this number to create more worker nodes
+    num_nodes = 1 # Change this number to create more worker nodes
   
     ### Master node configuration
     config.vm.define "smaster" do |master|
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
         node.vm.hostname = "staging-k8s-worker#{i}"
         node.vm.network "private_network", ip: "192.168.50.#{10 + i}"   # Worker node's IP Address
         node.vm.provider "virtualbox" do |vb|
-          vb.memory = 10240
+          vb.memory = 8192
           vb.cpus = 3
         end
   

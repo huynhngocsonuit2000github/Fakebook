@@ -9,5 +9,7 @@ echo "123" | passwd --stdin root                ### set the password for root ac
 cat >> /etc/hosts << EOF            
 192.168.50.10 master.xtl
 192.168.50.11 worker1.xtl
-192.168.50.12 worker2.xtl
 EOF
+ 
+# Set DNS nameserver
+echo "nameserver 8.8.8.8" > /etc/resolv.conf

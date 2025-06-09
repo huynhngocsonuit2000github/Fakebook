@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${POST_DEPLOYMENT_NAME}
+spec:
+  replicas: ${POST_REPLICAS}
+  selector:
+    matchLabels:
+      app: ${POST_DEPLOYMENT_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${POST_DEPLOYMENT_NAME}
+    spec:
+      containers:
+        - name: ${POST_CONTAINER_NAME}
+          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          ports:
+            - containerPort: ${POST_PORT}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "${POST_ENVIRONMENT}"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=${MYSQL_SERVICE_NAME};Port=${MYSQL_PORT};Database=${POST_DATABASE};User=root;Password=$Password;SslMode=None;AllowPublicKeyRetrieval=True;"
+            - name: ConnectionStringsCredential__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: ${POST_SECRET_NAME}
+                  key: ${POST_SECRET_PASSWORD_KEY}
+          # resources:
+          #   requests:
+          #     memory: "${POST_MEMORY_REQUEST}" # Set to 2 GB to meet the SQL Server requirement
+          #     cpu: "${POST_CPU_REQUEST}" # Adjust CPU as necessary
+          #   limits:
+          #     memory: "${POST_MEMORY_LIMIT}" # Optional: Set a higher limit if you want to allow more usage
+          #     cpu: "${POST_CPU_LIMIT}"
+
+---
+# User Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${POST_SERVICE_NAME}
+spec:
+  type: NodePort
+  ports:
+    - port: ${POST_PORT}
+      targetPort: ${POST_PORT}
+      nodePort: ${POST_NODE_PORT}
+  selector:
+    app: ${POST_DEPLOYMENT_NAME}

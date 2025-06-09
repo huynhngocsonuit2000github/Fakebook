@@ -14,11 +14,11 @@ namespace Fakebook.UserService.MessageQueue.Consumer
     {
         public static string RoutingKey => RoutingQueueConstants.UserService.UserService_IPD_Login_Create_User;
 
-        public Task HandlerAsync(object sender, BasicDeliverEventArgs e, Message<IdPLoginCreateUserModel> message, IServiceProvider serviceProvider)
+        public async Task HandlerAsync(object sender, BasicDeliverEventArgs e, Message<IdPLoginCreateUserModel> message, IServiceProvider serviceProvider)
         {
             System.Console.WriteLine("===================== Start IdPLoginCreateUserConsumer");
 
-            using (var scope = _serviceProvider.CreateScope())
+            using (var scope = serviceProvider.CreateScope())
             {
                 var scopedServiceProvider = scope.ServiceProvider;
 
